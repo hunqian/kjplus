@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kjplus.dao.IPersonOplogDao">
+
+    <!-- ============================= resultMap ============================= -->
+    <resultMap id="PersonOplogEboMap" type="com.kjplus.model.PersonOplogEbo" >
+        <result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="opSeq" column="op_seq" jdbcType="INTEGER" javaType="Integer" />
+        <result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="opTypeId" column="op_type_id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+        <result property="orgid" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+        <result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+        <result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+        <result property="opTime" column="op_time" jdbcType="INTEGER" javaType="Integer" />
+    </resultMap> 
+    
+     <resultMap id="PersonOplogInnerEboMap" type="com.kjplus.model.inner.PersonOplogInnerEbo" >
+        <result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="opSeq" column="op_seq" jdbcType="INTEGER" javaType="Integer" />
+        <result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="opTypeId" column="op_type_id" jdbcType="VARCHAR" javaType="String" />
+        <result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+        <result property="orgid" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+        <result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+        <result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+        <result property="opTime" column="op_time" jdbcType="INTEGER" javaType="Integer" />
+		
+		<result property="diCode" column="di_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnName" column="prsn_name" jdbcType="VARCHAR" javaType="String" />
+		
+		<result property="rvCode" column="rv_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="rvName" column="rv_name" jdbcType="VARCHAR" javaType="String" />
+		
+		<result property="auNickName" column="au_nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="auUserName" column="au_user_name" jdbcType="VARCHAR" javaType="String" />
+		
+		<result property="oCode" column="o_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="oName" column="o_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="oAlias" column="o_alias" jdbcType="VARCHAR" javaType="String" />
+	
+    </resultMap>
+
+    <!-- ============================= COMMON SQL ============================= -->
+    <sql id="getPersonOplogEbo" >
+          SELECT 
+                p.id,p.op_seq,p.prsn_id,p.op_type_id,p.uid,p.orgid,p.flag,p.memo,p.op_time
+           FROM 
+               t_person_oplog AS p
+    </sql>
+	
+	<sql id="listPersonOplog" >
+          SELECT 
+          		<!-- t_person_oplog -->
+                p.id,p.op_seq,p.prsn_id,p.op_type_id,p.uid,p.orgid,p.flag,p.memo,p.op_time
+                <!-- t_document_info -->
+                ,di.code di_code,di.prsn_name prsn_name
+                <!--t_sys_ref_value  -->
+                ,rv.code rv_code,rv.name rv_name
+                <!-- t_admin_user -->
+                ,au.user_name au_user_name,au.nick_name au_nick_name
+                <!-- t_organization -->
+                ,o.code o_code,o.name o_name,o.alias o_alias
+           FROM 
+               t_person_oplog AS p
+               LEFT JOIN t_document_info AS di ON p.prsn_id = di.prsn_id
+               LEFT JOIN t_sys_ref_value AS rv ON p.op_type_id = rv.id
+               LEFT JOIN t_admin_user AS au ON p.uid=au.uid
+               LEFT JOIN t_organization AS o ON p.orgid =o.id
+    </sql>
+    
+    	<sql id="getTotalPrsnOplog" >
+          SELECT 
+	           count(p.id)
+           FROM 
+               t_person_oplog AS p
+               LEFT JOIN t_document_info AS di ON p.prsn_id = di.prsn_id
+               LEFT JOIN t_sys_ref_value AS rv ON p.op_type_id = rv.id
+               LEFT JOIN t_admin_user AS au ON p.uid=au.uid
+               LEFT JOIN t_organization AS o ON p.orgid =o.id
+    </sql>
+    
+    <!-- ============================= SELECT ============================= -->
+    <!-- 根据id获取t_person_oplog数据 -->
+    <select id="getPrsnOplogById" resultMap="PersonOplogEboMap">
+	    <include refid="getPersonOplogEbo" />
+	    	<where>
+	    		1=1
+		    	<if test=" id  > 0">
+		    		AND p.id = ${id}
+		    	</if>
+			</where>
+    </select>
+    
+    <select id="listPrsnOplog" resultMap="PersonOplogInnerEboMap">
+        <include refid="listPersonOplog" />
+        <where>
+       		1=1
+            <if test="prsnIds != null and prsnIds != '' ">
+               AND p.prsn_id in (${prsnIds})
+            </if>
+            <if test="opTypeId > 0">
+               AND p.op_type_id = ${opTypeId}
+            </if>
+            <if test="uid > 0">
+               AND p.uid = ${uid}
+            </if>
+            <if test="orgid > 0">
+               AND p.orgid = ${orgid}
+            </if>
+            <if test="flag!= null and flag != '' ">
+               AND p.flag = '${flag}'
+            </if>
+            <!-- 根据时间段获取数据 -->
+            <if test="startTime > 0  ">  
+				AND p.op_time &gt;= ${startTime}
+		 	</if>
+			<if test="endTime > 0  ">  
+				AND p.op_time &lt;= ${endTime}
+		 	</if>
+        </where>
+        <!-- 按时间倒叙 -->
+        ORDER BY p.op_time DESC
+        <if test=" page >= 0 and paging > 0">
+        	LIMIT ${page*paging},${paging}
+        </if>
+    </select>
+
+	<select id="getTotalPrsnOplog" resultType="Integer">
+        <include refid="getTotalPrsnOplog" />
+        <where>
+        	1=1
+            <if test="prsnIds != null and prsnIds != '' ">
+               AND p.prsn_id in (${prsnIds})
+            </if>
+            <if test="opTypeId > 0">
+               AND p.op_type_id = #{opTypeId}
+            </if>
+            <if test="uid > 0">
+               AND p.uid = #{uid}
+            </if>
+            <if test="orgid > 0">
+               AND p.orgid = #{orgid}
+            </if>
+            <if test="flag!= null and flag != '' ">
+               AND p.flag = #{flag}
+            </if>
+            <!-- 根据时间段获取数据 -->
+            <if test="startTime > 0  ">  
+				AND p.op_time &gt;= ${startTime}
+		 	</if>
+			<if test="endTime > 0  ">  
+				AND p.op_time &lt;= ${endTime}
+		 	</if>
+        </where>
+    </select>
+    
+    <!-- 获取档案的最多操作次数 -->
+	 <sql id="getBestOpSeq" >
+          SELECT 
+                p.op_seq
+           FROM 
+               t_person_oplog AS p
+    </sql>
+   
+    <!-- 获取档案的最多操作次数 --> 
+    <select id="getBestOpSeq" resultType="Integer">
+	    <include refid="getBestOpSeq" />
+	    	<where>
+	    		1=1
+		    	<if test="prsnId > 0">
+               		AND p.prsn_id = ${prsnId}
+            	</if>
+            	<if test="flag != null and flag != ''">
+               		AND p.flag = '${flag}'
+            	</if>
+			</where>
+			<!-- 操作次数倒叙 -->
+			ORDER BY p.op_seq DESC
+			LIMIT 0,1
+    </select>
+
+
+    <!-- ============================= INSERT ============================= -->
+    <insert id="addPrsnOplog" parameterType="com.kjplus.model.PersonOplogEbo" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO t_person_oplog
+        	(id,op_seq,prsn_id,op_type_id,uid,orgid,flag,memo,op_time )
+        VALUES 
+        	(null, #{opSeq},#{prsnId},#{opTypeId},#{uid},#{orgid},#{flag},#{memo},#{opTime})
+    </insert>
+
+</mapper>

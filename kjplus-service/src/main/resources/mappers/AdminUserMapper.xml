@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- org 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.IAdminUserDao">
+	<resultMap type="com.kjplus.model.AdminUserEbo" id="AdminUserEboMap">
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userName" column="user_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="passWord" column="pass_word" jdbcType="VARCHAR" javaType="String" />
+		<result property="email" column="email" jdbcType="VARCHAR" javaType="String" />
+		<result property="mobileNum" column="mobile_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="regTime" column="reg_time" jdbcType="TIMESTAMP" javaType="Date" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="userType" column="user_type" jdbcType="CHAR" javaType="String" />
+		<result property="face" column="face" jdbcType="VARCHAR" javaType="String" />
+		<result property="effectFrom" column="effect_from" jdbcType="DATE" javaType="Date" />
+		<result property="effectTo" column="effect_to" jdbcType="DATE" javaType="Date" />
+		<result property="nickName" column="nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="Date" />
+	</resultMap>
+	<resultMap type="com.kjplus.model.inner.AdminUserInnerEbo" id="AdminUserInnerEboMap">
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userName" column="user_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="email" column="email" jdbcType="VARCHAR" javaType="String" />
+		<result property="mobileNum" column="mobile_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="regTime" column="reg_time" jdbcType="TIMESTAMP" javaType="Date" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="userType" column="user_type" jdbcType="CHAR" javaType="String" />
+		<result property="face" column="face" jdbcType="VARCHAR" javaType="String" />
+		<result property="effectFrom" column="effect_from" jdbcType="DATE" javaType="Date" />
+		<result property="effectTo" column="effect_to" jdbcType="DATE" javaType="Date" />
+		<result property="nickName" column="nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="Date" />
+	</resultMap>
+	<sql id="selectAdminUserEbo">
+		SELECT 
+			au.uid,au.user_name,au.pass_word,au.email,au.mobile_num,au.reg_time,au.status,au.user_type
+			,au.face,au.effect_from,au.effect_to,au.nick_name,au.org_id,org.name org_name,au.create_time
+		FROM
+			t_admin_user AS au
+			left join t_organization org on au.org_id = org.id
+	</sql>
+	<sql id="selectAdminUserCount">
+		SELECT count(au.uid)
+		FROM
+			t_admin_user AS au
+	</sql>
+	<select id="login" resultMap="AdminUserEboMap" flushCache="true" >
+		<include refid="selectAdminUserEbo"/>
+		<where>
+			<if test=" checkType == 1 ">
+				au.user_name = '${user}'
+				and au.pass_word = '${password}'
+			</if>
+			<if test=" checkType == 2 ">
+				au.email = '${email}'
+				and au.pass_word = '${password}'
+			</if>
+			<if test=" checkType == 3 ">
+				au.mobile_num = '${mobileNum}'
+				and au.pass_word = '${password}'
+			</if>
+		</where>
+	</select>
+	<select id="getUserByUnameMobile" resultMap="AdminUserEboMap" flushCache="true" >
+		<include refid="selectAdminUserEbo"/>
+		<where> 
+		    1=1
+			<if test=" userName != null and  userName != '' ">
+				and au.user_name = '${userName}'
+			</if>
+			<if test=" mobile != null and  mobile != '' ">
+				and au.mobile_num = '${mobile}'
+			</if>
+			limit 1
+		</where>
+	</select>
+
+	<select id="getUserByUid" resultMap="AdminUserEboMap" flushCache="true">
+		<include refid="selectAdminUserEbo"/>
+		<where>
+			<if test=" uid > 0 ">
+				and au.uid = ${uid}
+			</if>
+		</where>
+	</select>
+
+
+   <!--  模糊查询userName -->
+	<select id="listUser" resultMap="AdminUserInnerEboMap" flushCache="true" >
+		<include refid="selectAdminUserEbo"/>
+		<where> 
+		    1=1
+			<if test=" userType != null and  userType != '' ">
+				and au.user_type = '${userType}'
+			</if>
+			<if test=" status != null and  status != '' ">
+				and au.status = '${status}'
+			</if>
+			<if test=" orgid > 0 ">
+				and au.org_id = ${orgid}
+			</if>
+			<!-- userName,nickName 均不为空 -->
+			<if test=" userName != null and  userName != '' and  nickName != null and  nickName != '' ">
+				and  (au.user_name like '%${userName}%' or au.nick_name like '%${nickName}%')
+			</if>
+			<!-- userName,nickName 有一个为空 -->
+			<if test="  userName == null or  userName == '' or  nickName == null or  nickName == '' ">
+				 <if test="  userName != null and  userName != '' ">
+				 	and	au.user_name like '%${userName}%'
+				</if>
+				<if test="  nickName != null and  nickName != '' ">
+				 	and	au.nick_name like '%${nickName}%'
+				</if>
+			</if>
+		</where>
+			order by au.uid
+			<if test=" page >= 0 and paging >0 ">
+				LIMIT ${page*paging},${paging}
+			</if>
+	</select>
+
+	<select id="getTotalUser" resultType="Integer"  flushCache="true" useCache="false">
+		<include refid="selectAdminUserCount"/>
+		<where> 
+		    1=1
+			<if test=" userName != null and  userName != '' ">
+				and au.user_name like '%${userName}%'
+			</if>
+			<if test=" nickName != null and  nickName != '' ">
+				and au.nick_name like '%${nickName}%'
+			</if>
+			<if test=" userType != null and  userType != '' ">
+				and au.user_type = '${userType}'
+			</if>
+			<if test=" status != null and  status != '' ">
+				and au.status = '${status}'
+			</if>
+			<if test=" orgid > 0 ">
+				and au.org_id = ${orgid}
+			</if>
+		</where>
+	</select>
+
+	<!-- 添加管理员  注册-->
+	<insert id="register" parameterType="com.kjplus.model.AdminUserEbo" useGeneratedKeys="true" keyProperty="uid" >
+		INSERT INTO t_admin_user
+		VALUES(
+			0,#{userName},#{passWord},#{email},#{mobileNum},#{regTime},#{status},#{userType},#{face}
+			,#{effectFrom},#{effectTo},#{nickName},#{orgId},#{createTime}
+		)
+	</insert>
+	
+	<update id="updateAdminUser" parameterType="com.kjplus.model.AdminUserEbo">
+	 UPDATE 
+	    	t_admin_user AS au
+	    <set>
+	     	<if test=" passWord != null and passWord != '' ">
+	    		au.pass_word = '${passWord}',
+	    	</if>
+	    	<if test=" email != null and email != '' ">
+	    		au.email = '${email}',
+	    	</if>
+	    	<if test=" mobileNum != null and mobileNum != '' ">
+	    		au.mobile_num = '${mobileNum}',
+	    	</if>
+	    	<if test=" status != null and status != '' ">
+	    		au.status = '${status}',
+	    	</if>
+	    	<if test=" face != null and face != '' ">
+	    		au.face = '${face}',
+	    	</if>
+	    	<if test=" nickName != null and nickName != '' ">
+	    		au.nick_name = '${nickName}',
+	    	</if>
+	    </set>
+	    <where>
+	    		and au.user_name ='${userName}'
+	    </where>
+	</update>
+	
+</mapper>

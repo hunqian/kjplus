@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- IDocumentInfoDao菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.IDocumentInfoDao">
+	<resultMap  type="com.kjplus.model.DocumentInfoEbo" id="DocumentInfoEboMap">
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnCode" column="prsn_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="headIconUrl" column="head_icon_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnName" column="prsn_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnSex" column="prsn_sex" jdbcType="VARCHAR" javaType="String" />
+		<result property="idNumber" column="id_number" jdbcType="VARCHAR" javaType="String" />
+		<result property="birthday" column="birthday" jdbcType="DATE" javaType="Date" />
+		<result property="mobileNum" column="mobile_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="personNum" column="person_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="workUnit" column="work_unit" jdbcType="VARCHAR" javaType="String" />
+		<result property="bloodVl" column="blood_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="nationVl" column="nation_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="contactName" column="contact_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="contactNum" column="contact_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="familyAddr" column="family_addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="houseAddr" column="house_addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="creator" column="creator" jdbcType="VARCHAR" javaType="String" />
+		<result property="creatorId" column="creator_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="contactDoctor" column="contact_doctor" jdbcType="VARCHAR" javaType="String" />
+		<result property="staffDoctorId" column="staff_doctor_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+		<result property="createDay" column="create_day" jdbcType="DATE" javaType="Date" />
+		<result property="lastUpdateTime" column="last_update_time" jdbcType="DATE" javaType="Date" />
+	</resultMap>
+	
+	<resultMap  type="com.kjplus.model.inner.DocumentInfoInnerEbo" id="DocumentInfoInnerEboMap">
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnCode" column="prsn_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnName" column="prsn_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnSex" column="prsn_sex" jdbcType="VARCHAR" javaType="String" />
+		<result property="idNumber" column="id_number" jdbcType="VARCHAR" javaType="String" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="unickName" column="u_nick_name" jdbcType="VARCHAR" javaType="String" />
+		
+		<result property="birthday" column="birthday" jdbcType="DATE" javaType="Date" />
+		<result property="mobileNum" column="mobile_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="personNum" column="person_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="workUnit" column="work_unit" jdbcType="VARCHAR" javaType="String" />
+		<result property="bloodVl" column="blood_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="nationVl" column="nation_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="contactName" column="contact_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="contactNum" column="contact_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="familyAddr" column="family_addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="houseAddr" column="house_addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="creatorName" column="creator_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="creatorId" column="creator_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<!-- 取到数据库中的时分秒 -->
+		<result property="createTime" column="create_time"  jdbcType="TIMESTAMP" javaType="Date" />
+		<result property="createDay" column="create_day" jdbcType="DATE" javaType="Date" />
+		<result property="headIconUrl" column="head_icon_url" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<!-- 获取innerEbo对象-->
+	<sql id="getDocumentInfoEbo">
+		SELECT
+			  di.prsn_id,di.prsn_code prsn_code,di.code code,di.prsn_name,di.prsn_sex,di.id_number,di.birthday,di.mobile_num
+			  ,di.person_num,di.work_unit,di.blood_vl,di.nation_vl
+			  ,di.contact_name,di.contact_num,di.head_icon_url
+			  ,di.family_addr,di.house_addr,di.org_id,di.creator_id
+			  ,di.status,di.flag,di.create_time,di.create_day,di.last_update_time
+		FROM
+		  	t_document_info AS di
+	</sql>
+	<!-- 获取innerEbo对象-->
+	<sql id="listDocumentInfoInnerEbo">
+		SELECT
+			  di.prsn_id,di.prsn_code prsn_code,di.code code,di.prsn_name,di.prsn_sex,di.id_number,di.birthday,di.mobile_num
+			  ,di.person_num,di.work_unit,di.blood_vl,di.nation_vl
+			  ,di.contact_name,di.contact_num,di.head_icon_url
+			  ,di.family_addr,di.house_addr,di.org_id,org.name org_name,di.creator_id,u.nick_name creator_name
+			  ,di.status,di.flag,di.create_time,di.create_day,up.uid uid,tu.nick_name u_nick_name
+			 <!--   t_service_assign
+			  ,sa.stafid staff_id,sa.srvid srv_id
+			  t_service_package
+			  ,sp.name srv_name,sp.alias srv_alias,sp.memo srv_memo -->
+		FROM
+		  	t_document_info    AS      di
+		  	left join t_admin_user     u      on  di.creator_id = u.uid
+		  	left join t_organization   org    on  org.id = di.org_id
+		  	left join t_user_person    up     on  di.prsn_id = up.prsn_id and up.user_type = 'U'
+		  	left join t_user           tu     on  up.uid = tu.uid 
+		  <!-- 	left join t_service_assign      sa     on  sa.prsn_id = di.prsn_id  AND sa.status = 'Y'
+		  	left join t_service_package      sp     on  sa.srvid = sp.id -->
+	</sql>
+	
+	<!-- 获取innerEbo对象,增加了标签筛选-->
+	<sql id="listDocumentInfoTagInnerEbo">
+		SELECT
+			  di.prsn_id,di.prsn_code prsn_code,di.code code,di.prsn_name,di.prsn_sex,di.id_number,di.birthday,di.mobile_num
+			  ,di.person_num,di.work_unit,di.blood_vl,di.nation_vl
+			  ,di.contact_name,di.contact_num,di.head_icon_url
+			  ,di.family_addr,di.house_addr,di.org_id,org.name org_name,di.creator_id,u.nick_name creator_name
+			  ,di.status,di.flag,di.create_time,di.create_day,up.uid uid,tu.nick_name u_nick_name
+		<!-- 	   t_service_assign 
+			  ,sa.stafid staff_id,sa.srvid srv_id
+			  t_service_package
+			  ,sp.name srv_name,sp.alias srv_alias,sp.memo srv_memo -->
+		FROM
+		  	t_document_info    AS      di
+<!-- 		 left join t_service_assign      sa     on  sa.prsn_id = di.prsn_id  AND sa.status = 'Y'
+		  	left join t_service_package      sp     on  sa.srvid = sp.id   -->
+ 		  	left join t_admin_user     u      on  di.creator_id = u.uid
+		  	left join t_organization   org    on  org.id = di.org_id
+		  	left join t_user_person    up     on  di.prsn_id = up.prsn_id and up.user_type = 'U'
+		  	left join t_user           tu     on  up.uid = tu.uid
+		  	,t_tag t
+		WHERE 1=1
+			and di.prsn_id = t.main_id and t.main_type = 'P'
+	</sql>
+	
+	<select id="getDocInfoByIdOrCode" resultMap="DocumentInfoEboMap" flushCache="true" useCache="true" >
+	    <include refid="getDocumentInfoEbo"/>
+	    <where>
+	        <if test="prsnId > 0">
+	            di.prsn_id = ${prsnId}
+	        </if>
+	        <if test="code != null and code != '' ">
+	            and di.code = '${code}'
+	        </if>
+	    </where>
+	</select>
+	
+	<select id="getDocinfoByIdOrCode" resultMap="DocumentInfoEboMap" flushCache="true" useCache="true" >
+	    <include refid="getDocumentInfoEbo"/>
+	    <where>
+	        <if test="prsnId > 0">
+	            di.prsn_id = ${prsnId}
+	        </if>
+	        <if test="code != null and code != '' ">
+	            and di.code = '${code}'
+	        </if>
+	    </where>
+	</select>
+	
+	<select id="listDocInfo" resultMap="DocumentInfoEboMap" flushCache="true" useCache="true" >
+	    <include refid="getDocumentInfoEbo"/>
+	    <where>
+	        <if test="orgId > 0">
+	            di.org_id = ${orgId}
+	        </if>
+	        <if test="prsnCode != null and prsnCode != '' ">
+	            and di.prsn_code = '${prsnCode}'
+	        </if>
+	        <if test="idNumber != null and idNumber != '' ">
+	            and di.id_number = '${idNumber}'
+	        </if>
+	    </where>
+	</select>
+	
+	<select id="listDocInfoInner" resultMap="DocumentInfoInnerEboMap" flushCache="true" useCache="true" >
+	    <include refid="listDocumentInfoInnerEbo"/>
+	    <where>
+	        <if test="orgId > 0">
+	            di.org_id = ${orgId}
+	        </if>
+	        <if test="name != null and name != '' ">
+	            and di.prsn_name like '%${name}%'
+	        </if>
+	        <if test="idCard != null and idCard != '' ">
+	            and di.id_number like '%${idCard}%'
+	        </if>
+	        <if test="flag != null and flag != '' ">
+	            and di.flag = '${flag}'
+	        </if>
+			<if test="status != null and status != '' ">
+	            and di.status = '${status}'
+	        </if>
+	        <!-- 根据创建时间获取建档数 -->
+	        <if test="startTime > 0">
+	            and di.create_time &gt;= ${startTime}
+	        </if>
+	        <if test="endTime > 0">
+	            and di.create_time &lt;= ${endTime}
+	        </if>
+	    </where>
+	   		 <if test="page >=0 and paging >0 ">
+				LIMIT ${page*paging} ,${paging}
+			</if>
+	</select>
+	
+	<select id="listDocInfoTagInner" resultMap="DocumentInfoInnerEboMap" flushCache="true" useCache="true" >
+	    <include refid="listDocumentInfoTagInnerEbo"/>
+	        <if test="orgId > 0">
+	            and di.org_id = ${orgId}
+	        </if>
+	        <if test="name != null and name != '' ">
+	            and di.prsn_name like '%${name}%'
+	        </if>
+	        <if test="idCard != null and idCard != '' ">
+	            and di.id_number like '%${idCard}%'
+	        </if>
+	        <if test="status != null and status != '' ">
+	            and di.status = '${status}'
+	        </if>
+	        <if test="flag != null and flag != '' ">
+	            and di.flag = '${flag}'
+	        </if>
+	        <if test="tagIds != null and tagIds != '' ">
+	            and t.ref_val_id in (${tagIds})
+	        </if>
+	        <!-- 根据创建时间获取建档数 -->
+	        <if test="startTime > 0">
+	            and di.create_time &gt;= ${startTime}
+	        </if>
+	        <if test="endTime > 0">
+	            and di.create_time &lt;= ${endTime}
+	        </if>
+	        <!-- 按最近更新时间倒叙 -->
+	        ORDER BY di.last_update_time ASC
+	   		<if test="page >=0 and paging >0 ">
+				LIMIT ${page*paging} ,${paging}
+			</if>
+	</select>
+	
+	<select id="getTotalDocInfoInner" resultType="Integer" flushCache="true" useCache="true" >
+		SELECT
+			  count(di.prsn_id)
+		FROM
+		  	t_document_info    AS      di
+		  <where>
+	        <if test="orgId > 0">
+	            di.org_id = ${orgId}
+	        </if>
+	        <if test="name != null and name != '' ">
+	            and di.prsn_name like '%${name}%'
+	        </if>
+	        <if test="idCard != null and idCard != '' ">
+	            and di.id_number like '%${idCard}%'
+	        </if>
+	        <if test="status != null and status != '' ">
+	            and di.status = '${status}'
+	        </if>
+	        <if test="flag != null and flag != '' ">
+	            and di.flag = '${flag}'
+	        </if>
+	        <!-- 根据创建时间获取建档数 -->
+	        <if test="startTime > 0">
+	            and di.create_time &gt;= ${startTime}
+	        </if>
+	        <if test="endTime > 0">
+	            and di.create_time &lt;= ${endTime}
+	        </if>
+	    </where>
+	</select>
+	
+	<select id="getTotalDocInfoTagInner" resultType="Integer" flushCache="true" useCache="true" >
+		SELECT
+			  count(di.prsn_id)
+		FROM
+		  	t_document_info    AS      di
+		  	,t_tag t
+		WHERE 1=1
+			and di.prsn_id = t.main_id and t.main_type = 'P'
+	        <if test="orgId > 0">
+	          and  di.org_id = ${orgId}
+	        </if>
+	        
+	        <if test="name != null and name != '' ">
+	            and di.prsn_name like '%${name}%'
+	        </if>
+	        <if test="idCard != null and idCard != '' ">
+	            and di.id_number like '%${idCard}%'
+	        </if>
+	        <if test="status != null and status != '' ">
+	            and di.status = '${status}'
+	        </if>
+	        <if test="flag != null and flag != '' ">
+	            and di.flag = '${flag}'
+	        </if>
+	         <if test="tagIds != null and tagIds != '' ">
+	            and t.ref_val_id in (${tagIds})
+	        </if>
+	        <!-- 根据创建时间获取建档数 -->
+	        <if test="startTime > 0">
+	            and di.create_time &gt;= ${startTime}
+	        </if>
+	        <if test="endTime > 0">
+	            and di.create_time &lt;= ${endTime}
+	        </if>
+	</select>
+	
+	<!-- 添加reftype -->
+	<insert id="addDocInfo" parameterType="com.kjplus.model.DocumentInfoEbo" useGeneratedKeys="true" keyProperty="prsnId" >
+		INSERT INTO t_document_info(
+		prsn_id,code,prsn_code,prsn_name,prsn_sex,id_number,birthday
+		,mobile_num,person_num,work_unit,blood_vl,nation_vl,contact_name,contact_num
+		,family_addr,house_addr,create_day,status,flag,org_id,creator_id,create_time,head_icon_url,last_update_time
+		)
+		VALUES(
+			0,#{code},#{prsnCode},#{prsnName},#{prsnSex},#{idNumber},#{birthday},#{mobileNum}
+			,#{personNum},#{workUnit},#{bloodVl},#{nationVl},#{contactName},#{contactNum},#{familyAddr}
+			,#{houseAddr},#{createDay},#{status},#{flag},#{orgId},#{creatorId},#{createTime},#{headIconUrl},#{lastUpdateTime}
+		)
+	</insert>
+	
+	<!-- 修改docInfo -->
+	<update id="editDocInfo" parameterType="com.kjplus.model.DocumentInfoEbo">
+      UPDATE
+	    	  t_document_info AS doc
+	  <set>
+	  	   <if test="prsnName != null and prsnName !='' ">
+		    doc.prsn_name = #{prsnName},
+		   </if>
+          <if test="prsnSex !=null and prsnSex !='' ">
+            doc.prsn_sex = #{prsnSex},
+          </if>	
+          <if test="idNumber !=null and idNumber !='' ">
+            doc.id_number = #{idNumber},
+          </if>	
+	  	   <if test="birthday != null and birthday !='' ">
+		    doc.birthday = #{birthday},
+		   </if>
+          <if test="mobileNum !=null and mobileNum !='' ">
+            doc.mobile_num = #{mobileNum},
+          </if>	
+          <if test="personNum !=null and personNum !='' ">
+            doc.person_num = #{personNum},
+          </if>	
+	  	   <if test="workUnit != null and workUnit !='' ">
+		    doc.work_unit = #{workUnit},
+		   </if>
+          <if test="bloodVl !=null and bloodVl !='' ">
+            doc.blood_vl = #{bloodVl},
+          </if>	
+          <if test="nationVl !=null and nationVl !='' ">
+            doc.nation_vl = #{nationVl},
+          </if>	
+	  	   <if test="contactName != null and contactName !='' ">
+		    doc.contact_name = #{contactName},
+		   </if>
+          <if test="contactNum !=null and contactNum !='' ">
+            doc.contact_num = #{contactNum},
+          </if>	
+          <if test="familyAddr !=null and familyAddr !='' ">
+            doc.family_addr = #{familyAddr},
+          </if>	
+	  	   <if test="houseAddr != null and houseAddr !='' ">
+		    doc.house_addr = #{houseAddr},
+		   </if>
+          <if test="createDay !=null and createDay !='' ">
+            doc.create_day = #{createDay},
+          </if>	
+          <if test="flag !=null and flag !='' ">
+            doc.flag = #{flag},
+          </if>	
+          <if test="creatorId >0 ">
+            doc.creator_id= #{creatorId},
+          </if>	
+          <if test="orgId >0 ">
+            doc.org_id= #{orgId},
+          </if>
+           <if test="headIconUrl !=null and headIconUrl !='' ">
+            doc.head_icon_url = #{headIconUrl},
+          </if>
+           <if test="lastUpdateTime !=null and lastUpdateTime !='' ">
+            doc.last_update_time= #{lastUpdateTime}
+          </if>
+      </set>
+      <where>
+      1=1
+       		<if test="code !=null and code !='' ">
+            	and doc.code = #{code}
+         	</if>
+         	<if test="prsnId >0 ">
+                and doc.prsn_id= #{prsnId}
+          </if>		
+       </where>
+    </update>  
+
+</mapper>

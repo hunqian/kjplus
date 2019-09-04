@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.ICalendarMainDao">
+	<!--t_calendar_entry表Ebo对象 -->
+	<resultMap type="com.kjplus.model.CalendarEntryEbo" id="CalendarEntryEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="CHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="createId" column="create_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="calTypeId" column="cal_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="entryType" column="entry_type" jdbcType="CHAR" javaType="String" />
+		<result property="isDefault" column="is_default" jdbcType="VARCHAR" javaType="String" />
+		<result property="showClass" column="show_class" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+		<result property="isOpen" column="is_open" jdbcType="CHAR" javaType="String" />		
+	</resultMap>
+	<!--t_calendar_info表Ebo对象 -->
+	<resultMap type="com.kjplus.model.CalendarInfoEbo" id="CalendarInfoEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="calId" column="cal_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="calTitle" column="cal_title" jdbcType="VARCHAR" javaType="String" />
+		<result property="calMemo" column="cal_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="startTime" column="start_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="endTime" column="end_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="maxPerson" column="max_person" jdbcType="INTEGER" javaType="Integer" />
+		<result property="joinPerson" column="join_person" jdbcType="INTEGER" javaType="Integer" />
+		<result property="sourceType" column="source_type" jdbcType="CHAR" javaType="String" />
+		<result property="typeId" column="type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />		
+	</resultMap>
+	<!--t_calendar_activity表Ebo对象 -->
+	<resultMap type="com.kjplus.model.CalendarActivityEbo" id="CalendarActivitySingleEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="calInfoId" column="cal_info_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="CHAR" javaType="String" />	
+	</resultMap>
+ 	<!--t_calendar_event_type表Ebo对象 -->
+	<resultMap type="com.kjplus.model.CalendarEventTypeEbo" id="CalendarEventTypeEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="defId" column="def_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="String" />
+		<result property="timeInterval" column="time_interval" jdbcType="INTEGER" javaType="Integer" />
+		<result property="maxPerson" column="max_person" jdbcType="INTEGER" javaType="Integer" />
+		<result property="showClass" column="show_class" jdbcType="VARCHAR" javaType="String" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+	</resultMap> 
+	<!-- CalEntryInnerEbo对象        日历入口配置信息  -->
+	<resultMap type="com.kjplus.model.inner.CalEntryInfoInnerEbo" id="CalEntryInfoInnerEboMap">
+		<!-- 日历主信息   -->
+		<result property="infoId" column="info_id" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="infoCode" column="info_code" jdbcType="VARCHAR" javaType="String" />		
+	    <result property="infoTitle" column="info_title" jdbcType="VARCHAR" javaType="String" />
+	    <result property="infoMemo" column="info_memo" jdbcType="VARCHAR" javaType="String" />
+	    <result property="infoStartTime" column="info_start_time" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="infoEndTime" column="info_end_time" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="infoMaxPerson" column="info_max_person" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="infoJoinPerson" column="info_join_person" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="infoSourceType" column="info_source_type" jdbcType="CHAR" javaType="String" />
+	    <result property="infoTypeId" column="info_type_id" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="infoFlag" column="info_flag" jdbcType="CHAR" javaType="String" />
+	    <result property="infoCreateTime" column="info_create_time" jdbcType="INTEGER" javaType="Integer" />
+		<!-- 日历入口 -->
+		<result property="entryId" column="entry_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="entryCode" column="entry_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="entryMainId" column="entry_main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="entryMainType" column="entry_main_type" jdbcType="CHAR" javaType="String" />
+		<result property="entryCreateId" column="entry_create_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="entryType" column="entry_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="entryShowClass" column="entry_show_class" jdbcType="VARCHAR" javaType="String" />
+		<result property="entryOrgId" column="entry_org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="entryFlag" column="entry_flag" jdbcType="CHAR" javaType="String" />
+		<result property="entryCreateTime" column="entry_create_time" jdbcType="TIMESTAMP" javaType="Date" />
+		<result property="entryTypeId" column="entry_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="entryIsOpen" column="entry_is_open" jdbcType="CHAR" javaType="String" />
+		<result property="entryName" column="entry_name" jdbcType="VARCHAR" javaType="String" />
+		<!-- 日历入口配置 -->
+		<result property="typeTitle" column="type_title" jdbcType="VARCHAR" javaType="String" />
+		<result property="typeTimeInterval" column="type_time_interval" jdbcType="INTEGER" javaType="Integer" />
+		<result property="typeMaxPerson" column="type_max_person" jdbcType="INTEGER" javaType="Integer" />
+		<result property="typeShowClass" column="type_show_class" jdbcType="VARCHAR" javaType="String" />
+		<result property="typeMemo" column="type_memo" jdbcType="VARCHAR" javaType="String" />
+		<!-- 日历使用者 -->
+		<!-- 组织 -->		
+		<result property="entryMainOrgCode" column="entry_main_org_code" jdbcType="VARCHAR" javaType="String" />		
+	    <result property="entryMainOrgName" column="entry_main_org_name" jdbcType="VARCHAR" javaType="String" />
+	    <!-- 部门或团队 -->
+	    <result property="entryMainDeptCode" column="entry_main_dept_code" jdbcType="VARCHAR" javaType="String" />		
+	    <result property="entryMainDeptName" column="entry_main_dept_name" jdbcType="VARCHAR" javaType="String" />
+	    <!--普通用户 -->
+	    <result property="entryMainUserMblNum" column="entry_main_user_mblNum" jdbcType="VARCHAR" javaType="String" />		
+	    <result property="entryMainUserName" column="entry_main_user_name" jdbcType="VARCHAR" javaType="String" />
+	    <!-- 管理员 -->
+	    <result property="entryMainAdminUserMblNum" column="entry_main_adminUser_mblNum" jdbcType="VARCHAR" javaType="String" />		
+	    <result property="entryMainAdminUserName" column="entry_main_adminUser_name" jdbcType="VARCHAR" javaType="String" />
+	    <!-- 医生 -->
+		<result property="entryMainStaffCode" column="entry_main_staff_code" jdbcType="VARCHAR" javaType="String" />		
+	    <result property="entryMainStaffName" column="entry_main_staff_name" jdbcType="VARCHAR" javaType="String" />
+	    <!-- 创建人 -->
+	    <result property="createMobileNum" column="create_mobile_num" jdbcType="VARCHAR" javaType="String" />
+	    <result property="createName" column="create_name" jdbcType="VARCHAR" javaType="String" />
+	    <!-- 日历入口类型 -->
+	    <result property="entryTypeCode" column="entry_type_code" jdbcType="VARCHAR" javaType="String" />
+	    <result property="entryTypeName" column="entry_type_name" jdbcType="VARCHAR" javaType="String" />
+	    <!-- 日历所属组织 -->
+	    <result property="entryOrgCode" column="entry_org_code" jdbcType="VARCHAR" javaType="String" />
+	    <result property="entryOrgName" column="entry_org_name" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+		
+	<!-- 查询日历入口类型配置和基本信息     TODO 同样是服务目录  -->
+	<sql id="selectCalEntryInfoInnerEbo">
+		SELECT 
+			<!--t_calendar_info表-->
+			ci.id info_id,ci.code info_code,ci.cal_title info_title,ci.cal_memo info_memo,ci.start_time info_start_time,ci.end_time info_end_time
+			,ci.max_person info_max_person,ci.join_person info_join_person,ci.source_type info_source_type,ci.type_id info_type_id,ci.flag info_flag,ci.create_time info_create_time
+			<!-- 日历信息的类型 参照对应 数据汇总 -->
+			,ci.type_id info_type_id
+			<!--t_calendar_entry表-->
+			,ce.id entry_id,ce.code entry_code,ce.main_id entry_main_id,ce.main_type entry_main_type
+			,ce.create_id entry_create_id,ce.entry_type entry_type,ce.show_class entry_show_class,ce.org_id entry_org_id
+			,ce.flag entry_flag,ce.create_time entry_create_time,ce.cal_type_id entry_type_id,ce.is_open entry_is_open,ce.name entry_name	
+			<!-- t_calendar_event_type -->
+			,et.title type_title,et.time_interval type_time_interval,et.max_person type_max_person,et.show_class type_show_class,et.memo type_memo
+			<!-- 日历使用者信息 -->
+			<!-- t_organization表 -->
+			,o.code entry_main_org_code,o.name entry_main_org_name
+			<!-- t_department 表-->
+			,dp.code entry_main_dept_code,dp.name entry_main_dept_name
+			<!-- t_user 表 -->
+			,u.mobile_num entry_main_user_mblNum,u.nick_name entry_main_user_name
+			<!-- t_admin_user表 -->
+			,au.mobile_num entry_main_adminUser_mblNum,au.user_name entry_main_adminUser_name
+			<!-- t_staff -->
+			,sf.code entry_main_staff_code,sf.name entry_main_staff_name
+			<!-- 创建人 -->
+			<!-- t_admin_user表 -->
+			,au2.mobile_num create_mobile_num,au2.user_name create_name
+			<!-- t_sys_ref_value -->
+			,rv.code entry_type_code,rv.name entry_type_name
+			<!-- t_organization -->
+			,o2.code entry_org_code,o2.name entry_org_name
+		FROM
+			t_calendar_info                    AS ci
+			<!--主： 日历入口配置 -->
+			LEFT JOIN t_calendar_entry         AS  ce    ON    ci.cal_id = ce.id
+			<!-- 日历入口配置 -->
+			LEFT JOIN t_calendar_event_type    AS et ON ce.id = et.def_id AND ce.entry_type = "E"
+			<!-- 日历使用者类型    组织 -->
+			LEFT JOIN t_organization           AS  o ON  ce.main_id = o.id  AND  ce.main_type = "ORG"
+			<!-- 日历使用者类型    部门 -->
+			LEFT JOIN t_department             AS  dp  ON ce.main_id = dp.id   AND  ce.main_type = "DEPT"
+			<!-- 日历使用者类型    普通用户 -->
+			LEFT JOIN t_user                   AS  u   ON ce.main_id = u.uid   AND  ce.main_type = "USER"
+			<!-- 日历使用者类型    管理员 -->
+			LEFT JOIN t_admin_user             AS  au  ON ce.main_id = au.uid   AND  ce.main_type = "ADMINUSER"
+			<!-- 日历使用者类型    医生 -->
+			LEFT JOIN t_staff                  AS  sf   ON  ce.main_id = sf.id   AND  ce.main_type = "STAFF"
+			<!-- 创建人 -->
+			LEFT JOIN t_admin_user             AS  au2  ON ce.create_id = au2.uid
+			<!--TODO 建立参照  参照日历入口类型  -->
+			LEFT JOIN t_sys_ref_value          AS  rv  ON ce.cal_type_id = rv.id
+			<!-- 所属组织 -->
+			LEFT JOIN t_organization           AS  o2 ON  ce.org_id = o2.id
+	</sql>
+	
+	<!--查询t_calendar_entry表Ebo对象 -->
+	<sql id="selectCalendarEntryEbo">
+		SELECT 
+			ce.id,ce.code,ce.main_id,ce.main_type,ce.name,ce.create_id,ce.cal_type_id,ce.org_id
+			,ce.entry_type,ce.is_default,ce.show_class,ce.flag,ce.create_time,ce.is_open
+		FROM
+			t_calendar_entry AS ce
+	</sql>
+	
+	<!--查询t_calendar_event_type表Ebo对象 -->
+	<sql id="selectCalendarEventTypeEbo">
+	SELECT
+		cet.id,cet.def_id,cet.title,cet.time_interval,cet.max_person,cet.show_class,cet.memo
+	FROM
+		t_calendar_event_type AS cet	
+	</sql>	
+	
+	<!--查询t_calendar_info表Ebo对象 -->
+	<sql id="selectCalendarInfoEbo">
+		SELECT 
+			ci.id,ci.code,ci.cal_id,ci.cal_title,ci.cal_memo,ci.start_time
+			,ci.end_time,ci.max_person,ci.join_person,ci.source_type,ci.type_id,ci.flag,ci.create_time
+		FROM
+			t_calendar_info AS ci
+	</sql>
+	
+	<select id="getCalEntryByIdOrCode" resultMap="CalendarEntryEboMap" flushCache="true"> 
+		<include refid="selectCalendarEntryEbo"/>
+		<where>
+			<if test=" id > 0 ">
+				ce.id=${id}
+			</if>
+			<if test=" code != null and  code != '' ">
+				and ce.code='${code}' 
+			</if>
+		</where>
+	</select>
+	
+	<select id="listCalEntryByMainIdOrType" resultMap="CalendarEntryEboMap" flushCache="true"> 
+		<include refid="selectCalendarEntryEbo"/>
+		<where>
+			1=1
+			<if test=" mainId > 0 ">
+				and ce.main_id = ${mainId}
+			</if>
+			<if test=" mainType != null and mainType != '' ">
+				and ce.main_type = '${mainType}' 
+			</if>
+			<if test=" entryType != null and entryType != '' ">
+				and ce.entry_type = '${entryType}' 
+			</if>
+			<if test=" isDefault != null and isDefault != '' ">
+				and ce.is_default = '${isDefault}' 
+			</if>
+		</where>
+		<!-- 按创建时间倒叙 -->
+		ORDER BY ce.create_time
+			<if test=" page >= 0 and paging > 0 ">
+				LIMIT ${page*paging},${paging}
+			</if>
+	</select>
+	
+	<select id="listCalEntry" resultMap="CalendarEntryEboMap" flushCache="true"> 
+		<include refid="selectCalendarEntryEbo"/>
+		<where>
+		1=1
+			<if test=" mainId > 0 ">
+				and ce.main_id = ${mainId}
+			</if>
+			<if test=" mainType != null and  mainType != '' ">
+				and ce.main_type = '${mainType}' 
+			</if>
+			<if test=" createId > 0 ">
+				and ce.create_id = ${createId}
+			</if>
+			<if test=" orgId > 0 ">
+				and ce.org_id = ${orgId}
+			</if>
+				<if test=" flag != null and  flag != '' ">
+				and ce.flag = '${flag}' 
+			</if>
+		</where>
+	</select>
+	
+	<select id="getCalInfoByIdOrCode" resultMap="CalendarInfoEboMap" flushCache="true"> 
+		<include refid="selectCalendarInfoEbo"/>
+		<where>
+			<if test=" id > 0 ">
+				ci.id=${id}
+			</if>
+			<if test=" code != null and  code != '' ">
+				and ci.code='${code}' 
+			</if>
+		</where>
+	</select>
+	
+	<!--查询t_calendar_activity表Ebo对象 -->
+	<sql id="selectCalActivitySingleEbo">
+		SELECT 
+			ca.id,ca.cal_info_id,ca.main_id,ca.main_type
+		FROM
+			t_calendar_activity AS ca
+	</sql>
+	
+	<select id="listCalActivitySingleEbo" resultMap="CalendarActivitySingleEboMap" flushCache="true"> 
+		<include refid="selectCalActivitySingleEbo"/>
+		<where>
+			1=1
+			<if test=" calInfoId > 0 ">
+				and ca.cal_info_id = ${calInfoId}
+			</if>
+			<if test=" mainId > 0 ">
+				and ca.main_id = ${mainId}
+			</if>
+			<if test=" mainType != null and  mainType != '' ">
+				and ca.main_type = '${mainType}' 
+			</if>
+		</where>
+	</select>
+
+ 	<select id="getCalEventType" resultMap="CalendarEventTypeEboMap" flushCache="true"> 
+		<include refid="selectCalendarEventTypeEbo"/>
+		<where>
+			1=1
+			<if test=" id > 0 ">
+				and cet.id = ${id}
+			</if>
+		</where>
+	</select> 
+
+ 	<select id="listCalEventType" resultMap="CalendarEventTypeEboMap" flushCache="true"> 
+		<include refid="selectCalendarEventTypeEbo"/>
+		<where>
+			1=1
+			<if test=" defIds != null and  defIds != '' ">
+				and cet.def_id in (${defIds})
+			</if>
+		</where>
+	</select> 
+
+	
+	<insert id="addCalEntry" parameterType="com.kjplus.model.CalendarEntryEbo"  useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_calendar_entry(id,code,main_id,main_type,name,create_id,cal_type_id,entry_type,is_default,show_class,org_id,flag,create_time,is_open)
+		VALUES(
+			0,#{code},#{mainId},#{mainType},#{name},#{createId},#{calTypeId},#{entryType},#{isDefault},#{showClass},#{orgId},#{flag},#{createTime},#{isOpen}
+		)
+	</insert>
+
+	<insert id="addCalInfo" parameterType="com.kjplus.model.CalendarInfoEbo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_calendar_info(id,code,cal_id,cal_title,cal_memo,start_time
+			,end_time,max_person,join_person,source_type,flag,create_time)
+		VALUES(
+			0,#{code},#{calId},#{calTitle},#{calMemo},#{startTime},#{endTime},#{maxPerson}
+			,#{joinPerson},#{sourceType},#{flag},#{createTime}
+		)
+	</insert>
+	<insert id="addCalActivity" parameterType="com.kjplus.model.CanlendarActivityEbo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_calendar_activity
+		VALUES(
+			0,#{calInfoId},#{mainId},#{mainType}
+		)
+	</insert>
+	
+	<insert id="addCalEventType" parameterType="com.kjplus.model.CalendarEventTypeEbo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_calendar_event_type(id,def_id,title,time_interval,max_person,show_class,memo)
+		VALUES(
+			0,#{defId},#{title},#{timeInterval},#{maxPerson},#{showClass},#{memo}
+		)
+	</insert>
+	
+	<!-- 删除calActivity -->
+	<delete id="delCalActivity">
+		DELETE FROM t_calendar_activity
+		<where>
+			<if test="id > 0 ">  
+				id = ${id}
+			</if>
+		</where> 
+	</delete>
+	
+	<update id="updateCalInfoFlag" flushCache="true">
+	   UPDATE 
+	    	t_calendar_info AS  ci
+	    <set>
+	    	<if test=" flag != null and flag != '' ">
+	    		ci.flag='${flag}',
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test="id > 0">
+	    		ci.id=${id}
+	    	</if>
+	    	<if test=" code != null and code != '' ">
+	    		and ci.code='${code}'
+	    	</if>
+	    </where>
+	</update>
+	
+	<update id="updateCalInfo" flushCache="true">
+	   UPDATE 
+	    	t_calendar_info AS  ci
+	    <set>
+	    <if test=" title != null and title != '' ">
+	    		ci.cal_title ='${title}',
+	    	</if>
+	    	<if test=" memo != null and memo != '' ">
+	    		ci.cal_memo ='${memo}',
+	    	</if>
+	    	<if test=" maxPerson > 0 ">
+	    	   ci.max_person=${maxPerson},
+	    	</if>
+	    	<if test="joinPerson >= 0 ">
+	    		ci.join_person=${joinPerson},
+	    	</if>
+	    	<if test=" flag != null and flag != '' ">
+	    		ci.flag='${flag}',
+	    	</if>
+	    	<if test="startTime > 0 ">
+	    		ci.start_time= ${startTime},
+	    	</if>
+	    	<if test="endTime > 0 ">
+	    		ci.end_time= ${endTime}
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test="id > 0">
+	    		ci.id=${id}
+	    	</if>
+	    	<if test=" code != null and code != '' ">
+	    		and ci.code='${code}'
+	    	</if>
+	    </where>
+	</update>
+	<!-- 修改日历入口的名称 -->
+	<update id="updateCalEntry" >
+		   UPDATE 
+	    	t_calendar_entry AS  ce
+	    <set>
+	    	<if test=" name !=null and name != '' ">
+	    	   ce.name='${name}',
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test="id > 0">
+	    		ce.id=${id}
+	    	</if>
+	    	<if test=" code != null and code !='' ">
+	    		and ce.code='${code}'
+	    	</if>
+	    </where>
+	</update>
+	
+	<!-- 修改某种日历类型的默认日历 -->
+	<update id="updateCalEntryIsdefault" >
+		   UPDATE 
+	    	t_calendar_entry AS  ce
+	    <set>
+	    ce.code = ce.code
+	    	<if test=" isDefault !=null and isDefault != '' ">
+	    	   , ce.is_default='${isDefault}'
+	    	</if>
+	    </set>
+	    <where>
+	    1=1
+	    	<if test=" mainId > 0">
+	    		and ce.main_id = ${mainId}
+	    	</if>
+	    	<if test=" mainType != null and mainType !='' ">
+	    		and ce.main_type = '${mainType}'
+	    	</if>
+	    	<if test=" entryType != null and entryType !='' ">
+	    		and ce.entry_type ='${entryType}'
+	    	</if>
+	    </where>
+	</update>
+	
+	<select id="listEntryInfo" resultMap="CalEntryInfoInnerEboMap" flushCache="true" useCache="false" >
+	<include refid="selectCalEntryInfoInnerEbo"/>
+		<where>
+		1=1
+			<if test=" calEntryInfoQto.mainId > 0 ">
+				and ce.main_id = #{calEntryInfoQto.mainId}
+			</if>
+			<if test=" calEntryInfoQto.mainType != null and calEntryInfoQto.mainType != '' ">
+				and ce.main_type = #{calEntryInfoQto.mainType}
+			</if>
+			<if test=" calEntryInfoQto.orgId > 0 ">
+				and ce.org_id = #{calEntryInfoQto.orgId}
+			</if>
+			<if test=" calEntryInfoQto.entryId > 0 ">
+				and ce.id = #{calEntryInfoQto.entryId}
+			</if>
+			<if test=" calEntryInfoQto.infoId > 0 ">
+				and ci.id = #{calEntryInfoQto.infoId}
+			</if>
+			<if test=" calEntryInfoQto.infoTitle != null and calEntryInfoQto.infoTitle != '' ">
+				and ci.cal_title LIKE '%${calEntryInfoQto.infoTitle}%'
+			</if>
+			<if test=" calEntryInfoQto.entryName != null and calEntryInfoQto.entryName != '' ">
+				and ce.name LIKE '%${calEntryInfoQto.entryName}%'
+			</if>
+			<if test=" calEntryInfoQto.infoSourceType != null and calEntryInfoQto.infoSourceType != '' ">
+				and ci.source_type = '${calEntryInfoQto.infoSourceType}'
+			</if>	
+			<if test=" calEntryInfoQto.startTime > 0 ">
+				and ci.start_time &gt;=  ${calEntryInfoQto.startTime}
+			</if>
+			<if test=" calEntryInfoQto.endTime > 0 ">
+				and ci.end_time &lt;=  ${calEntryInfoQto.endTime}
+			</if>
+			<!-- 日历信息的有效时间信息  -->
+			<if test=" calEntryInfoQto.validTime > 0 ">
+				and ci.end_time &gt;=  ${calEntryInfoQto.validTime}
+			</if>
+			<if test=" calEntryInfoQto.entryFlag != null and calEntryInfoQto.entryFlag != '' ">
+				and ce.flag = #{calEntryInfoQto.entryFlag}
+			</if>	
+			<if test=" calEntryInfoQto.infoFlag != null and calEntryInfoQto.infoFlag != '' ">
+				and ci.flag = #{calEntryInfoQto.infoFlag}
+			</if>
+			<!-- 日历信息的类型   参照对应 数据汇总 -->
+			<if test=" calEntryInfoQto.infoTypeId > 0 ">
+				and ci.type_id =  ${calEntryInfoQto.infoTypeId}
+			</if>	
+		</where>
+		<!-- 按照日历信息（活动预间升序排列）  -->		
+			ORDER BY ci.create_time ASC
+			<if test="page >=0 and paging >0 ">
+				LIMIT ${page*paging} ,${paging}
+			</if>
+	</select>
+</mapper>

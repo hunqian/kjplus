@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.IInfoDao">
+	<!--t_info表Ebo对象 -->
+	<resultMap type="com.kjplus.model.InfoEbo" id="InfoEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoCode" column="info_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoDesc" column="info_desc" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoTitle" column="info_title" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoCatgId" column="info_catg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="totalViewNum" column="total_view_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="totalZanNum" column="total_zan_num" jdbcType="INTEGER" javaType="Integer" />
+        <result property="totalFocusNum" column="total_focus_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="headImgUrl" column="head_img_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="iconImgUrl" column="icon_img_url" jdbcType="VARCHAR" javaType="String" />		
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="pubId" column="pub_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pubTime" column="pub_time" jdbcType="DATE" javaType="Date" />		
+		<result property="infoType" column="info_type" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!--t_info_content表Ebo对象 -->
+	<resultMap type="com.kjplus.model.InfoContentEbo" id="InfoContentEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoId" column="info_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoSeq" column="info_seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoContent" column="info_content" jdbcType="VARCHAR" javaType="String" />	
+	</resultMap>
+	<!--t_info_reference表Ebo对象 -->
+	<resultMap type="com.kjplus.model.InfoReferenceEbo" id="InfoReferenceEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refCode" column="ref_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoId" column="info_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoCatgId" column="info_catg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="viewNum" column="view_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zanNum" column="zan_num" jdbcType="INTEGER" javaType="Integer" />
+        <result property="focusNum" column="focus_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- InfoInnerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.InfoInnerEbo" id="InfoInnerEboMap">
+		<!-- info -->
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoCode" column="info_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoTitle" column="info_title" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoDesc" column="info_desc" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoCatgId" column="info_catg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoCatgName" column="info_catg_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoTypeId" column="info_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoTypeName" column="info_type_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="totalViewNum" column="total_view_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="totalZanNum" column="total_zan_num" jdbcType="INTEGER" javaType="Integer" />
+        <result property="totalFocusNum" column="total_focus_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="headImgUrl" column="head_img_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="iconImgUrl" column="icon_img_url" jdbcType="VARCHAR" javaType="String" />		
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="pubId" column="pub_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pubName" column="pub_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptName" column="dept_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="pubTime" column="pub_time" jdbcType="TIMESTAMP" javaType="Date" />	
+		<result property="infoType" column="info_type" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- InfoReferenceInnerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.InfoReferenceInnerEbo" id="InfoReferenceInnerEboMap">
+		<!-- infoReference -->
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refCode" column="ref_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoId" column="info_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoTypeId" column="info_catg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoTypeName" column="info_type_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="viewNum" column="view_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zanNum" column="zan_num" jdbcType="INTEGER" javaType="Integer" />
+        <result property="focusNum" column="focus_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptName" column="dept_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<!-- info -->
+		<result property="infoFlag" column="info_flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoTitle" column="info_title" jdbcType="VARCHAR" javaType="String" />
+		<result property="headImgUrl" column="head_img_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="iconImgUrl" column="icon_img_url" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- InfoReferenceSimpleInnerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.InfoReferenceSimpleInnerEbo" id="InfoReferenceSimpleInnerEboMap">
+		<!-- infoReference -->
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refCode" column="ref_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoId" column="info_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoTypeId" column="info_catg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="viewNum" column="view_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zanNum" column="zan_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- t_info_catglog表Ebo对象 -->
+	<resultMap type="com.kjplus.model.InfoCatalogEbo" id="InfoCatalogEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoTypeId" column="info_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!--  t_info_readlog阅读日志 -->
+	<resultMap type="com.kjplus.model.InfoReadlogEbo" id="InfoReadlogEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="readStartTime" column="read_start_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="readTime" column="read_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+		
+	<!-- t_info_catglog表inner对象 -->
+	<resultMap type="com.kjplus.model.inner.InfoCatalogInnerEbo" id="InfoCatalogInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="pname" column="pname" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoTypeId" column="info_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoTypeName" column="info_type_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+
+	<sql id="selectInfoEbo">
+		SELECT 
+			t.id,t.info_code,t.info_title,t.info_desc,t.info_catg_id,t.total_view_num,t.total_zan_num
+			,t.total_focus_num,t.head_img_url,t.icon_img_url,t.flag,t.pub_id,t.dept_id,t.org_id,t.pub_time,t.info_type
+		FROM 
+			t_info AS t
+	</sql>
+	<sql id="selectInfoEboByRef">
+		SELECT 
+			distinct i.id,i.info_code,i.info_title,i.info_catg_id,i.total_view_num,i.total_zan_num
+			,i.head_img_url,i.icon_img_url,i.flag,i.pub_id,i.dept_id,i.org_id,i.pub_time
+			,i.total_focus_num
+			,rv.name info_type_name,u.user_name pub_name,d.name dept_name,o.name org_name
+			,ir.view_num,ir.zan_num,ir.focus_num
+		FROM
+			t_info_reference          AS  ir
+			LEFT JOIN t_info          AS  i  ON ir.info_id = i.id   
+			LEFT JOIN t_user          AS  u  ON u.uid = i.pub_id
+			LEFT JOIN t_department    AS  d  ON d.id  = i.dept_id
+			LEFT JOIN t_organization  AS  o  ON o.id  = i.org_id
+			LEFT JOIN t_info_catalog  AS  ic  ON ir.info_catg_id = ic.id
+			LEFT JOIN t_sys_ref_value AS  rv ON rv.id = ic.info_type_id 
+		where
+			1=1
+	</sql>
+	<sql id="selectInfoContentEbo">
+		SELECT 
+			tc.id,tc.info_id,tc.info_seq,tc.info_content
+		FROM 
+			t_info_content AS tc
+	</sql>
+	<sql id="getInfoReferenceEbo">
+		SELECT 
+			ir.id,ir.ref_code,ir.info_id,ir.info_catg_id,ir.view_num,ir.zan_num,ir.focus_num,ir.dept_id,ir.org_id,ir.flag
+		FROM 
+			t_info_reference AS ir
+	</sql>
+	<sql id="getInfoCatalogEbo">
+		SELECT 
+			ic.id,ic.name,ic.code,ic.flag,ic.info_type_id,ic.org_id,ic.flag
+		FROM 
+			t_info_catalog AS ic
+	</sql>
+	
+	<sql id="listInfoCatalogInnerEbo">
+		SELECT 
+			ic.id,ic.pid,ic.name,pic.name pname, ic.code,ic.flag,ic.info_type_id,ic.org_id,ic.flag
+			,org.name org_name,ref.name info_type_name
+		FROM 
+			t_info_catalog   			AS 		ic
+			left join t_info_catalog 	AS 	    pic 	on ic.pid = pic.id
+			left join t_organization 	AS		org 	on org.id = ic.org_id
+			left join t_sys_ref_value 	AS		ref 	on ref.id = ic.info_type_id
+	</sql>
+	<sql id="totalCatalog">
+		SELECT 
+			count(ic.id)
+		FROM 
+			t_info_catalog   			AS 		ic
+			left join t_info_catalog 	AS 	    pic 	on ic.pid = pic.id
+			left join t_organization 	AS		org 	on org.id = ic.org_id
+			left join t_sys_ref_value 	AS		ref 	on ref.id = ic.info_type_id
+	</sql>
+
+	<sql id="selectInfoCount">
+		SELECT 
+			count(i.id)
+		FROM
+			t_info i
+			LEFT JOIN t_user          AS  u  ON u.uid = i.pub_id
+			LEFT JOIN t_department    AS  d  ON d.id  = i.dept_id
+			LEFT JOIN t_organization  AS  o  ON o.id  = i.org_id
+			,t_info_catalog AS ic
+			LEFT JOIN t_sys_ref_value AS  rv ON rv.id = ic.info_type_id
+	</sql>
+	<sql id="selectInfoInnerEbo">
+		SELECT 
+			i.id,i.info_code,i.info_title,info_desc,i.info_catg_id info_catg_id,i.total_view_num,i.total_zan_num
+			,i.head_img_url,i.icon_img_url,i.flag,i.pub_id,i.dept_id,i.org_id,i.pub_time,i.info_type
+			,i.total_focus_num
+			,ic.name info_catg_name
+			,rv.name info_type_name,rv.id info_type_id,u.user_name pub_name,d.name dept_name,o.name org_name
+		FROM
+			t_info i
+			LEFT JOIN t_user          AS  u  ON u.uid = i.pub_id
+			LEFT JOIN t_department    AS  d  ON d.id  = i.dept_id
+			LEFT JOIN t_organization  AS  o  ON o.id  = i.org_id
+			,t_info_catalog AS ic
+			LEFT JOIN t_sys_ref_value AS  rv ON rv.id = ic.info_type_id
+	</sql>
+	<sql id="selectInfoReferenceSimpleEbo">
+		SELECT 
+			<!-- 资讯表 -->
+			ir.id,ir.ref_code,ir.info_id,ir.info_catg_id,ir.view_num
+			,ir.zan_num,ir.dept_id,ir.org_id,o.name org_name,ir.flag
+		FROM 
+			t_info_reference     AS ir
+		LEFT JOIN t_organization AS o ON o.id = ir.org_id
+	</sql>
+	<sql id="selectInfoReferenceEbo">
+		SELECT 
+			<!-- 资讯表 -->
+			i.info_title,i.head_img_url,i.icon_img_url
+			<!-- 咨询引用表 -->
+			,ir.id,ir.ref_code,ir.info_id,ir.view_num,ir.zan_num,ir.focus_num,ir.flag flag,i.flag info_flag
+			<!-- 参照表 -->
+			,rv.id,rv.name info_type_name
+			<!-- 组织表 -->
+			,ir.org_id,o.name org_name
+			<!-- 部门表 -->
+			,ir.dept_id,d.name dept_name
+		FROM 
+		t_info_reference AS  ir
+		LEFT JOIN t_sys_ref_value AS  rv  ON rv.id = ir.info_catg_id
+		LEFT JOIN t_department    AS  d   ON d.id  = ir.dept_id
+		LEFT JOIN t_organization  AS  o   ON o.id  = ir.org_id
+		,t_info AS  i
+		
+	</sql>
+    <sql id="getInfoReadlogEbo">
+        SELECT
+            irl.id,irl.uid,irl.main_id,irl.main_type,irl.read_start_time,irl.read_time,irl.flag
+        FROM
+            t_info_readlog AS  irl
+    </sql>
+
+	<!-- 根据mainid查询log -->
+	<select id="listReadlogEbo" resultMap="InfoReadlogEboMap" flushCache="true"> 
+		<include refid="getInfoReadlogEbo"/>
+		<where>
+			1=1
+			<if test=" uid > 0 ">
+				and irl.uid = ${uid}
+			</if>
+			<if test=" mainId > 0 ">
+				and irl.main_id = ${mainId}
+			</if>
+			<if test=" mainType != null and  mainType != '' ">
+				and irl.main_type='${mainType}' 
+			</if>
+			order by irl.read_start_time desc
+		</where>
+	</select>
+
+	<!-- 根据咨询id查询咨询 -->
+	<select id="getInfoByIdOrCode" resultMap="InfoEboMap" flushCache="true"> 
+		<include refid="selectInfoEbo"/>
+		<where>
+			<if test=" id > 0 ">
+				t.id=${id}
+			</if>
+			<if test=" infoCode != null and  infoCode != '' ">
+				and t.info_code='${infoCode}' 
+			</if>
+		</where>
+	</select>
+	<!-- 根据咨询id查询咨询 -->
+	<select id="getInfoReferenceByIdOrCode" resultMap="InfoReferenceEboMap" flushCache="true"> 
+		<include refid="getInfoReferenceEbo"/>
+		<where>
+			<if test=" id > 0 ">
+				ir.id=${id}
+			</if>
+			<if test=" refCode != null and  refCode != '' ">
+				and ir.ref_code='${refCode}' 
+			</if>
+		</where>
+	</select>
+	<!-- 根据引用条件查询咨询 -->
+	<select id="getInfoReference" resultMap="InfoReferenceEboMap" flushCache="true"> 
+		<include refid="getInfoReferenceEbo"/>
+		<where>
+			<if test=" infoId > 0 ">
+				and ir.info_id=${infoId}
+			</if>
+			<if test=" catgId > 0 ">
+				and ir.info_catg_id=${catgId}
+			</if>
+			<if test=" orgId > 0 ">
+				and ir.org_id=${orgId}
+			</if>
+		</where>
+	</select>
+	<select id="getInfoCatalogByIdOrCode"  resultMap="InfoCatalogEboMap" flushCache="true">
+	  <include refid="getInfoCatalogEbo" />
+		<where>
+			<if test=" id  > 0 ">
+                ic.id =${id}
+			</if>
+			<if test=" code != null and code != '' ">
+                AND  ic.code='${code}'
+			</if>
+		</where>
+	</select>
+	
+	<select id="listInfoCatalogByOrg"  resultMap="InfoCatalogInnerEboMap" flushCache="true">
+	  <include refid="listInfoCatalogInnerEbo" />
+		<where>
+		1=1
+			<if test=" orgId  >= 0 ">
+                AND ic.org_id =${orgId}
+			</if>
+			<if test=" pid  >= 0 ">
+               AND  ic.pid =${pid}
+			</if>
+			<if test=" name != null and name != '' ">
+                AND  ic.name like '%${name}%'
+			</if>
+			<if test=" flag != null and flag != '' ">
+                AND  ic.flag='${flag}'
+			</if>
+				order by ic.pid,ic.id asc
+		</where>
+	</select>
+	
+	<select id="getTotalCatalogByOrg"  resultType="Integer" flushCache="true">
+	  <include refid="totalCatalog" />
+		<where>
+			<if test=" orgId  >= 0 ">
+                ic.org_id =${orgId}
+			</if>
+			<if test=" pid  >= 0 ">
+                ic.pid =${pid}
+			</if>
+			<if test=" name != null and name != '' ">
+                AND  ic.name like '%${name}%'
+			</if>
+			<if test=" flag != null and flag != '' ">
+                AND  ic.flag='${flag}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据咨询id查询咨询内容 -->
+	<select id="listInfoContent" resultMap="InfoContentEboMap" flushCache="true"> 
+		<include refid="selectInfoContentEbo"/>
+		<where>
+			<if test=" infoId > 0 ">
+				tc.info_id = ${infoId}
+			</if>
+			order by info_seq
+		</where>
+	</select>
+	
+	<!-- 根据咨询id查询资讯内容列表 -->
+	<select id="listInfoContentArr" resultMap="InfoContentEboMap" flushCache="true"> 
+		<include refid="selectInfoContentEbo"/>
+		<where>
+			<if test="infoIds != null ">
+	            and tc.info_id in(${infoIds})
+	        </if>
+			order by info_seq
+		</where>
+	</select>
+	
+	<!-- 查询引用资讯列表 -->
+	<select id="listInfoSimpleReference" resultMap="InfoReferenceSimpleInnerEboMap" flushCache="true"> 
+		<include refid="selectInfoReferenceSimpleEbo"/>
+		<where>
+				1=1
+			<if test="infoTypeId >0  ">
+		            and ir.info_catg_id = ${infoTypeId}
+		        </if>
+		        <if test="refCode != null and refCode !='' ">
+		            and ir.ref_code = '${refCode}'
+		        </if>
+		        <if test="flag != null and flag !='' ">
+		            and ir.flag = '${flag}'
+		        </if>
+		        <if test="orgId >0  ">
+		            and ir.org_id = ${orgId}
+		        </if>
+			</where>
+			<if test="page >=0 and paging >0 ">
+					LIMIT ${page*paging} ,${paging}
+			</if>
+	</select>
+	
+	<!-- 查询引用资讯引用列表(包含全部信息) -->
+	<select id="listInfoReference" resultMap="InfoReferenceInnerEboMap" flushCache="true"> 
+		<include refid="selectInfoReferenceEbo"/>
+		<where>
+				1=1 and i.id  = ir.info_id
+				<if test="infoId >0  ">
+		            and i.id = ${infoId}
+		        </if>
+				<if test="infoCatgId >0  ">
+		            and ir.info_catg_id = ${infoCatgId}
+		        </if>
+		        <if test="flag != null and flag !='' ">
+		            and ir.flag = '${flag}'
+		        </if>
+		        <if test="infoFlag != null and infoFlag !='' ">
+		            and i.flag = '${infoFlag}'
+		        </if>
+		        <if test="orgId >0  ">
+		            and ir.org_id = ${orgId}
+		        </if>
+			</where>
+			<if test="page >0 and paging >0 ">
+					LIMIT ${page*paging} ,${paging}
+			</if>
+	</select>
+	
+	<select id="getTotalInfo" resultType="Integer" flushCache="true" useCache="false" >
+		<include refid="selectInfoCount"/>
+			<where>
+				1=1  and i.info_catg_id=ic.id 
+		        <if test="infoType != null and infoType !='' ">
+		            and i.info_type = '${infoType}'
+		        </if>
+		        <if test="flag != null and flag !='' ">
+		            and i.flag = '${flag}'
+		        </if>
+		        <if test="infoCatgId >0  ">
+		            and i.info_catg_id = ${infoCatgId}
+		        </if>
+		        <if test="infoTitle != null and infoTitle !='' ">
+		            and i.info_title like '%${infoTitle}%'
+		        </if>
+		        <if test="btime != null and btime !='' ">
+	    	 		and i.pub_time >= '${btime}'
+	    		</if>
+	    		<if test="etime != null and etime !='' ">
+	    	 		and i.pub_time &lt;= '${etime}' 
+	    		</if>
+		        <choose>
+		        	<!-- 如果fetchAll=Y，组合判断orgId，如果orgi=0获得所有的内容，否则只获得自己的？ -->
+				    <when test="fetchAll != null and fetchAll == 'Y'.toString() ">
+				       <if test="orgId >0  ">
+		            	and (i.org_id = ${orgId}<!--  or i.org_id = 0 -->)
+		        	  </if>				       
+				    </when>
+				    <otherwise>
+		            	and i.org_id = ${orgId}
+				    </otherwise>
+			    </choose>
+			</where>
+			order by i.id
+	</select>
+	
+	<!-- 查询咨询库列表 -->
+	<select id="listInfo" resultMap="InfoInnerEboMap" flushCache="true" useCache="false" >
+		<include refid="selectInfoInnerEbo"/>
+			<where>
+				1=1  and i.info_catg_id=ic.id 
+		        <if test="infoType != null and infoType !='' ">
+		            and i.info_type = '${infoType}'
+		        </if>
+		        <if test="flag != null and flag !='' ">
+		            and i.flag = '${flag}'
+		        </if>
+		        <if test="infoCatgId >0  ">
+		            and i.info_catg_id = ${infoCatgId}
+		        </if>
+		        <if test="infoTitle != null and infoTitle !='' ">
+		            and i.info_title like '%${infoTitle}%'
+		        </if>
+		        <if test="btime != null and btime !='' ">
+	    	 		and i.pub_time >= '${btime}'
+	    		</if>
+	    		<if test="etime != null and etime !='' ">
+	    	 		and i.pub_time &lt;= '${etime}' 
+	    		</if>
+		        <choose>
+		        	<!-- 如果fetchAll=Y，组合判断orgId，如果orgi=0获得所有的内容，否则只获得自己的？ -->
+				    <when test="fetchAll != null and fetchAll == 'Y'.toString() ">
+				       <if test="orgId >0  ">
+		            	and (i.org_id = ${orgId}<!--  or i.org_id = 0 -->)
+		        	  </if>				       
+				    </when>
+				    <otherwise>
+		            	and i.org_id = ${orgId}
+				    </otherwise>
+			    </choose>
+			</where>
+			order by i.pub_time desc
+			<if test="page >=0 and paging >0 ">
+					LIMIT ${page*paging} ,${paging}
+			</if>
+	</select>
+	
+	<!-- 根据refid查询咨询对象 -->
+	<select id="getInfoByRef" resultMap="InfoInnerEboMap" flushCache="true" useCache="false" >
+		<include refid="selectInfoEboByRef"/>				
+			<if test="refId >0  ">
+		    	and ir.id = ${refId}
+		    </if>
+		    <if test="refCode != null and refCode !='' ">
+		    	and ir.ref_code = '${refCode}'
+		    </if>
+	</select>
+    <!-- 根据refid查询咨询对象 -->
+    <select id="getReadlogById" resultMap="InfoReadlogEboMap" flushCache="true" useCache="false" >
+        <include refid="getInfoReadlogEbo"/>
+        <where>
+            <if test=" id >0  ">
+                and irl.id = ${id}
+            </if>
+        </where>
+    </select>
+
+	<!-- 添加infoContent -->
+	<insert id="addInfo" parameterType="com.kjplus.model.InfoEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_info(
+		info_code,info_title,info_desc,info_catg_id,total_view_num,total_zan_num,total_focus_num
+		,head_img_url,icon_img_url,flag,pub_id,dept_id,org_id,pub_time,info_type
+		)
+		VALUES(
+			#{infoCode},#{infoTitle},#{infoDesc},#{infoCatgId},#{totalViewNum},#{totalZanNum},#{totalFocusNum}
+			,#{headImgUrl},#{iconImgUrl},#{flag},#{pubId},#{deptId},#{orgId},#{pubTime},#{infoType}
+		)
+	</insert>
+	<!-- 添加infoContent -->
+	<insert id="addInfoContent" parameterType="com.kjplus.model.InfoContentEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_info_content
+		VALUES(
+			0,#{infoId},#{infoSeq},#{infoContent}
+		)
+	</insert>
+	<!-- 添加InfoReference -->
+	<insert id="addInfoReference" parameterType="com.kjplus.model.InfoReferenceEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_info_reference
+		VALUES(
+			0,#{refCode},#{infoId},#{infoCatgId},#{viewNum},#{zanNum},#{focusNum},#{deptId},#{orgId},#{flag}
+		)
+	</insert>
+	<insert id="addInfoCatalog" parameterType="com.kjplus.model.InfoCatalogEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_info_catalog
+		VALUES(
+			0,#{pid},#{code},#{name},#{infoTypeId},#{orgId},#{flag}
+		)
+	</insert>
+	<insert id="addReadlog" parameterType="com.kjplus.model.InfoReadlogEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_info_readlog
+		VALUES(
+		0,#{uid},#{mainId},#{mainType},#{readStartTime},#{readTime},#{flag}
+		)
+	</insert>
+	<!-- 删除一个infoId对应的所有content -->
+	<delete id="delInfoContent">
+		DELETE FROM t_info_content
+		<where>
+			1=1
+			<if test="infoId > 0 ">  
+				and info_id = ${infoId}
+			</if>
+		</where> 
+	</delete>
+	<!-- t_info -->
+	<update id="updateInfoFlag">
+	 UPDATE 
+	    	t_info AS i
+	    <set>
+	     	<if test=" flag != null and flag != '' ">
+	    		i.flag='${flag}',
+	    	</if>
+	    	
+	    	<if test=" totalViewNum > 0 ">
+	    		i.total_view_num=${totalViewNum},
+	    	</if>
+	    	<if test=" totalZanNum > 0 ">
+	    		i.total_zan_num=${totalZanNum},
+	    	</if>
+			<if test=" totalFocusNum > 0 ">
+				i.total_focus_num=${totalFocusNum},
+			</if>
+	    </set>
+	    <where>
+	    	<if test="infoId > 0">
+	    		i.id=${infoId}
+	    	</if>
+	    	<if test="infoCode !=null and infoCode != ''">
+	    		and i.info_code='${infoCode}'
+	    	</if>
+	    </where>
+	</update>
+	<!-- t_info_reference -->
+	<update id="updateReferFlag">
+	 UPDATE 
+	    	t_info_reference AS ir
+	    <set>
+	     	<if test=" flag != null and flag != '' ">
+	    		ir.flag='${flag}',
+	    	</if>
+	    	<if test=" viewNum > 0 ">
+	    		ir.view_num=${viewNum},
+	    	</if>
+	    	<if test=" zanNum > 0 ">
+	    		ir.zan_num=${zanNum},
+	    	</if>
+			<if test=" focusNum > 0 ">
+				i.focus_num=${focusNum},
+			</if>
+	    </set>
+	    <where>
+	    	<if test="referId > 0">
+	    		ir.id=${referId}
+	    	</if>
+	    	<if test="refCode !=null and refCode != ''">
+	    		and ir.ref_code='${refCode}'
+	    	</if>
+	    </where>
+	</update>
+	
+	<update id="changeReferZanFocusView">
+	 UPDATE 
+	    	t_info_reference AS ir
+	    <set>
+	    	<if test="zanStatus != null and zanStatus == 'Y'.toString() ">
+	    		ir.zan_num= ir.zan_num + 1
+	    	</if>
+	    	<if test="zanStatus != null and zanStatus == 'N'.toString() ">
+	    		ir.zan_num= ir.zan_num - 1
+	    	</if>
+	    	
+	    	<if test="focusStatus != null and focusStatus == 'Y'.toString() ">
+	    		ir.focus_num= ir.focus_num + 1
+	    	</if>
+	    	<if test="focusStatus != null and focusStatus == 'N'.toString() ">
+	    		ir.focus_num= ir.focus_num - 1
+	    	</if>
+	    	
+	    	<if test="viewStatus != null and viewStatus == 'Y'.toString() ">
+	    		ir.view_num= ir.view_num + 1
+	    	</if>
+	    	<if test="viewStatus != null and viewStatus == 'N'.toString() ">
+	    		ir.view_num= ir.view_num - 1
+	    	</if>
+	    </set>
+	    <where>
+	    	ir.id=${referId}
+	    </where>
+	</update>
+	<update id="changeInfoZanFocusView">
+	 UPDATE 
+	    	t_info AS i
+	    <set>
+	    	<if test="zanStatus != null and zanStatus == 'Y'.toString() ">
+	    		i.total_zan_num= i.total_zan_num + 1
+	    	</if>
+	    	<if test="zanStatus != null and zanStatus == 'N'.toString() ">
+	    		i.total_zan_num= i.total_zan_num - 1
+	    	</if>
+	    	
+	    	<if test="focusStatus != null and focusStatus == 'Y'.toString() ">
+	    		i.total_focus_num= i.total_focus_num + 1
+	    	</if>
+	    	<if test="focusStatus != null and focusStatus == 'N'.toString() ">
+	    		i.total_focus_num= i.total_focus_num - 1
+	    	</if>
+	    	
+	    	<if test="viewStatus != null and viewStatus == 'Y'.toString() ">
+	    		i.total_view_num= i.total_view_num + 1
+	    	</if>
+	    	<if test="viewStatus != null and viewStatus == 'N'.toString() ">
+	    		i.total_view_num= i.total_view_num - 1
+	    	</if>
+	    </set>
+	    <where>
+	    	i.id=${infoId}
+	    </where>
+	</update>
+	<update id="changeReadlog">
+      UPDATE
+	    	  t_info_readlog AS irl
+	  <set>
+          <if test="flag !=null and flag !='' ">
+            irl.flag='${flag}',
+          </if>	
+          <if test="readTime > 0">
+              irl.read_time='${readTime}'
+          </if>
+      </set>
+        <where>
+           irl.id='${id}'
+        </where>
+    </update>
+    <update id="updateInfo" parameterType="com.kjplus.model.InfoEbo">
+      UPDATE
+	    	  t_info AS inf
+	  <set>
+	  		inf.info_code = inf.info_code
+	  	   <if test="infoType != null and infoType !='' ">
+		    ,inf.info_type = '${infoType}'
+		   </if>
+          <if test="infoTitle !=null and infoTitle !='' ">
+            ,inf.info_title='${infoTitle}'
+          </if>
+          <if test="iconImgUrl !=null and iconImgUrl !='' ">
+            ,inf.icon_img_url='${iconImgUrl}'
+          </if>		
+          <if test="infoDesc !=null and infoDesc !='' ">
+            ,inf.info_desc='${infoDesc}'
+          </if>	
+           <if test="infoCatgId !=null and infoCatgId !='' ">
+            ,inf.info_catg_id='${infoCatgId}'
+          </if>	
+           <if test="flag !=null and flag !='' ">
+            ,inf.flag='${flag}'
+          </if>	
+           <if test="pubId >0 ">
+            ,inf.pub_id='${pubId}'
+          </if>	
+           <if test="deptId >0 ">
+            ,inf.dept_id='${deptId}'
+          </if>	
+          <if test="orgId >0 ">
+            ,inf.org_id='${orgId}'
+          </if>	
+      </set>
+      <where>
+           inf.id = '${id}'
+       </where>
+    </update>
+
+<update id="updateInfoCatalog">
+	 UPDATE 
+	    	t_info_catalog AS ic
+	    <set>
+	    	<if test=" pid > 0 ">
+	    		ic.pid=${pid},
+	    	</if>
+	     	<if test=" name != null and name != '' ">
+	    		ic.name='${name}',
+	    	</if>
+	    	<if test=" infoTypeId > 0 ">
+	    		ic.info_type_id=${infoTypeId},
+	    	</if>
+	    	<if test=" orgId > 0 ">
+	    		ic.org_id=${orgId},
+	    	</if>
+			<if test=" flag != null and flag != '' ">
+	    		ic.flag='${flag}'
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test="id > 0">
+	    		ic.id=${id}
+	    	</if>
+	    	<if test=" code !=null and code != ''">
+	    		and ic.code='${code}'
+	    	</if>
+	    </where>
+	</update>	
+    
+</mapper>

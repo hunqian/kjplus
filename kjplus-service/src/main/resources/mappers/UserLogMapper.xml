@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 登录成功后添加日志-->
+<mapper namespace="com.kjplus.dao.IUserLogMapperDao">
+<resultMap type="com.kjplus.model.UserLogEbo" id="UserLogEboMap">
+	<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+	<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+	<result property="userType" column="user_type" jdbcType="VARCHAR" javaType="String" />
+	<result property="opType" column="optype" jdbcType="VARCHAR" javaType="String" />
+	<result property="ipAddr" column="ipaddr" jdbcType="VARCHAR" javaType="String" />
+	<result property="opTime" column="optime" jdbcType="INTEGER" javaType="Integer" />
+</resultMap>
+
+<!-- 登录成功后添加日志-->
+	<insert id="addUserLog" parameterType="com.kjplus.model.UserLogEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_user_login_log
+		VALUES(
+			0,#{uid},#{userType},#{opType},#{ipAddr},#{opTime}
+		)
+	</insert>
+</mapper>

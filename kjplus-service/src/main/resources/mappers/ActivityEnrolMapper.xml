@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- org 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.IActivityEnrolDao">
+	<resultMap type="com.kjplus.model.ActivityEnrolEbo" id="ActivityEnrolEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userType" column="user_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="VARCHAR" javaType="String" />
+		<result property="enrolTime" column="enrol_time" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<sql id="selectActivityEnrolEbo">
+		SELECT
+			ae.id,ae.uid,ae.user_type,ae.main_id,ae.main_type,ae.status,ae.enrol_time
+		FROM
+			t_activity_enrol AS ae
+	</sql>
+	<select id="getActEnrolEbo" resultMap="ActivityEnrolEboMap" flushCache="true" >
+		<include refid="selectActivityEnrolEbo"/>
+		<where>
+		   1=1
+			<if test=" id > 0 ">
+				and ae.id = ${id}
+			</if>
+			<if test=" uid > 0 ">
+				and ae.uid = ${uid}
+			</if>
+			<if test=" userType != null and  userType != '' ">
+				and ae.user_type = '${userType}'
+			</if>
+			<if test=" mainId > 0 ">
+				and ae.main_id = ${mainId}
+			</if>
+			
+			<if test=" mainType != null and  mainType != '' ">
+				and ae.main_type = '${mainType}'
+			</if>
+		</where>
+		limit 1
+	</select>
+	<select id="listActEnrolEbo" resultMap="ActivityEnrolEboMap" flushCache="true" >
+		<include refid="selectActivityEnrolEbo"/>
+		<where>
+		   1=1
+			<if test=" uid > 0 ">
+				and ae.uid = ${uid}
+			</if>
+			
+			<if test=" userType != null and  userType != '' ">
+				and ae.user_type = '${userType}'
+			</if>
+			<if test=" mainId > 0 ">
+				and ae.main_id = ${mainId}
+			</if>
+			
+			<if test=" mainType != null and  mainType != '' ">
+				and ae.main_type = '${mainType}'
+			</if>
+			<if test=" status != null and  status != '' ">
+				and ae.status = '${status}'
+			</if>
+		</where>
+				order by ae.id
+			<if test=" page >= 0 and paging >0 ">
+				LIMIT ${page*paging},${paging}
+			</if>
+	</select>
+	
+	<insert id="addActEnrolEbo" parameterType="com.kjplus.model.ActivityEnrolEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_activity_enrol (id,uid,user_type,main_id,main_type,status,enrol_time)
+		VALUES(
+			0,#{uid},#{userType},#{mainId},#{mainType},#{status},#{enrolTime}
+		)
+	</insert>
+	<update id="updateActEnrolEbo">
+	 UPDATE 
+	    	t_activity_enrol AS ae
+	    <set>
+	     	<if test=" status != null and status != '' ">
+	    		ae.status = '${status}',
+	    	</if>
+	    </set>
+	    <where>
+	    1=1
+	    	<if test=" id > 0 ">
+				and ae.id = ${id}
+			</if>
+	    	<if test=" uid > 0 ">
+				and ae.uid = ${uid}
+			</if>
+			<if test=" userType != null and  userType != '' ">
+				and ae.user_type = '${userType}'
+			</if>
+			<if test=" mainId > 0 ">
+				and ae.main_id = ${mainId}
+			</if>
+			<if test=" mainType != null and  mainType != '' ">
+				and ae.main_type = '${mainType}'
+			</if>
+	    </where>
+	</update>
+
+</mapper>

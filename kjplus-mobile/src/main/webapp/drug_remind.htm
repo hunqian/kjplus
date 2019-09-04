@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>用药提醒</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link href="css/mobiscroll_002.css" rel="stylesheet" type="text/css">
+    <link href="css/mobiscroll.css" rel="stylesheet" type="text/css">
+    <link href="css/mobiscroll_003.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="./css/drug_remind.css">
+</head>
+<body>
+<div class="box">
+    <!--header=========================================start-->
+    <div class="header">
+        <h1><i class="iconfont" onclick="javascript:history.back(-1);">&#xe61f;</i>用药提醒 <span></span></h1>
+    </div>
+    <!--header===========================================end-->
+
+    <!--main===========================================start-->
+    <div class="main">
+        <!--<div class="clearfix remind_box">-->
+            <!--<img src="./imgs/measure_record/img_1.png" alt="" class="fl">-->
+            <!--<div class="fr">-->
+                <!--<p class="name">欧阳娜娜 提前10分钟提醒</p>-->
+                <!--<p class="drug">药品：阿魏酸钠片</p>-->
+                <!--<p class="date">起止日期：2017-08-21至2017-09-21</p>-->
+                <!--<p class="time clearfix">-->
+                    <!--<span class="fl">08:30</span>-->
+                    <!--<span class="fl">12:30</span>-->
+                    <!--<span class="fl">16:30</span>-->
+                    <!--<span class="fl">20:30</span>-->
+                <!--</p>-->
+                <!--<p class="btn">-->
+                    <!--<span class="edit">修改提醒</span>-->
+                    <!--<span class="off">取消提醒</span>-->
+                <!--</p>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <!--main=============================================end-->
+
+    <!--footer=========================================start-->
+    <!--footer===========================================end-->
+
+</div>
+
+<!--添加提醒-->
+<div class="alert_remind">
+    <div class="alert_box">
+        <h3>添加提醒<i class="off">X</i></h3>
+        <div class="alert_content">
+            <div class="clearfix id_family">
+                <span class="fl">家庭成员</span>
+                <i class="fr iconfont">&#xe687;</i>
+                <span class="fr id_name" style="width: 50%; text-align: right;">请选择</span>
+            </div>
+            <div class="clearfix">
+                <span class="fl">药品名称</span>
+                <input type="text" class="fl id_drug_name">
+            </div>
+            <div class="clearfix date">
+                <input class="fl" style="border-right: 0.0625rem solid #e6e6e6;" placeholder="开始日期" readonly="readonly" id="remindStartDate">
+                <input class="fl" placeholder="结束日期" readonly="readonly" id="remindEndDate">
+                <i>至</i>
+            </div>
+            <div class="clearfix time id_time">
+                <span class="fl">服药时间</span>
+                <input type="text" class="fr" readonly="readonly" id="remindTime" placeholder="请选择时间">
+                <!--<p class="fr clearfix">-->
+                    <!--<input type="text" class="fr" readonly="readonly" id="" placeholder="请选择时间">-->
+                    <!--<i class="delete id_delete"></i>-->
+                <!--</p>-->
+                <i class="id_add"></i>
+            </div>
+            <div class="clearfix remind id_remind">
+                <span class="fl" style="width: 5.5rem;">提前提醒时间</span>
+                <span class="fr minute id_minute">请选择</span>
+            </div>
+            <!--<div class="clearfix set">-->
+                <!--<span class="fl">设置提醒</span>-->
+                <!--<i class="fr"></i>-->
+            <!--</div>-->
+        </div>
+        <button class="green">立即添加</button>
+    </div>
+</div>
+
+<!--提示框-->
+<div class="alert">
+    <div class="alert_box">
+        <h3>提示<i class="off">X</i></h3>
+        <div class="alert_content">
+            <p>提示内容</p>
+        </div>
+        <button class="green">确&nbsp;&nbsp;&nbsp;定</button>
+    </div>
+</div>
+
+
+
+<!--单选弹框-->
+<div class="alert_radio"></div>
+
+
+
+
+
+
+</body>
+<script src="./js/jquery-1.12.2.min.js"></script>
+<script src="js/mobiscroll_002.js" type="text/javascript"></script>
+<script src="js/mobiscroll_004.js" type="text/javascript"></script>
+<script src="js/mobiscroll.js" type="text/javascript"></script>
+<script src="js/mobiscroll_003.js" type="text/javascript"></script>
+<script src="js/mobiscroll_005.js" type="text/javascript"></script>
+<script src="./js/common.js"></script>
+<script src="./js/drug_remind.js"></script>
+</html>

@@ -1,0 +1,56 @@
+<#assign base=request.contextPath />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>健康工具</title>
+    <base id="base" href="${base}">
+    <link rel="stylesheet" href="${base}/css/base.css">
+    <link rel="stylesheet" href="${base}/css/health_tool.css">
+</head>
+<body>
+<div class="box">
+    <!--header=========================================start-->
+    <div class="header">
+        <h1><i class="iconfont" onclick="javascript:history.back(-1);">&#xe61f;</i>健康工具</h1>
+    </div>
+    <!--header===========================================end-->
+
+    <!--swiper=========================================start-->
+    <!--swiper===========================================end-->
+
+    <!--tab============================================start-->
+    <!--tab==============================================end-->
+
+    <!--main===========================================start-->
+    <div class="main">
+        <div>
+            <img src="${base}/imgs/health_tool/img_1.png" alt="">
+            <h3>有道精品课-有道学堂</h3>
+            <p>学习教育，有道精品课为你精选好课</p>
+            <i></i>
+        </div>
+        <div>
+            <img src="${base}/imgs/health_tool/img_2.png" alt="">
+            <h3>有道精品课-有道学堂</h3>
+            <p>学习教育，有道精品课为你精选好课</p>
+            <i></i>
+        </div>
+        <div>
+            <img src="${base}/imgs/health_tool/img_3.png" alt="">
+            <h3>有道精品课-有道学堂</h3>
+            <p>学习教育，有道精品课为你精选好课</p>
+            <i></i>
+        </div>
+    </div>
+    <!--main=============================================end-->
+
+    <!--footer=========================================start-->
+    <!--footer===========================================end-->
+
+</div>
+</body>
+<script src="${base}/js/jquery-1.12.2.min.js"></script>
+<script src="${base}/js/health_tool.js"></script>
+</html>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- IServiceSumDao 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.IServiceSumDao">
+	  <!--t_service_sum映射-->	
+	  <resultMap type="com.kjplus.model.ServiceSumEbo" id="ServiceSumEboMap">
+	  	<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="bodyId" column="body_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="bodyType" column="body_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="totalEarnPoint" column="total_earn_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="totalConsumePoint" column="total_consume_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="totalPoint" column="total_point" jdbcType="DOUBLE" javaType="Double" />
+	  </resultMap>
+	  <!--t_service_list映射 -->
+	  <resultMap type="com.kjplus.model.ServiceListEbo" id="ServiceListEboMap">
+	  	<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="sumId" column="sum_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="servicePoint" column="service_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="serviceStatus" column="service_status" jdbcType="VARCHAR" javaType="String" />
+		<result property="operName" column="oper_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />	
+	  </resultMap>
+	  <!-- ServiceSumInnerEbo对象 -->
+	  <resultMap type="com.kjplus.model.inner.ServiceSumInnerEbo" id="ServiceSumInnerEboMap">
+	  	<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="bodyId" column="body_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="bodyType" column="body_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="totalEarnPoint" column="total_earn_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="totalConsumePoint" column="total_consume_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="totalPoint" column="total_point" jdbcType="DOUBLE" javaType="Double" />
+		
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="servicePoint" column="service_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="serviceStatus" column="service_status" jdbcType="VARCHAR" javaType="String" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />	
+	  </resultMap>
+	 <!--t_service_sum表 -->
+	<sql id="selectServiceSumEbo">
+	  	SELECT
+			sm.id,sm.org_id,sm.body_id,sm.body_type,sm.total_earn_point,sm.total_consume_point,sm.total_point	  		
+	  	FROM
+	  		t_service_sum AS sm
+	 </sql>
+	 <!--t_service_list表-->
+	<sql id="selectServiceListEbo">
+	  	SELECT
+			sl.id,sl.sum_id,sl.main_id,sl.main_type,sl.create_time,sl.service_point,sl.service_status,sl.oper_name,sl.memo,sl.flag
+		FROM
+			t_service_list AS sl	  
+	</sql>
+	<sql id="selectServiceSumInnerEbo">
+	  	SELECT
+	  		<!-- t_service_sum -->
+			sm.id,sm.org_id,sm.body_id,sm.body_type,sm.total_earn_point,sm.total_consume_point,sm.total_point
+			<!-- t_service_list -->
+			,sl.main_id,sl.main_type,sl.create_time,sl.service_point,sl.service_status,sl.memo,sl.flag
+	  	FROM
+	  		t_service_sum                  AS   sm
+	  		LEFT JOIN    t_service_list    AS   sl     ON      sm.id = sl.sum_id 
+	 </sql>	 
+	<!-- 通过id获取 ServiceSumEbo-->  
+	<select id="getSrvSumById" resultMap="ServiceSumEboMap" flushCache="true">
+	 	<include refid="selectServiceSumEbo"/>
+	 	<where>
+	 		<if test="id > 0">
+	 			sm.id=${id}
+	 		</if>
+	 	</where>
+	</select> 
+	<!-- 通过mainId和mainType获取 ServiceSumEbo-->
+	<select id="getSrvSumByBody" resultMap="ServiceSumEboMap" flushCache="true">
+	 	<include refid="selectServiceSumEbo"/>
+	 	<where>
+	 	1=1	
+	 		<if test="bodyId > 0">
+	 			and sm.body_id=${bodyId}
+	 		</if>
+	 		<if test="bodyType !=null and bodyType !='' ">
+	 			and sm.body_type= '${bodyType}'
+	 		</if>
+	 	</where>
+	</select>
+	<!--列表积分汇总-->
+	<select id="listSrvSumInner" resultMap="ServiceSumInnerEboMap" flushCache="true">
+	 	<include refid="selectServiceSumInnerEbo"/>
+	 	<where>
+	 	1=1	
+	 		<if test="orgId > 0">
+	 			and sm.org_id=${orgId}
+	 		</if>
+	 		<if test="bodyType !=null and bodyType !='' ">
+	 			and sm.body_type= '${bodyType}'
+	 		</if>
+	 	</where>
+	 	ORDER BY sm.id DESC
+	 	<if test="page >= 0 and paging > 0 ">
+	 		LIMIT ${page*paging},${paging}
+	 	</if>
+	</select>
+	<!-- 通过id获取 ServiceListEbo-->	 
+	<select id="getSrvListById" resultMap="ServiceListEboMap" flushCache="true">
+	 	<include refid="selectServiceListEbo"/>
+	 	<where>
+	 		<if test="id > 0">
+	 			sl.id=${id}
+	 		</if>
+	 	</where>
+	 </select>
+	<!-- 列表积分记录-->	 
+	<select id="listSrvList" resultMap="ServiceListEboMap" flushCache="true">
+	 	<include refid="selectServiceListEbo"/>
+	 	<where>
+	 	1=1
+	 		<if test="sumId > 0">
+	 			and sl.sum_id=${sumId}
+	 		</if>
+	 		<if test="mainId > 0">
+	 			and sl.main_id=${mainId}
+	 		</if>
+	 		<if test="mainType !=null and mainType !='' ">
+	 			and sl.main_type= '${mainType}'
+	 		</if>
+	 		<if test="startTime > 0">
+	 			and sl.create_time &gt;= ${startTime}
+	 		</if>
+	 		<if test="endTime > 0">
+	 			and sl.create_time &lt;= ${endTime}
+	 		</if>
+	 		<if test="status !=null and status !='' ">
+	 			and sl.service_status= '${status}'
+	 		</if>
+	 	</where>
+	 	<!-- 按降序排，最早的在最前 -->
+	 	ORDER BY sl.id DESC
+	 	<if test="page >= 0 and paging > 0 ">
+	 		LIMIT ${page*paging},${paging}
+	 	</if>
+	 </select>
+	  
+	 
+	 <insert id="addSrvSum" parameterType="com.kjplus.model.ServiceSumEbo" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+	  	INSERT INTO t_service_sum(id,org_id,body_id,body_type,total_earn_point,total_consume_point,total_point)
+		VALUES(
+			0,#{orgId},#{bodyId},#{bodyType},#{totalEarnPoint},#{totalConsumePoint},#{totalPoint}
+		) 
+	 </insert>
+	 
+	 <insert id="addSrvList" parameterType="com.kjplus.model.ServiceListEbo" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+	  	INSERT INTO t_service_list(id,sum_id,main_id,main_type,create_time,service_point,service_status,oper_name,memo,flag)
+		VALUES(
+			0,#{sumId},#{mainId},#{mainType},#{createTime},#{servicePoint},#{serviceStatus},#{operName},#{memo},#{flag}
+		) 
+	 </insert>
+	 
+	 <update id="updateServiceSumPoint">
+	 	UPDATE 
+			t_service_sum AS su 
+		<set>
+			<if test="totalEarnPoint > 0.0 ">
+				su.total_earn_point=${totalEarnPoint}
+			</if>
+			<if test="totalConsumePoint > 0.0 ">
+				,su.total_consume_point=${totalConsumePoint}
+			</if>
+			<if test="totalPoint > 0.0 ">
+				,su.total_point=${totalPoint}
+			</if>
+		</set>
+		<where>
+			<if test="id > 0">
+				su.id=${id}
+			</if> 
+		</where>
+	 </update>
+
+</mapper>

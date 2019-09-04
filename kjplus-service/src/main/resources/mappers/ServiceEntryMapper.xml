@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.IServiceEntryDao">
+	<!-- 服务主入口Ebo对象 -->
+	  <resultMap type="com.kjplus.model.ServiceEntryEbo" id="ServiceEntryEboMap">
+	  	<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="srvType" column="srv_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvCode" column="srv_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvName" column="srv_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvTypeId" column="srv_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="srvMemo" column="srv_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="opType" column="op_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="Date" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+	  </resultMap>
+	  <!--服务配置表Ebo对象  -->
+	  <resultMap type="com.kjplus.model.ServiceConfigEbo" id="ServiceConfigEboMap">
+	  	<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="srvId" column="srv_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="acceptorPoint" column="acceptor_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="providerPoint" column="provider_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+	  </resultMap>
+	  <!-- 服务Inner对象 -->
+	  <resultMap type="com.kjplus.model.inner.ServiceEntryInnerEbo" id="ServiceEntryInnerEboMap">
+	  	<!-- 服务入口 -->
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="srvType" column="srv_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvCode" column="srv_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvName" column="srv_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvMemo" column="srv_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="Date"/>
+		<!-- 服务类型 -->
+		<result property="srvTypeCode" column="srv_typeCode" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvTypeName" column="srv_typeName" jdbcType="VARCHAR" javaType="String" />
+		<!-- 服务组织 -->
+		<result property="orgCode" column="org_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<!-- 服务配置 -->	
+		<result property="acceptorPoint" column="acceptor_point" jdbcType="DOUBLE" javaType="Double" />
+		<result property="providerPoint" column="provider_point" jdbcType="DOUBLE" javaType="Double" />
+	</resultMap>
+	  
+	  <!-- 查询服务主入口Ebo对象 -->	  
+	  <sql id="selectServiceEntryEbo">
+	  	SELECT
+	  		se.id,se.pid,se.srv_type,se.srv_code,se.srv_name,se.srv_type_id,se.flag,se.srv_memo,se.op_type,se.create_time,se.org_id
+	  	FROM
+	  		t_service_entry AS se
+	  </sql>
+	  <!--查询服务配置表Ebo对象  -->
+	  <sql id="selectServiceConfigEbo">
+		SELECT
+	  		sc.id,sc.srv_id,sc.acceptor_point,sc.provider_point,sc.org_id
+	  	FROM
+	  		t_service_config AS sc
+	  </sql>
+	  <!-- 查询总的服务包 -->
+	  <sql id="selectServiceEntryInnerEbo">
+		SELECT
+			<!-- t_service_entry表字段 -->
+	  		se.id,se.pid,se.srv_type,se.srv_code,se.srv_name,se.flag,se.srv_memo,se.create_time
+	  		<!-- t_service_config表字段 -->
+	  		,sc.acceptor_point,sc.provider_point
+	  		<!-- t_sys_ref_value表字段 -->
+	  		,rv.code srv_typeCode,rv.name srv_typeName
+	  		<!-- t_organizatione表字段 -->
+	  		,se.org_id,org.code org_code,org.name org_name
+	  	FROM
+	  		<!-- t_service_entry表 -->
+	  		t_service_config   sc
+	  		<!-- t_service_config表  对应服务的mainType="S"  -->
+	  		LEFT JOIN    t_service_entry AS se   ON   se.id=sc.srv_id
+	  		<!-- t_sys_ref_value表 -->
+	  		LEFT JOIN    t_sys_ref_value    rv     ON   se.srv_type_id=rv.id 
+	  		<!-- t_organizatione表 -->
+	  		LEFT JOIN    t_organization     org    on   se.org_id = org.id
+	  </sql>
+	  <!-- 总的服务列表数 -->
+	  <sql id="totalEntryInfo">
+		SELECT
+			count(sc.id)
+	  	FROM
+	  		<!-- t_service_entry表 -->
+	  		t_service_config   sc
+	  		<!-- t_service_config表  对应服务的mainType="S"  -->
+	  		LEFT JOIN    t_service_entry AS se   ON   se.id=sc.srv_id
+	  		<!-- t_sys_ref_value表 -->
+	  		LEFT JOIN    t_sys_ref_value    rv     ON   se.srv_type_id=rv.id 
+	  		<!-- t_organizatione表 -->
+	  		LEFT JOIN    t_organization     org    on   se.org_id = org.id
+	  </sql>
+	  
+	 <!-- 详细服务列表数 -->
+	  <sql id="totalEntry">
+		SELECT
+			count(sc.id)
+	  	FROM
+	  		t_service_config AS sc
+	  		<!-- t_service_config表  对应服务的mainType="S"  -->
+	  		LEFT JOIN    t_service_entry    se    ON   se.id=sc.srv_id
+	  		<!-- t_sys_ref_value表 -->
+	  		LEFT JOIN    t_sys_ref_value    rv     ON   se.srv_type_id=rv.id 
+	  		<!-- t_organizatione表 -->
+	  		LEFT JOIN    t_organization     org    on   se.org_id = org.id
+	  </sql>
+	
+	  <select id="getSrvEntryByIdOrCode" resultMap="ServiceEntryEboMap" flushCache="true">
+	 	<include refid="selectServiceEntryEbo"/>
+	 	<where>
+	 	<if test=" id > 0">
+	 		se.id=${id}
+	 	</if>
+	 	<if test=" srvCode != null and  srvCode != '' ">
+	 		and se.srv_code='${srvCode}'
+	 	</if>
+	 	</where>
+	 </select>
+	 
+	  <select id="getServiceConfigById" resultMap="ServiceConfigEboMap" flushCache="true">
+	 	<include refid="selectServiceConfigEbo"/>
+	 	<where>
+	 		<if test="id > 0">
+	 			sc.id=${id}
+	 		</if>
+		 </where>
+	 </select>
+	 
+	 <!-- 列表配置 -->
+	 <select id="listSrvConfigEbo" resultMap="ServiceConfigEboMap" flushCache="true">
+	 	<include refid="selectServiceConfigEbo"/>
+	 	<where>
+	 	1=1
+	 		<if test=" srvId > 0">
+	 			and sc.srv_id = ${srvId}
+	 		</if>
+	 		<if test=" orgId > 0">
+	 			and sc.org_id = ${orgId}
+	 		</if>
+		 </where>
+	 </select>
+	 
+	<!--主要总服务包列表 -->
+	<select id="listServiceEntry" resultMap="ServiceEntryInnerEboMap" flushCache="true">
+	 	<include refid="selectServiceEntryInnerEbo"/>
+	 	<where>
+	 		1=1
+	 		<!-- 不仅可以查看自己组织的 ，同时可以看平台的  ，当等于0的时候只看平台的 -->
+	 		<if test="orgId >= 0 ">
+	 			and (se.org_id = ${orgId} or se.org_id = 0) 
+	 		</if>
+	 		<!-- 对应参照id，与t_table_cfg_head中的type_id统一 (代表与table对应)，也可不对应 -->
+			<if test="typeIds != null and typeIds != '' ">
+	 			and se.srv_type_id in (${typeIds})
+	 		</if>
+	 		<!--服务类别，S服务类/M其它  -->
+	 		<if test="type != null and type != '' ">
+				and  se.srv_type='${type}'
+	 		</if>
+	 		<!-- 操作类型  -->
+	 		<if test="opType != null and opType != '' ">
+				and  se.op_type='${opType}'
+	 		</if>
+	 		<if test="name != null and name != '' ">
+				and  se.srv_name like '%${name}%'
+	 		</if>
+	 		<if test="flag != null and flag != '' ">
+				and  se.flag='${flag}'
+	 		</if>
+	 	</where>
+	 	<!-- pid升序排 后期子服务放父服务下 -->
+	 	ORDER BY se.pid ASC
+	 	<if test="page >=0 and paging >0 ">
+			LIMIT ${page*paging} ,${paging}
+		</if>
+	 </select>
+	 
+	 <select id="getTotalEntry"  resultType="Integer" flushCache="true">
+	  <include refid="totalEntry" />
+		<where>
+	 		1=1
+	 		<!-- 不仅可以查看自己组织的 ，同时可以看平台的  ，当等于0的时候只看平台的 -->
+	 		<if test="orgId >= 0 ">
+	 			and (se.org_id = ${orgId} or se.org_id = 0) 
+	 		</if>
+	 		<!-- 对应参照id，与t_table_cfg_head中的type_id统一 (代表与table对应)，也可不对应 -->
+			<if test="typeIds != null and typeIds != '' ">
+	 			and se.srv_type_id in (${typeIds})
+	 		</if>
+	 		<!--服务类别，S服务类/M其它  -->
+	 		<if test="type != null and type != '' ">
+				and  se.srv_type='${type}'
+	 		</if>
+	 		<!-- 操作类型  -->
+	 		<if test="opType != null and opType != '' ">
+				and  se.op_type='${opType}'
+	 		</if>
+	 		<if test="name != null and name != '' ">
+				and  se.srv_name like '%${name}%'
+	 		</if>
+	 		<if test="flag != null and flag != '' ">
+				and  se.flag='${flag}'
+	 		</if>
+	 	</where>	
+	 </select>
+	 
+	 <insert id="addSrvEntry" parameterType="com.kjplus.model.ServiceEntryEbo" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+	 	INSERT INTO t_service_entry(id,pid,srv_type,srv_code,srv_name,srv_type_id,flag,srv_memo,op_type,create_time,org_id)
+		VALUES(
+			0,#{pid},#{srvType},#{srvCode},#{srvName},#{srvTypeId},#{flag},#{srvMemo},#{opType},#{createTime},#{orgId}
+		) 
+	 </insert>
+	 
+	 <insert id="addSrvConfig" parameterType="com.kjplus.model.ServiceConfigEbo" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+	  	INSERT INTO t_service_config(id,srv_id,acceptor_point,provider_point,org_id)
+		VALUES(
+			0,#{srvId},#{acceptorPoint},#{providerPoint},#{orgId}
+		) 
+	 
+	 </insert>
+	 
+	 <!-- 修改服务配置 -->
+	 <update id="updateSrvConfig">
+	 	UPDATE 
+			t_service_config AS cfg 
+		<set>
+			cfg.srv_id = cfg.srv_id 
+			<if test="acceptorPoint > 0.0 ">
+				,cfg.acceptor_point = ${acceptorPoint}
+			</if>
+			<if test="providerPoint > 0.0 ">
+				,cfg.provider_point = ${providerPoint}
+			</if>
+		</set>
+		<where>
+				cfg.id=${id}
+		</where>
+	 </update> 
+	 
+	 <!--修改服务主入口-->
+	  <update id="updateSrvEntry" parameterType="com.kjplus.model.ServiceEntryEbo" flushCache="true" >
+	 	UPDATE 
+			t_service_entry AS en
+		<set>
+		en.srv_code = en.srv_code 
+			<if test="pid > 0 ">
+	 			,en.pid = #{pid}
+	 		</if>
+	 		<if test="srvType != null and srvType != '' ">
+				,en.srv_type = #{srvType}
+	 		</if>
+	 		<if test="srvName != null and srvName != '' ">
+				,en.srv_name = #{srvName}
+	 		</if>
+	 		<if test="srvTypeId > 0 ">
+	 			,en.srv_type_id = #{srvTypeId}
+	 		</if>
+	 		<if test="flag != null and flag != '' ">
+				,en.flag = #{flag}
+	 		</if>
+	 		<if test="srvMemo != null and srvMemo != '' ">
+				,en.srv_memo = #{srvMemo}
+	 		</if>
+	 		<if test="opType != null and opType != '' ">
+				,en.op_type = #{opType}
+	 		</if>
+		</set>
+		<where>
+		1=1	
+			<if test=" id > 0 ">
+	 			and en.id = #{id}
+	 		</if>
+			<if test="srvCode != null and srvCode != '' ">
+				and en.srv_code = #{srvCode}
+	 		</if>
+		</where>
+	 </update>
+	 
+</mapper>

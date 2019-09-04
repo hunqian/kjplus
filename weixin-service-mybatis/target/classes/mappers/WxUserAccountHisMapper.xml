@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- roleFunc 菜单映射文件 -->
+<mapper namespace="com.ykisswx.dao.IWxUserAccountHisDao">
+    <!--数据对应的pojo 主映射(数据库字段全部映射) -->	
+	<resultMap type="com.ykisswx.model.WxUserAccountHisEbo" id="WxUserAccountHisEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userId" column="user_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="accId" column="acc_id" jdbcType="VARCHAR" javaType="string" />
+		<result property="opseq" column="opseq" jdbcType="VARCHAR" javaType="string" />
+		<result property="state" column="state" jdbcType="CHAR" javaType="string" />
+		<result property="optime" column="optime" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!-- 复用SQL 查询数据库表映射pojo的全部对象 -->
+	<sql id="selectWxUserAccountHisEbo">
+	    SELECT
+			uah.id,uah.user_id,uah.acc_id,uah.opseq,uah.state,uah.optime
+		FROM
+		 	t_wx_user_account_his AS uah			
+	</sql>
+	<!-- 通过openid查询ebo对象 -->
+	<select id="listUserAccHisByUserAccId" resultMap="WxUserAccountHisEboMap" flushCache="true" useCache="true">
+	    <include refid="selectWxUserAccountHisEbo"/>
+	    <where>
+	        <if test="userId > 0 ">
+	            uah.user_id=${userId}
+	        </if>
+	        <if test="accId > 0">
+	            uah.acc_id=${accId}
+	        </if>
+	    </where>	    
+	</select>
+	<!-- 添加WxUserInfo表记录-->
+ 	<insert id="addWxUserAccHisEbo" parameterType="com.ykisswx.model.WxUserAccountHisEbo" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO t_wx_user_info
+		VALUES(
+			0,#{userId},#{accId},#{opseq},#{state},#{optime}
+		)
+	</insert>
+</mapper>

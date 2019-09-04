@@ -1,0 +1,392 @@
+var base = $("#base").attr("href");
+var oAdminUserTable = null;
+var aceMenutree = null;
+AdminUser = {
+		
+	init:function(){
+		this.initTable();
+		//this.initData();
+		this.bindEvent();
+	},
+	initTable:function(){
+		oAdminUserTable = $('#adminuserlist-table').DataTable({
+			"bServerSide": true,
+			"bPaginate": true,
+			"sPaginationType": "full_numbers",
+			"sAjaxSource": base + "/adminuserlistjson.html",
+			"columnDefs" :[
+							{
+							    "targets": 4,
+							    "data": null,
+							    "render": function(data, type, row) {
+									return data[4].substring(5,16);
+							    }
+							},
+							{
+							    "targets": 5,
+							    "data": null,
+							    "render": function(data, type, row) {
+							    	if(data[5] == "Y")
+							    		return "有效";
+							    	else
+							    		return "无效";
+							    }
+							},{
+							    "targets": 6,
+							    "data": null,
+							    "render": function(data, type, row) {
+							    	if(data[6] == "A")
+							    		return "管理员";
+							    	else
+							    		return "普通用户";
+							    }
+							},{
+							    "targets": 14,
+							    "data": null,
+							    "render": function(data, type, row) {
+							    	var html = "";
+									//TODO
+									html += '<button class="btn btn-xs btn-danger" id="editadminuser'+ data[1] + '"><i class="icon-cogs bigger-120">改</i></button>';
+									html += '<button class="btn btn-xs btn-danger" id="modifyrole'+ data[0] + '"><i class="icon-cogs bigger-120">角</i></button>';
+									html += '<button class="btn btn-xs btn-danger" id="rolemenu'+ data[0] + '"><i class="icon-cogs bigger-120">菜</i></button>';								
+								html += '<button class="btn btn-xs btn-danger" id="modifyrole'+ data[0] + '"><i class="icon-cogs bigger-120">角色</i></button>';
+									return html;
+							    }
+							}
+						],
+			"oLanguage": {
+				"sLengthMenu": "每页显示 _MENU_ 条记录",
+				"sZeroRecords": "抱歉， 没有找到",
+				"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+				"sInfoEmpty": "没有数据",
+				"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+				"oPaginate": {  
+				    "sFirst": "首页",  
+				    "sPrevious": "前一页",
+				    "sNext": "后一页",  
+				    "sLast": "尾页"  
+				}, 
+				"sZeroRecords": "没有检索到数据"  
+			},
+			"aoColumns": [
+			          	{ "sData": "uid", "bSortable": false, "bVisible": true},
+						{ "sName": "用户名", "bSortable": false, "bVisible": true},
+						{ "sName": "邮箱", "bSortable": false, "bVisible": true,"bVisible": false},
+						{ "sName": "手机号", "bSortable": false, "bVisible": true,"bVisible": false},
+						{ "sName": "注册时间", "bSortable": false, "bVisible": true},
+						{ "sName": "状态", "bSortable": false, "bVisible": true},
+						{ "sName": "用户类型", "bSortable": false, "bVisible": true},
+						{ "sName": "face", "bSortable": false, "bVisible": true,"bVisible": false},
+						{ "sName": "有效开始", "bSortable": false, "bVisible": true,"bVisible": false},
+						{ "sName": "失效时间", "bSortable": false, "bVisible": true,"bVisible": false},
+						{ "sName": "组织ID", "bSortable": false, "bVisible": true,"bVisible": false},
+						{ "sName": "组织名称", "bSortable": false, "bVisible": true},
+						{ "sName": "创建时间", "bSortable": false, "bVisible": true,"bVisible": false},
+						{ "sName": "对应角色", "bSortable": false, "bVisible": true},
+						{ "sName": "操作", "bSortable": false, "bVisible": true}
+				],
+			"fnInitComplete": function() {
+				$("#adminuserlist-table_filter label").detach();						
+				var condition = "";
+				condition += "<label>昵称：<input type=\"text\" placeholder=\"关键字\" id=\"qh_nickname\" /></label>";
+				
+				condition += "<label>组织筛选:<input type=\"text\" placeholder=\"关键字\" id=\"qh_orgname\" /></label>";
+				condition += "<label><select id=\"qh_orgid\" name=\"qh_orgid\" style=\"width:100px;\">";
+				condition += "<option value=\"\">全部</option>";
+				condition += "</select></label>";
+				
+				condition += "<label>状态:<select id=\"qh_status\" name=\"adminuser_status\" style=\"width:100px;\">";//第二种
+				condition += "<option value=\"\">全部</option>";
+				condition += '<option value="Y">有效</option>';
+				condition += '<option value="N">无效</option>';
+				condition += "</select></label>";
+				condition += " <label><input type=\"button\" id=\"btnSearch\" value=\"查询\"></label> ";
+				condition += " <label><input type=\"button\" id=\"btnempty\" value=\"重置\"></label> ";
+				condition += " <label><input type=\"button\" id=\"btnadd\" value=\"添加\"></label> ";
+				
+				$("#adminuserlist-table_filter").append(condition);
+				//重新捆绑事件 
+				AdminUser.rebindEvent();
+				//查询按钮  
+				$("#btnSearch").click(function(){
+					var u = base + '/getadminuserjson.html?a=a';
+					u += "&orgid=" + $('#qh_orgid option:selected').attr("value");
+					u += "&nickname=" + $('#qh_nickname').val();
+					u += "&status=" + $('#qh_status').val();
+					oAdminUserTable.ajax.url(u).load();
+				});
+				//重置
+				$("#btnempty").click(function(){
+					$("#keyWord").val("");
+					var u = base + '/adminuserlistjson.html';
+					oAdminUserTable.ajax.url(u).load();
+				});
+				//添加按钮
+				$("#btnadd").click(function(){
+					AdminUser.addAdminUserDialog();
+				});	
+				//组织名字筛选
+				$("#qh_orgname").change(function(){
+					var orgname = $("#qh_orgname").val(); 
+					$.ajax({
+						url: base + '/orglistjson.html?orgname=' + orgname,
+						type: 'GET',
+						dataType: 'json',
+						success: function (resp) {
+							if(resp.result == 1){
+								var html = "";
+								for(var i=0;i<resp.data.length;i++){
+									html += '<option value="'+resp.data[i].id+'">'+resp.data[i].name+'</option>';
+								}
+								$("#qh_orgid option").remove();
+								$("#qh_orgid").append(html);
+								//AdminUser.rebindEvent();
+							}
+						}
+					});
+				});
+				//组织筛选信息显示
+				$.ajax({
+					url: base + '/orglistjson.html?orgname=',
+					type: 'GET',
+					dataType: 'json',
+					success: function (resp) {
+						if(resp.result == 1){
+							var html = "";
+							for(var i=0;i<resp.data.length;i++){
+								html += '<option value="'+resp.data[i].id+'">'+resp.data[i].name+'</option>';
+							}
+							$("#qh_orgid option").remove();
+							$("#qh_orgid").append(html);
+						}
+					}
+				});
+				
+				AdminUser.rebindEvent();
+			}
+		});
+	},
+	bindEvent:function(){
+		$('#adminuserlist-table').on('xhr.dt', function(e, settings, json, xhr) {
+            setTimeout(AdminUser.rebindEvent, 300);
+        });
+	},
+	rebindEvent:function(){
+		$("[id^='rolemenu']").unbind().click(function(){
+			var thisuid = $(this).attr("id").substring("rolemenu".length);
+			$.ajax({
+				url: base + '/adminusermenujson.html?uid=' + thisuid,
+				type: 'GET',
+				dataType: 'json',
+				success: function (resp) {
+					var tree_data = {};
+					for(var i=0;i<resp.data.length;i++){
+						var f = {};
+						f.name = resp.data[i].name;
+						if(resp.data[i].leaf == "Y")
+							f.type = "item";
+						else{
+							f.type = "folder";
+						}
+						tree_data[resp.data[i].name] = f;
+						if(resp.data[i].leaf == "N"){
+							var ctree_data = {};
+							var subs = resp.data[i].subs;
+							for(var j=0;j<subs.length;j++){
+								var f2 = {};
+								f2.name = subs[j].name;
+								if(subs[j].leaf == "Y")
+									f2.type = "item";
+								else{
+									f2.type = "folder";
+								}
+								ctree_data[subs[j].name] = f2;
+							}
+							var ctree_data2 = {};
+							ctree_data2['children'] = ctree_data;
+							f['additionalParameters'] = ctree_data2;
+						}
+					}
+					var treeDataSource = new DataSourceTree({data: tree_data});
+					if(aceMenutree){
+						//$("#roleMenuTree").destroy();
+		                $("#roleMenuTree").removeData();
+		                $("#roleMenuTree").removeData("fu.tree");
+		                $("#roleMenuTree").removeData("tree");
+					}
+					aceMenutree = $('#roleMenuTree').ace_tree({
+						dataSource: treeDataSource ,
+						multiSelect:true,
+						loadingHTML:'<div class="tree-loading"><i class="icon-refresh icon-spin blue"></i></div>',
+						'open-icon' : 'icon-minus',
+						'close-icon' : 'icon-plus',
+						'selectable' : false,
+						'selected-icon' : 'icon-ok',
+						'unselected-icon' : 'icon-remove',
+						'cacheItems' : false,
+		                'folderSelect' : false
+					});
+					$("#user_role_menu").removeClass("hide").dialog({
+		                modal: true,
+		                title: '角色菜单对应',
+		                title_html: true,
+		                buttons: [{
+		                    html: "<i class='icon-remove bigger-110'></i>&nbsp; 关闭",
+		                    "class": "btn btn-xs",
+		                    click: function() {
+		                        $(this).dialog("close");
+		                    }
+		                }]            
+					});
+				}
+			});
+		});
+		
+		$("[id^='modifyrole']").unbind().click(function(){
+			var thisuid = $(this).attr("id").substring("modifyrole".length);
+			$.ajax({
+				url: base + '/getadminuserolesjson.html?uid=' + thisuid,
+				type: 'GET',
+				dataType: 'json',
+				success: function (resp) {
+                	console.log(resp);
+                	$("#user_role_def").html("");
+                    var html = "<tr><td style='width:20px'>&nbsp;&nbsp;</td><td style='width:80px'>角色编号</td><td style='margin-left:15px'>角色名称</td></tr>";
+                    for (var i = 0; i < resp.data.length; i++) {
+                    	html += "<tr>";
+                    	html += "<td><input type='checkbox' name='roleids" + resp.data[i].id + "' value=" + resp.data[i].id + " maxlength='30'";
+                    	if("Y" == resp.data[i].flag)
+                    		html += ' checked="checked"';
+                    	html += '></td>';
+                        html += "<td><strong>" + resp.data[i].id + "</strong></td>";
+                        html += "<td>" + resp.data[i].name + "</td>";
+                        html += "</tr>";
+                    }
+                    $("#user_role_def").append(html);
+                    var user_role_def = $("#user_role_def").removeClass("hide").dialog({
+                        modal: true,
+                        title: '角色对应',
+                        title_html: true,
+                        buttons: [{
+                            html: "<i id='save' class='icon-trash bigger-110'></i>&nbsp; 保存",
+                            "class": "btn btn-danger btn-xs",
+                            click: function() {
+                               var roleids = $("input[name^='roleids']");
+                               var roleidList = [];
+                               var crelList = [];
+                               var thatDialog = this;
+                               roleids.each(function(index){
+                            	   if($(this).prop("checked") == true){
+                            		   roleidList.push($(this).attr("value"));
+                            	   }
+                               });
+                               var reqData = {};
+                               reqData.uid = thisuid;
+                               reqData.roleids = roleidList.join();
+                                $.ajax({
+                                    url: base + '/defadminuserolesjson.html',
+                                    data: reqData,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    success: function(resp) {
+                                    	alert(resp.message);
+                                    	var u = base + '/adminuserlistjson.html?a=a';
+                    					oAdminUserTable.ajax.url(u).load();
+                                    	$(thatDialog).dialog("close");
+                                    }
+                                });                  
+                            }
+                        },
+                        {
+                            html: "<i class='icon-remove bigger-110'></i>&nbsp; 取消",
+                            "class": "btn btn-xs",
+                            click: function() {
+                                $(this).dialog("close");
+                            }
+                        }]
+                    
+                    });
+                    //CourseTable.rebindEvent();                
+				}
+			});
+		});
+		
+		$("[id^='editadminuser']").unbind().click(function(){
+			var thisuid = $(this).attr("id").substring("editadminuser".length);
+			$.ajax({
+				url: base + '/getadminuserjson.html?uid=' + thisuid,
+				type: 'GET',
+				dataType: 'json',
+				success: function (resp) {
+					WxAdminUser.addAdminUserDialog("修改咨询，权限", resp.data);
+				}
+			});
+		});
+	},
+	//添加管理员
+	addAdminUserDialog:function(infoData){
+		//添加信息显示
+	/*	if(infoData != undefined){
+			$("#th_title").val(infoData.title);
+		}*/
+		
+		$("#addAdminUserDialog").removeClass('hide').dialog({
+			height:600, 
+			width:600,
+			modal: true,
+			title: titleMsg,
+			title_html: true,
+			buttons: [
+						{
+							html: "<i class='icon-trash bigger-110'></i>&nbsp; 保存",
+							"class" : "btn btn-danger btn-xs",
+							click: function() {
+								var id = $("#th_id").val();
+	
+								var title = $("#th_title").val();
+								var pubid = $("#th_pubid").val();
+								var catgid = $('#th_catgid option:selected').attr("value");
+								var deptid = $('#th_deptid option:selected').attr("value");
+								var orgid = $('#th_orgid option:selected').attr("value");
+								var reqData = {};
+								reqData.title = title;
+								reqData.infoCode = infoData.code;
+								
+								reqData.pubid = pubid;
+								reqData.catgid = catgid;
+								reqData.deptid = deptid;
+								reqData.orgid = orgid;
+								
+								$.ajax({
+									url: base + '/addormodifyinfojson.html',
+									data: reqData,
+									type: 'POST',
+									dataType: 'json',
+									success: function (resp) {
+										var u = base + '/mgr_infolistjson.html?a=a';
+										u += "&prvnid=" + $('#qh_prvnid option:selected').attr("value");
+										u += "&cityid=" + $('#qh_cityid option:selected').attr("value");
+										oInfoTable.ajax.url(u).load();
+										alert(resp.message);
+									}
+								});
+								$(this).dialog("close");
+							}
+						},{
+							html: "<i class='icon-remove bigger-110'></i>&nbsp; 取消",
+							"class" : "btn btn-xs",
+							click: function() {
+								$(this).dialog("close");
+							}
+						}
+					]	
+		
+		});
+	
+	}
+	
+};
+
+$(function(){ 
+	AdminUser.init();
+});

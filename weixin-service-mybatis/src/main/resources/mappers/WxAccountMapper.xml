@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- roleFunc 菜单映射文件 -->
+<mapper namespace="com.ykisswx.dao.IWxAccountDao">
+    <!--数据对应的pojo 主映射(数据库字段全部映射) -->
+	<resultMap  type="com.ykisswx.model.WxAccountEbo" id="WxAccountEboMap" >
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgid" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="account" column="account" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="introduction" column="introduction" jdbcType="VARCHAR" javaType="String" />
+		<result property="msgServiceName" column="msg_service_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="msgService" column="msg_service" jdbcType="CHAR" javaType="String" />
+		<result property="msgLeft" column="msg_left" jdbcType="INTEGER" javaType="Integer" />
+		<result property="msgSignature" column="msg_signature" jdbcType="VARCHAR" javaType="String" />
+		<result property="appid" column="appid" jdbcType="VARCHAR" javaType="String" />
+		<result property="appsecret" column="appsecret" jdbcType="VARCHAR" javaType="String" />
+		<result property="url" column="url" jdbcType="VARCHAR" javaType="String" />
+		<result property="token" column="token" jdbcType="VARCHAR" javaType="String" />
+		<result property="encoaseskeyding" column="encoaseskeyding" jdbcType="VARCHAR" javaType="String" />
+		<result property="grade" column="grade" jdbcType="INTEGER" javaType="Integer" />
+		<result property="type" column="type" jdbcType="CHAR" javaType="String" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="photo" column="photo" jdbcType="VARCHAR" javaType="String" />
+		<result property="sessCode" column="sess_code" jdbcType="VARCHAR" javaType="String" />	
+		<result property="webDomain" column="web_domain" jdbcType="VARCHAR" javaType="String" />
+		<result property="accCode" column="acc_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="accKey" column="acc_key" jdbcType="VARCHAR" javaType="String" />
+		<result property="accLevel" column="acc_level" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mode" column="mode" jdbcType="CHAR" javaType="String" />		
+	</resultMap>
+	 <!--SQL返回的dto-->
+	<resultMap  type="com.ykisswx.dto.WxAccountDto" id="WxAccountDtoMap" >
+		<result property="accid" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="introduction" column="introduction" jdbcType="VARCHAR" javaType="String" />
+		<result property="url" column="url" jdbcType="VARCHAR" javaType="String" />
+		<result property="token" column="token" jdbcType="VARCHAR" javaType="String" />
+		<result property="encoaseskeyding" column="encoaseskeyding" jdbcType="VARCHAR" javaType="String" />
+		<result property="mode" column="mode" jdbcType="CHAR" javaType="String" />		
+	</resultMap>
+	<!-- 复用SQL 查询数据库表映射pojo的全部对象 -->
+	<sql id="selectWxAccountEbo">
+	    SELECT
+	    	wa.id,wa.orgid,wa.account,wa.name,wa.introduction,wa.msg_service_name,wa.msg_service,
+			wa.msg_left,wa.msg_signature,wa.appid,wa.appsecret,wa.url,wa.token,wa.encoaseskeyding,
+			wa.grade,wa.type,wa.code,wa.photo,wa.sess_code,wa.web_domain,wa.acc_code,wa.acc_key,
+			wa.acc_level,wa.mode
+		FROM
+		 	t_wx_account AS wa		
+	</sql>
+	<!-- 复用SQL 查询数据库表映射Dto对象 -->
+	<sql id="selectWxAccountDto">
+	    SELECT
+	    	wa.id,wa.name,wa.introduction,wa.url,wa.token,wa.encoaseskeyding,wa.mode
+	    FROM
+		 	t_wx_account AS wa		
+	</sql>
+	<!-- 获取全部dto对象-->
+	<select id="listAccount" resultMap="WxAccountEboMap" flushCache="true" useCache="true" >
+		<include refid="selectWxAccountEbo"/>
+	    WHERE  1=1
+	    <if test=" orgId > 0">
+	    	 and wa.orgid = ${orgId}
+	    </if>
+	    <if test="account != null and account != '' ">
+			and wa.account like '%${account}%'
+		</if>
+	    <if test="type != null and type != '' ">
+			and wa.type = '${type}'
+		</if>
+		<!-- 按id倒叙排列 -->
+		ORDER BY wa.id DESC
+		<if test="page >=0 and paging >0 ">
+			LIMIT ${page*paging} ,${paging}
+		</if>
+	</select>
+
+	<select id="getTotalAccount" resultType="Integer" flushCache="true" useCache="true" >
+		SELECT
+			  COUNT(wa.id)
+		FROM
+			  t_wx_account AS wa
+		WHERE  1=1
+		 <if test="account != null and account != '' ">
+			and wa.account like '%${account}%'
+		</if>
+		<if test=" orgId > 0">
+			and wa.orgid = ${orgId}
+		</if>
+		<if test="type != null and type != '' ">
+			and wa.type = '${type}'
+		</if>
+	</select>
+
+	<!-- 通过accid获取dto对象-->
+	<select id="getAccountDtoInfo" resultMap="WxAccountDtoMap" flushCache="true" useCache="true" >
+		<include refid="selectWxAccountDto"/>
+		WHERE    
+			wa.id = ${accId} 							
+	</select>
+	
+	<!-- 通过accid获取ebo对象-->
+	<select id="getAccountEboInfo" resultMap="WxAccountEboMap" flushCache="true" useCache="true" >
+	   <include refid="selectWxAccountEbo"/>
+	 	WHERE    
+			wa.id = ${accId} 							
+	</select>
+	
+	<!-- 通过orgid获取ebo对象-->
+	<select id="listAccountIdByOrgid" resultMap="WxAccountEboMap" flushCache="true" useCache="true" >
+	   <include refid="selectWxAccountEbo"/>
+	 	WHERE    
+			wa.orgid = ${orgid}
+	</select>
+	
+	<!-- 根据orgid获取ebo对象-->
+	<!-- <select id="getAccIdByOrgid" resultMap="WxAccountEboMap" flushCache="true" useCache="true" >
+	   <include refid="selectWxAccountEbo"/>
+	 	WHERE    
+			wa.orgid = ${orgId} 							
+	</select> -->
+	
+	<!-- 通过code或sessCode获取ebo对象-->
+	<select id="getAccountInfoByCode" resultMap="WxAccountEboMap"  flushCache="true" useCache="true" >
+	 	<include refid="selectWxAccountEbo"/>
+	 	WHERE  
+	 		1=1  
+			<if test="token != null and token != '' ">
+				and wa.token = '${token}'
+			</if> 
+			<if test="sessCode != null and sessCode != '' ">
+		      	and wa.sess_code = '${sessCode}'
+			</if>							
+	</select>
+	
+	<!-- 通过appid获取ebo对象-->
+	<select id="getAccountByAppid" resultMap="WxAccountEboMap"  flushCache="true" useCache="true" >
+	 	<include refid="selectWxAccountEbo"/>
+	 	WHERE    
+		<if test="appId !=null and  appId != '' ">
+			wa.appid = '${appId}'
+		</if> 
+	</select>
+	
+	<!-- 通过accCode获取ebo对象-->
+	<select id="getAccountByAccCode" resultMap="WxAccountEboMap"  flushCache="true" useCache="true" >
+	 	<include refid="selectWxAccountEbo"/>
+	 	WHERE    
+		<if test="accCode !=null and  accCode != '' ">
+			wa.acc_code = '${accCode}'
+		</if> 
+	</select>
+	<!-- 获取orgId -->
+	<select id="getOrgid" resultType="Integer" flushCache="true" useCache="true">
+	    SELECT  
+	    	a.orgid 
+	    FROM
+	    	t_wx_account AS a
+	    <where>
+	    1=1
+	    	<if test=" accId > 0">
+	    	   and a.id=${accId}
+	    	</if>
+	    	<if test="appId != null and appId != '' ">
+	    	    and a.appid=${appId}
+	    	</if>    
+	    </where>  
+	</select>
+	
+	<select id="getOrgidByOpenid" resultType="Integer" flushCache="true" useCache="true">
+	    SELECT  
+	    	a.orgid 
+	    FROM
+	    	t_wx_account AS a ,t_wx_user_info AS u
+	    <where>
+	        1=1 and a.id=u.acc_id 
+	    	<if test="openId != null and openId != '' ">
+	    	    and u.openid=${openId}
+	    	</if>    
+	    </where>  
+	</select>
+
+	<!-- 添加WxAccount记录 -->
+	<insert id="addWxAccount" parameterType="com.ykisswx.model.WxAccountEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_wx_account
+		VALUES(
+			0,#{orgid},#{account},#{name},#{introduction},#{msgServiceName},#{msgService},#{msgLeft},#{msgSignature}
+			,#{appid},#{appsecret},#{url},#{token},#{encoaseskeyding},#{grade},#{type},#{code},#{photo}
+			,#{sessCode},#{webDomain},#{accCode},#{accKey},#{accLevel},#{mode}
+		)
+	</insert>
+	<!-- 修改WxAccount -->
+	<update id="editAccount">
+	    UPDATE
+	    	t_wx_account AS a
+	    <set>
+	    	a.id = a.id
+	        <if test="wxAccountEto.account != null and wxAccountEto.account != '' ">
+	            ,a.account = '${wxAccountEto.account}'
+	        </if>
+	        <if test="wxAccountEto.name != null and wxAccountEto.name != '' ">
+	            ,a.name = '${wxAccountEto.name}'
+	        </if>
+	        <if test="wxAccountEto.introduction != null and wxAccountEto.introduction != '' ">
+	            ,a.introduction = '${wxAccountEto.introduction}'
+	        </if>
+	        <if test="wxAccountEto.appid != null and wxAccountEto.appid != '' ">
+	            ,a.appid = '${wxAccountEto.appid}'
+	        </if>
+	        <if test="wxAccountEto.appsecret != null and wxAccountEto.appsecret != '' ">
+	            ,a.appsecret = '${wxAccountEto.appsecret}'
+	        </if>
+	       	<if test="wxAccountEto.token != null and wxAccountEto.token != '' ">
+	       	    ,a.token = '${wxAccountEto.token}'
+	        </if>
+	        <if test="wxAccountEto.encoaseskeyding != null and wxAccountEto.encoaseskeyding != '' ">
+	            ,a.encoaseskeyding = '${wxAccountEto.encoaseskeyding}'
+	        </if>
+	        <if test="wxAccountEto.type != null and wxAccountEto.type != '' ">
+	            ,a.type = '${wxAccountEto.type}'
+	        </if>
+	        <if test="wxAccountEto.mode != null and wxAccountEto.mode != '' ">
+	            ,a.mode = '${wxAccountEto.mode}'
+	        </if>
+	    </set>
+	    WHERE
+	    	a.id = ${accid}
+	</update>
+</mapper>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- org 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.IStaffDao">
+	<resultMap type="com.kjplus.model.StaffEbo" id="StaffEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="staffCode" column="staff_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="sex" column="sex" jdbcType="VARCHAR" javaType="String" />
+		<result property="birthday" column="birthday" jdbcType="VARCHAR" javaType="String" />
+		<result property="mobileNum" column="mobile_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="typeId" column="type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="idCard" column="id_card" jdbcType="VARCHAR" javaType="String" />
+		<result property="regDate" column="reg_date" jdbcType="DATE" javaType="Date" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />		
+		<result property="status" column="status" jdbcType="VARCHAR" javaType="String" />
+		<result property="headIconUrl" column="head_icon_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<resultMap type="com.kjplus.model.inner.StaffInnerEbo" id="staffInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="staffCode" column="staff_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="sex" column="sex" jdbcType="VARCHAR" javaType="String" />
+		<result property="birthday" column="birthday" jdbcType="VARCHAR" javaType="String" />
+		<result property="mobileNum" column="mobile_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="typeId" column="type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="typeName" column="type_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptName" column="dept_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="staffDeptName" column="staff_dept_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="stafMemo" column="staff_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="idCard" column="id_card" jdbcType="VARCHAR" javaType="String" />
+		<result property="regDate" column="reg_date" jdbcType="DATE" javaType="Date" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />		
+		<result property="status" column="status" jdbcType="VARCHAR" javaType="String" />
+		<result property="headIconUrl" column="head_icon_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+		<!-- 标签对象 -->
+		<result property="tagId" column="tag_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="refValId" column="ref_val_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refValName" column="ref_val_name" jdbcType="VARCHAR" javaType="String" />
+		
+	</resultMap>
+
+	<resultMap type="com.kjplus.model.StaffDeptEbo" id="StaffDeptEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="staffId" column="staff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+
+	<!-- dept对象-->
+	<resultMap type="com.kjplus.model.inner.DeptStaffInnerEbo" id="deptStaffInnerMap">
+		<!--实体部门对象 -->
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptName" column="dept_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptCode" column="dept_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptType" column="dept_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptMemo" column="dept_memo" jdbcType="VARCHAR" javaType="String" />
+		<!--团体对象 -->
+		<result property="gDeptId" column="g_dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="gDeptName" column="g_dept_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="gDeptCode" column="g_dept_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="gDeptType" column="g_dept_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="gDeptMemo" column="g_dept_memo" jdbcType="VARCHAR" javaType="String" />
+		<!-- 医生对象 -->
+		<result property="stafId" column="staff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="stafCode" column="staff_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="stafStafCode" column="staff_staff_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="stafName" column="staff_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="INTEGER" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="mobileNum" column="mobile_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="stafMemo" column="staff_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="stafSex" column="staff_sex" jdbcType="CHAR" javaType="String" />
+		<result property="birthday" column="birthday" jdbcType="VARCHAR" javaType="String" />
+		<result property="idCard" column="id_card" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="VARCHAR" javaType="String" />
+		<result property="regDate" column="reg_date" jdbcType="DATE" javaType="Date" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+		<result property="stafTypeId" column="staff_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="stafTypeVl" column="staff_type_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="headIconUrl" column="head_icon_url" jdbcType="VARCHAR" javaType="String" />
+		<!-- 标签对象 -->
+		<result property="tagId" column="tag_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="refValId" column="ref_val_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refValName" column="ref_val_name" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<!-- <resultMap type="com.kjplus.dto.DeptStaffDto" id="DeptStaffDtoMap" extends = "staffInnerEboMap">
+		继承StaffEbo的映射
+		<collection property="staffList" ofType="com.kjplus.dto.StaffDto">
+		DeptStaffDto映射
+		<result property="deptId" column="deptid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptName" column="dept_name" jdbcType="VARCHAR" javaType="String" />
+		</collection>
+	</resultMap> -->
+	<!-- t_staff单表查询 -->
+	<sql id="selectStaffEbo">
+	    SELECT 
+			s.id,s.code,s.staff_code,s.name,s.sex,s.birthday,s.mobile_num
+			,s.type_id,s.dept_id,s.org_id,s.id_card,s.reg_date
+			,s.flag,s.status,s.head_icon_url,s.create_time,s.memo
+	    FROM 
+	    	t_staff AS s
+	</sql>
+
+	<sql id="selectStaffDeptDto">
+	     SELECT
+	     	<!-- 医生表字段-->
+	     	s.id staff_id,s.code staff_code,s.staff_code staff_staff_code,s.name staff_name,s.mobile_num  mobile_num,s.memo staff_memo,s.sex staff_sex,s.birthday
+	     	,s.id_card,s.flag,s.status,s.reg_date,s.create_time,s.type_id staff_type_id,rv2.name staff_type_vl ,s.head_icon_url,s.org_id
+			<!-- 实体部门表字段   ,d2.name staff_dept_name-->
+			,s.dept_id dept_id,d.name dept_name,d.dept_type,d.code dept_code
+			,d.memo dept_memo
+			<!-- 团体部门表字段   ,d2.name staff_dept_name-->
+			,ds.dept_id g_dept_id,d2.name g_dept_name,d2.dept_type g_dept_type,d2.code g_dept_code
+			,d2.memo g_dept_memo
+			<!-- 组织表字段-->
+			,o.name org_name
+		FROM
+			<!-- 医生表-->
+			t_staff                      AS      s
+			<!-- 医生所在部门表   获取实体部门 -->
+			LEFT JOIN  t_department      AS      d    ON    s.dept_id = d.id    <!-- AND d.dept_type = "R" -->
+			<!-- 医生与团体部门的对应  -->
+			LEFT JOIN  t_dept_staff     AS       ds   ON    s.id = ds.staff_id  
+			<!-- 医生所在部门表   获取团体 -->
+			LEFT JOIN  t_department      AS      d2    ON   ds.dept_id = d2.id 
+			<!-- 组织表-->
+			 LEFT JOIN  t_organization   AS      o    ON    s.org_id = o.id 
+			<!-- 医生表中对应类型值表 -->
+			LEFT JOIN t_sys_ref_value    AS     rv2   ON    s.type_id =  rv2.id
+	</sql>
+	
+	<select id="listStaffDeptDto" resultMap="deptStaffInnerMap" flushCache="true" useCache="true">
+	    <include refid="selectStaffDeptDto"/>
+	    <where>
+	        <if test="orgId >0 ">
+		         and s.org_id = ${orgId}
+	        </if>
+			<!-- <if test="deptType != null and  deptType != '' ">
+				and d.dept_type = '${deptType}'
+			</if> -->
+			<if test="deptId >0 ">
+		         and d.id = ${deptId}
+	        </if>
+	        <if test="staffName != null and  staffName != '' ">
+				and s.name LIKE '%${staffName}%'
+			</if>
+			<!-- 医生用户状态 -->
+			 <if test="flag != null and  flag != '' ">
+				and s.flag = '${flag}'
+			</if>	
+			<!-- 医生用户当前服务状态 -->
+			 <if test="status != null and  status != '' ">
+				and s.status = '${status}'
+			</if>
+	    </where>
+	    <!-- 按医生创建时间倒叙 -->
+	    ORDER BY s.create_time DESC 
+		<if test="page >=0 and paging >0 ">
+			LIMIT ${page*paging} ,${paging}
+		</if>
+	</select>
+
+	<!-- t_dept_staff单表查询 -->
+	<sql id="selectStaffDeptMapEbo">
+	    SELECT 
+			sd.id id,sd.staff_id staff_id,sd.dept_id dept_id
+	    FROM 
+	    	t_dept_staff AS sd
+	</sql>
+	
+	<!-- t_dept_staff列表查询-->
+	<select id="listStaffDeptMapEbo" resultMap="StaffDeptEboMap" flushCache="true" useCache="true">
+	    <include refid="selectStaffDeptMapEbo"/>
+	    <where>
+	        <if test="staffId >0 ">
+	            and sd.staff_id = ${staffId}
+	        </if>
+	        <if test="deptId >0 ">
+	            and sd.dept_id = ${deptId}
+	        </if>
+	    </where>
+	</select>
+	<!-- t_staff关联查询 -->
+	<sql id="selectStaffDto">
+	    SELECT 
+			s.id,s.code,s.staff_code,s.name,s.sex,s.birthday,s.mobile_num
+			,s.type_id,s.dept_id,s.org_id,s.id_card,s.reg_date
+			,s.flag,s.status,s.head_icon_url,s.create_time
+			,t.name type_name,d.name dept_name,o.name org_name
+			<!-- 标签表 -->
+			,tg.id tag_id,tg.main_id,tg.main_type,tg.ref_val_id
+			,t2.name ref_val_name
+		FROM 
+	    	t_staff AS s
+		LEFT JOIN t_sys_ref_value  t ON t.id = s.type_id
+		LEFT JOIN t_department     d ON d.id = s.dept_id
+		LEFT JOIN t_organization   o ON o.id = s.org_id
+		LEFT JOIN t_tag 		  tg ON tg.main_id = s.id
+		LEFT JOIN t_sys_ref_value t2 ON t2.id = tg.ref_val_id
+	</sql>
+	<select id="listStaffDto" resultMap="staffInnerEboMap" flushCache="true" useCache="true">
+	    <include refid="selectStaffDto"/>
+	    <where>
+	    1=1
+	        <if test="staffName != null and staffName != '' ">
+	            and s.name like '%${staffName}%'
+	        </if>
+	        <if test="orgId >0 ">
+	            and s.org_id=${orgId}
+	        </if>
+	        <if test="deptId >0 ">
+	            and s.deptId=${deptId}
+	        </if>
+	        <if test="typeId >0 ">
+	            and s.typeId=${typeId}
+	        </if>
+	    </where>
+	</select>
+	<!-- 通过code编号查询 -->
+	<select id="getStaffByCode" resultMap="StaffEboMap" flushCache="true" useCache="true">
+	    <include refid="selectStaffEbo"/>
+	    <where>
+	        <if test="code != null and code != '' ">
+	            s.code='${code}'
+	        </if>
+	    </where>
+	</select>
+	<!-- 通过id查询 -->
+	<select id="getStaffById" resultMap="StaffEboMap" flushCache="true" useCache="true" >
+	    <include refid="selectStaffEbo"/>
+	    <where>
+	        <if test="staffId > 0">
+	            s.id=${staffId}
+	        </if>
+	    </where>
+	</select>
+	
+	<!-- 获取staff实体总数-->
+	<sql id="getTotalstaff">
+		 SELECT
+	     	count(s.id)
+		FROM
+			<!-- 医生表-->
+			t_staff                      AS      s
+			<!-- 医生所在部门表  -->
+			LEFT JOIN  t_department      AS      d    ON    s.dept_id = d.id
+			<!-- 组织表-->
+			 LEFT JOIN  t_organization   AS      o    ON    s.org_id = o.id 
+			<!-- 医生表中对应类型值表 -->
+			LEFT JOIN t_sys_ref_value    AS     rv2   ON    s.type_id =  rv2.id
+			<!-- 医生对应的标签表 -->
+			LEFT JOIN t_tag              AS      tg   ON    tg.main_id =  s.id       and     tg.main_Type = 'S'
+			<!-- 医生标签对应的类型值表  TODO 是否可能对应多个标签 -->
+			LEFT JOIN t_sys_ref_value    AS      rv   ON    tg.ref_val_id = rv.id
+	 </sql>	
+	 <select id="getTotalStaffDto" resultType="Integer" flushCache="true" useCache="true">
+	    <include refid="getTotalstaff"/>
+        <where>
+        1=1
+	        <if test="orgId >=0 ">
+	            and s.org_id=${orgId}
+	        </if>
+	        <if test="deptId >0 ">
+	            and s.dept_id=${deptId}
+	        </if>
+	        	<!-- 医生用户状态 -->
+			 <if test="flag != null and  flag != '' ">
+				and s.flag = '${flag}'
+			</if>	
+			<!-- 医生用户当前服务状态 -->
+			 <if test="status != null and  status != '' ">
+				and s.status = '${status}'
+			</if>
+		</where>
+	</select>
+	
+	 <!-- 添加staff -->
+	<insert id="addStaff" parameterType="com.kjplus.model.StaffEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_staff(id,code,staff_code,name,sex,birthday,mobile_num,type_id,dept_id,org_id,id_card
+				,reg_date,flag,status,head_icon_url,create_time,memo
+		) VALUES (
+			0,#{code},#{staffCode},#{name},#{sex},#{birthday},#{mobileNum},#{typeId},#{deptId},#{orgId}
+			,#{idCard},#{regDate},#{flag},#{status},#{headIconUrl},#{createTime},#{memo}
+		)
+	</insert>
+	<!-- 添加staffOrg -->
+	<insert id="addStaffDept" parameterType="com.kjplus.model.StaffDeptEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_dept_staff
+		VALUES(
+			0,#{staffId},#{deptId}
+		)
+	</insert>
+	
+	<update id="updateStaff" parameterType="com.kjplus.model.StaffEbo">
+	 UPDATE 
+	    	t_staff AS s
+	    <set>
+	    	s.code = s.code
+	     	<if test=" staffCode != null and staffCode != '' ">
+	    		,s.staff_code = '${staffCode}'
+	    	</if>
+	    	<if test=" name != null and name != '' ">
+	    		,s.name = '${name}'
+	    	</if>
+			<if test=" sex != null and sex != '' ">
+	    		,s.sex = '${sex}'
+	    	</if>
+			<if test=" birthday != null and birthday != '' ">
+	    		,s.birthday = '${birthday}'
+	    	</if>
+	    	<if test=" mobileNum != null and mobileNum != '' ">
+	    		,s.mobile_num = '${mobileNum}'
+	    	</if>
+			<if test="typeId > 0">
+	    		,s.type_id = ${typeId}
+	    	</if>
+	    	<if test="deptId > 0">
+	    		,s.dept_id = ${deptId}
+	    	</if>
+	    	<if test="orgId > 0">
+	    		,s.org_id = ${orgId}
+	    	</if>
+	    	<if test=" idCard != null and idCard != '' ">
+	    		,s.id_card = '${idCard}'
+	    	</if>
+	    	<if test=" flag != null and flag != '' ">
+	    		,s.flag = '${flag}'
+	    	</if>
+	    	<if test=" status != null and status != '' ">
+	    		,s.status = '${status}'
+	    	</if>
+	    	<if test=" headIconUrl != null and headIconUrl != '' ">
+	    		,s.head_icon_url = '${headIconUrl}'
+	    	</if>
+	    	<if test=" memo != null and memo != '' ">
+	    		,s.memo = '${memo}'
+	    	</if>
+	    </set>
+	    <where>
+	    1=1
+    		<if test=" code != null and code != '' ">
+	    		and s.code = '${code}'
+	    	</if>
+	    	<if test=" id ">
+	    		and s.id = '${id}'
+	    	</if>
+	    </where>
+	</update>	
+</mapper>

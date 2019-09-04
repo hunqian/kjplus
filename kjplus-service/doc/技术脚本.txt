@@ -1,0 +1,43 @@
+----------------------------------
+db²ÎÊý
+----------------------------------
+kjplus_db
+kjplus_test
+kjp08!#Ceshi
+
+-----------------------------------------------------------------------------
+KJPLUS-api
+-----------------------------------------------------------------------------
+
+su - yqweb
+
+cd /u5/local/ykisss/kjplus-api/bin/
+./shutdown.sh
+
+cd /u5/local/classrepo
+rm -rf classes
+mkdir classes
+cd classes
+unzip ../classes.zip 
+
+rm -rf /u5/local/ykisss/kjplus-api/webapps/ROOT/WEB-INF/classes/com
+mv /u5/local/classrepo/classes/com /u5/local/ykisss/kjplus-api/webapps/ROOT/WEB-INF/classes
+
+rm -rf /u5/local/ykisss/kjplus-api/webapps/ROOT/WEB-INF/classes/org
+mv /u5/local/classrepo/classes/org /u5/local/ykisss/kjplus-api/webapps/ROOT/WEB-INF/classes
+
+rm -rf /u5/local/ykisss/kjplus-api/webapps/ROOT/WEB-INF/classes/jsonsource
+mv /u5/local/classrepo/classes/jsonsource /u5/local/ykisss/kjplus-api/webapps/ROOT/WEB-INF/classes
+
+rm -rf /u5/local/ykisss/kjplus-api/webapps/ROOT/WEB-INF/classes/mappers
+mv /u5/local/classrepo/classes/mappers /u5/local/ykisss/kjplus-api/webapps/ROOT/WEB-INF/classes
+
+cd /u5/local/ykisss/kjplus-api/bin/
+
+./catalina.sh run
+
+./startup.sh
+
+
+http://59.110.42.139:9595/noop.html
+-----------------------------------------------------------------------------

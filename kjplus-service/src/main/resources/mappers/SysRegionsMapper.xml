@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.ISysRegionsDao">
+	<!--t_info表Ebo对象 -->
+	<resultMap type="com.kjplus.model.SysRegionsEbo" id="SysRegionsEboMap">
+		<result property="regionId" column="region_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pRegionId" column="p_region_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="regionPath" column="region_path" jdbcType="VARCHAR" javaType="String" />
+		<result property="regionGrade" column="region_grade" jdbcType="INTEGER" javaType="Integer" />
+		<result property="localName" column="local_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="zipcode" column="zipcode" jdbcType="VARCHAR" javaType="String" />
+		<result property="cod" column="cod" jdbcType="VARCHAR" javaType="String" />			
+	</resultMap>
+	<sql id="selectSysRegionsEbo">
+		SELECT 
+			r.region_id,r.p_region_id,r.region_path,r.region_grade,r.local_name,r.zipcode,r.cod
+		FROM 
+			t_sys_regions AS r
+	</sql>
+
+	<!-- 根据咨询id查询咨询 -->
+	<select id="selectSysRegions" resultMap="SysRegionsEboMap" flushCache="true"> 
+		<include refid="selectSysRegionsEbo"/>
+		<where>
+			<if test=" pRegionId >= 0 ">
+				r.p_region_id=${pRegionId}
+			</if>
+		</where>
+	</select>
+</mapper>

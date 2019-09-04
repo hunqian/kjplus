@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- userMap 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.ISrvProjectDao">
+    <!--t_project表ebo对象 -->
+    <resultMap type="com.kjplus.model.SrvProjectEbo" id="SrvProjectEboMap">
+        <result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="code" column="code" jdbcType="VARCHAR" javaType="String"/>
+        <result property="name" column="name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="typeId" column="type_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="flag" column="flag" jdbcType="CHAR" javaType="String"/>
+    </resultMap>
+    <!--t_project_config表ebo对象 -->
+    <resultMap type="com.kjplus.model.SrvProjectCfgEbo" id="SrvProjectConfigEboMap">
+        <result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="prjId" column="prj_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="tagId" column="tag_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="isNorm" column="is_norm" jdbcType="CHAR" javaType="String"/>
+    </resultMap>
+    <!--t_project表dto对象 -->
+    <resultMap type="com.kjplus.dto.SrvProjectDto" id="SrvProjectDtoMap">
+        <result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="code" column="code" jdbcType="VARCHAR" javaType="String"/>
+        <result property="name" column="name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="typeId" column="type_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="typeCode" column="type_code" jdbcType="VARCHAR" javaType="String"/>
+        <result property="typeName" column="type_name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="flag" column="flag" jdbcType="CHAR" javaType="String"/>
+    </resultMap>
+    <!--t_project_cfg表dto对象 -->
+    <resultMap type="com.kjplus.dto.SrvProjectCfgInfoDto" id="SrvProjectCfgInfoDtoMap">
+        <!-- t_project_cfg表字段 -->
+        <result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="isNorm" column="is_norm" jdbcType="CHAR" javaType="String"/>
+        <!-- t_tag表字段 -->
+        <result property="tagId" column="tag_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="tagName" column="tag_name" jdbcType="VARCHAR" javaType="String"/>
+        <!-- t_organization表字段 -->
+        <result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="orgCode" column="org_code" jdbcType="VARCHAR" javaType="String"/>
+        <result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String"/>
+        <!-- t_project表字段 -->
+        <result property="prjId" column="prj_id" jdbcType="INTEGER" javaType="Integer"/>
+        <result property="prjCode" column="prj_code" jdbcType="VARCHAR" javaType="String"/>
+        <result property="prjName" column="prj_name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="prjTypeName" column="prj_type_name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="prjFlag" column="prj_flag" jdbcType="CHAR" javaType="String"/>
+    </resultMap>
+    <!--t_srv_project单表查询 -->
+    <sql id="getSrvProjectEbo">
+        SELECT
+            tsp.id,tsp.code,tsp.name,tsp.type_id,tsp.flag
+        FROM
+            t_srv_project AS tsp
+    </sql>
+    <!--t_srv_project_cfg单表查询 -->
+    <sql id="getSrvProjectConfigEbo">
+        SELECT
+            tspc.id,tspc.prj_id,tspc.tag_id,tspc.org_id,tspc.is_norm
+        FROM
+            t_srv_project_cfg AS tspc
+    </sql>
+    <!--t_srv_project dto对象查询 -->
+    <sql id="selectSrvProjectDto">
+        SELECT
+            tsp.id,tsp.code,tsp.name,tsp.type_id,tsp.flag
+            ,tsrv.name type_name,tsrv.code type_code
+        FROM
+            t_srv_project     AS tsp
+            ,t_sys_ref_value  AS tsrv
+    </sql>
+    <!--t_srv_project_cfg dto对象查询 -->
+    <sql id="selectSrvProjectCfgInfoDto">
+        SELECT
+            <!-- t_project_cfg表字段 -->
+            tspc.id,tspc.is_norm
+            <!-- t_tag表字段 -->
+            ,tag.id tag_id,tsrv2.name tag_name
+            <!-- t_organization表字段 -->
+            ,org.id org_id,org.name org_name,org.code org_code
+            <!-- t_project表字段 -->
+            ,tsp.id prj_id,tsp.code prj_code,tsp.name prj_name
+            ,tsrv1.name prj_type_name,tsrv1.flag prj_flag
+        FROM
+            t_srv_project_cfg            AS tspc
+            LEFT JOIN t_srv_project      AS tsp    ON tspc.prj_id=tsp.id
+            LEFT JOIN t_sys_ref_value    AS tsrv1  ON tsp.type_id=tsrv1.id
+            LEFT JOIN t_organization     AS org    ON tspc.org_id=org.id
+            LEFT JOIN t_tag              AS tag    ON tspc.tag_id=tag.id
+            LEFT JOIN t_sys_ref_value    AS tsrv2  ON tag.ref_val_id=tsrv2.id
+    </sql>
+
+    <select id="getSrvPrjByCodeOrId" resultMap="SrvProjectEboMap" flushCache="true">
+        <include refid="getSrvProjectEbo"/>
+        <where>
+            <if test="code != null and code != '' ">
+                tsp.code='${code}'
+            </if>
+            <if test="id > 0" >
+                and tsp.id=${id}
+            </if>
+            <if test="flag !=null and flag != '' ">
+                and tsp.flag='${flag}'
+            </if>
+        </where>
+    </select>
+    <insert id="addSrvProject" parameterType="com.kjplus.model.SrvProjectEbo" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_srv_project
+        VALUES (
+            0,#{code},#{name},#{typeId},#{flag}
+        )
+    </insert>
+    <select id="listSrvProject" resultMap="SrvProjectDtoMap" flushCache="true">
+        <include refid="selectSrvProjectDto"/>
+        <where>
+              tsp.type_id=tsrv.id
+            <if test="code != null and code != '' ">
+              and tsp.code='${code}'
+            </if>
+            <if test="typeCode != null and typeCode != '' ">
+                 and tsrv.code='${typeCode}'
+            </if>
+            <if test="flag != null and flag != '' ">
+                and tsp.flag='${flag}'
+            </if>
+        </where>
+    </select>
+
+    <update id="updateSrvProjectByFlag">
+        UPDATE
+              t_srv_project AS tsp
+        <set>
+            <if test="flag != null and flag != '' ">
+                tsp.flag='${flag}'
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != '' ">
+                tsp.code='${code}'
+            </if>
+            <if test=" id > 0 ">
+                and tsp.id=${id}
+            </if>
+        </where>
+    </update>
+    <!-- 获取某组织 标签 的某服务项目的 配置-->
+    <select id="getSrvProjectCfg" resultMap="SrvProjectConfigEboMap" flushCache="true">
+      <include refid="getSrvProjectConfigEbo"/>
+      <where>
+          <if test="prjId > 0 ">
+              tspc.prj_id=${prjId}
+          </if>
+          <if test="tagId > 0 ">
+              and tspc.tag_id=${tagId}
+          </if>
+          <if test="orgId > 0 ">
+              and tspc.org_id=${orgId}
+          </if>
+      </where>
+    </select>
+    <!-- 通过id查询服务项目配置表-->
+    <select id="getSrvProjectCfgById" resultMap="SrvProjectConfigEboMap" flushCache="true">
+        <include refid="getSrvProjectConfigEbo"/>
+        <where>
+            <if test="id > 0 ">
+                tspc.id=${id}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addSrvProjectCfg" parameterType="com.kjplus.model.SrvProjectCfgEbo" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_srv_project_cfg
+        VALUES (
+           0,#{prjId},#{tagId},#{orgId},#{isNorm}
+        )
+    </insert>
+    <select id="listSrvProjectCfgInfo" resultMap="SrvProjectCfgInfoDtoMap" flushCache="true">
+        <include refid="selectSrvProjectCfgInfoDto"/>
+        <where>
+            <if test="prjId > 0 ">
+                tspc.prj_id=${prjId}
+            </if>
+            <if test="orgId > 0 ">
+                and tspc.org_id=${orgId}
+            </if>
+            <if test="tagId > 0 ">
+                and tspc.tag_id=${tagId}
+            </if>
+            <if test="isNorm !=null and isNorm != ''  ">
+                and tspc.is_norm='${isNorm}'
+            </if>
+        </where>
+    </select>
+    <update id="updateSrvProjectCfgByisNorm">
+        UPDATE
+              t_srv_project_cfg AS tspc
+        <set>
+            <if test="isNorm != null and isNorm != '' ">
+                  tspc.is_norm='${isNorm}',
+            </if>
+            <if test="orgId > 0 ">
+                 tspc.org_id=${orgId},
+            </if>
+            <if test="prjId > 0 ">
+                tspc.prj_id=${prjId},
+            </if>
+            <if test="tagId > 0 ">
+                tspc.tag_id=${tagId}
+            </if>
+        </set>
+        <where>
+            <if test="id > 0 ">
+              tspc.id=${id}
+            </if>
+        </where>
+    </update>
+</mapper>

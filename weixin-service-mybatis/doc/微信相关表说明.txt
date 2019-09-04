@@ -1,0 +1,24 @@
+------------------------------------------
+11-4	微信表功能说明
+------------------------------------------
+1.t_wx_account	所有微信公共号的注册信息保存
+2.t_wx_user_info	微信对应订阅用户的信息保存
+3.t_wx_menu		微信菜单
+4.t_wx_user_location	用户进入微信公共号允许保存地址后的地址保存
+5.t_wx_user_textmsg	用户输入查询内容的保存
+
+8.微信消息模板推送相关类
+t_wx_msgtmpl_industry	行业
+t_wx_msgtmpl_lib	微信平台预定义的库	
+t_wx_msgtmpl_content	微信平台预定义的模板内容
+t_wx_msgtmpl_use	微信模板使用，只能允许使用15个，每一个模板的使用需要进行申请，微信平台分配一个模板id，api的调用通过模板id来进行
+t_wx_msgtmpl_log	日志
+t_wx_msgtmpl_set	暂时没用！
+
+
+6.t_wx_qrcode_scene	6.7表都是生成而二维码
+7.t_wx_scene_info
+
+9.微信api调用日志
+t_wx_api
+t_wx_api_call

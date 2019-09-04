@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.IFileRepoDao">
+	<resultMap type="com.kjplus.model.FileRepoEbo" id="fileRepoEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvId" column="srv_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="fileType" column="file_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="filePath" column="file_path" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<resultMap type="com.kjplus.model.inner.FileRepoInnerEbo" id="fileRepoInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvId" column="srv_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="fileType" column="file_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="filePath" column="file_path" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+		
+		<result property="srvCode" column="srv_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvName" column="srv_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="ipAddr" column="ip_addr" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<sql id="selectFileRepoEbo">
+		SELECT
+			fr.id,fr.code,fr.srv_id,fr.main_id,fr.main_type,fr.file_type,fr.file_path,fr.create_time
+		FROM
+			t_file_repo AS fr
+	</sql>
+	<sql id="selectFileRepoInnerEbo">
+		SELECT
+			<!-- t_file_repo -->
+			fr.id,fr.code,fr.srv_id,fr.main_id,fr.main_type,fr.file_type,fr.file_path,fr.create_time
+			<!-- t_server_repo -->
+			,sr.code srv_code,sr.srv_name srv_name ,sr.ip_addr ip_addr
+		FROM
+			t_file_repo                AS   fr
+			LEFT JOIN    t_server_repo AS   sr    ON    fr.srv_id = sr.id
+	</sql>
+	<!--根据id或Code 查询   t_file_repo 表 -->
+	<select id="getFileRepoByIdOrCode" resultMap="fileRepoEboMap" flushCache="true">
+		<include refid="selectFileRepoEbo"/>
+		<where>
+		1=1
+			<if test=" id > 0">
+				and	fr.id = ${id}
+			</if>
+			<if test="code !=null and code != '' ">
+				and fr.code = '${code}'
+			</if>
+		</where>
+	</select>
+	
+	<select id="listFileRepoInner" resultMap="fileRepoInnerEboMap" flushCache="true">
+		<include refid="selectFileRepoInnerEbo"/>
+		<where>
+		1=1
+			<if test=" srvId > 0 ">
+				and fr.srv_id = '${srvId}'
+			</if>
+			<if test=" mainId > 0">
+				and	fr.main_id = ${mainId}
+			</if>
+			<if test="mainType !=null and mainType != '' ">
+				and fr.main_type = '${mainType}'
+			</if>
+			<if test="fileType !=null and fileType != '' ">
+				and fr.file_type = '${fileType}'
+			</if>
+		</where>
+		ORDER BY fr.id
+		<if test=" page >=0 and paging > 0 ">
+			LIMIT ${page*paging},${paging}
+		</if>
+	</select>
+	
+	<!-- 添加	 t_file_repo 表-->
+	<insert id="addFileRepoEbo" parameterType="com.kjplus.model.FileRepoEbo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_file_repo (id,code,srv_id,main_id,main_type,file_type,file_path,create_time)
+		VALUES(
+			0,#{code},#{srvId},#{mainId},#{mainType},#{fileType},#{filePath},#{createTime}
+		)
+	</insert>
+	
+</mapper>

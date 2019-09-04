@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.IFollowupDao">
+	<!--t_followup_main表Ebo对象 -->
+	<resultMap type="com.kjplus.model.FollowupMainEbo" id="FollowupMainEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="selfCode" column="self_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="stafffId" column="stafff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="tbcfgId" column="tbcfg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flpeMiscType" column="flpe_misc_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="flpeTypeId" column="flpe_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flpeTime" column="flpe_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flpeDay" column="flpe_day" jdbcType="DATE" javaType="Date" />
+		<result property="resId" column="res_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="resMemo" column="res_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="resStaffId" column="res_staff_id" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!--FollowupMainInnerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.FollowupMainInnerEbo"
+		id="FollowupMainInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="selfCode" column="self_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="stafffId" column="stafff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="tbcfgId" column="tbcfg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flpeMiscType" column="flpe_misc_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="flpeTypeId" column="flpe_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flpeTime" column="flpe_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flpeDay" column="flpe_day" jdbcType="DATE" javaType="Date" />
+		<result property="resId" column="res_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="resMemo" column="res_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="resStaffId" column="res_staff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="prsnName" column="prsn_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="staffName" column="staff_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="resStaffName" column="res_staff_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="tabCfgName" column="tab_cfg_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="tabDataId" column="tab_data_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="resRefName" column="res_ref_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="inspectRefName" column="inspect_ref_name" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!--t_followup_exam表Ebo对象 -->
+	<resultMap type="com.kjplus.model.FollowupExamEbo" id="FollowupExamMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnid" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="stafffid" column="stafff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="examtime" column="flpe_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="examtype" column="flpe_type_id" jdbcType="VARCHAR" javaType="String" />
+		<result property="examday" column="flpe_day" jdbcType="DATE" javaType="Date" />
+		<result property="orgid" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="resid" column="res_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="resmemo" column="res_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="resstaffid" column="res_staff_id" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!--t_followup_rec表Ebo对象 -->
+	<resultMap type="com.kjplus.model.FollowupRecEbo" id="FollowupRecEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainid" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="maintype" column="main_type" jdbcType="CHAR" javaType="String" />
+		<result property="begintime" column="begin_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="endtime" column="end_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="longpos" column="long_pos" jdbcType="DOUBLE" javaType="double" />
+		<result property="latipos" column="lati_pos" jdbcType="DOUBLE" javaType="double" />
+		<result property="orgid" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!--t_code_repo表Ebo对象 -->
+	<resultMap type="com.kjplus.model.CodeRepoEbo" id="CodeRepoEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="biztype" column="biz_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="submaintype" column="sub_main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="submainid" column="sub_main_id" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+
+	<!-- t_followup_main表Ebo对象 -->
+	<sql id="selectFollowupMainEbo">
+		SELECT
+		fm.id,fm.code,fm.self_code,fm.prsn_id,fm.staff_id,fm.org_id,fm.tbcfg_id,fm.flpe_misc_type
+		,fm.flpe_time,fm.flpe_type_id,fm.flpe_day,fm.res_id,fm.res_memo,fm.res_staff_id
+		FROM
+		t_followup_main AS fm
+	</sql>
+	<sql id="selectFollowupMainInnerEbo">
+		SELECT
+		<!-- t_followup_main -->
+		fm.id,fm.code,fm.self_code,fm.prsn_id,fm.staff_id,fm.org_id,fm.tbcfg_id,fm.flpe_misc_type
+		<!-- ,fm.flpe_time,fm.flpe_type_id,fm.flpe_day,IFNULL(fm.res_id,0) res_id,fm.res_memo,IFNULL(fm.res_staff_id,0) 
+			res_staff_id -->
+		,fm.flpe_time,fm.flpe_type_id,fm.flpe_day,fm.res_id
+		,fm.res_memo,fm.res_staff_id
+		<!-- t_document_info -->
+		,di.prsn_name prsn_name
+		<!--t_staff表 -->
+		,s.name staff_name,s2.name res_staff_name
+		<!--t_organization表 -->
+		,o.name org_name
+		<!--t_table_data_head表 -->
+		,tch.name tab_cfg_name
+		<!--t_table_data_head表 -->
+		,tdh.id tab_data_id
+		<!--t_sys_ref_value表 -->
+		,srv.name res_ref_name,srv1.name inspect_ref_name
+		FROM
+		t_followup_main AS fm
+		LEFT JOIN t_document_info AS di ON fm.prsn_id = di.prsn_id
+		LEFT JOIN t_staff AS s ON fm.staff_id = s.id
+		LEFT JOIN t_sys_ref_value AS srv ON fm.res_id = srv.id
+		LEFT JOIN t_sys_ref_value AS srv1 ON fm.flpe_type_id = srv1.id
+		LEFT JOIN t_staff AS s2 ON fm.res_staff_id = s2.id
+		LEFT JOIN t_organization AS o ON fm.org_id = o.id
+		LEFT JOIN t_table_cfg_head AS tch ON fm.tbcfg_id = tch.id
+		LEFT JOIN t_table_data_head AS tdh ON fm.id = tdh.main_id AND
+		tdh.main_type='FU'
+	</sql>
+	<sql id="countFollowupMainInnerEbo">
+		SELECT
+		count(fm.id)
+		FROM
+		t_followup_main AS fm
+		LEFT JOIN t_document_info AS di ON fm.prsn_id = di.prsn_id
+		LEFT JOIN t_staff AS s ON fm.staff_id = s.id
+		LEFT JOIN t_sys_ref_value AS srv ON fm.res_id = srv.id
+		LEFT JOIN t_staff AS s2 ON fm.res_staff_id = s2.id
+		LEFT JOIN t_organization AS o ON fm.org_id = o.id
+		LEFT JOIN t_table_cfg_head AS tch ON fm.tbcfg_id = tch.id
+	</sql>
+	<!-- 通过id&code t_code_repo表Ebo对象 -->
+	<sql id="selectCodeRepoEbo">
+		SELECT
+		t.id,t.code,t.biz_type,t.sub_main_type,t.sub_main_id
+		FROM
+		t_code_repo AS t
+	</sql>
+	<select id="getCodeRepoByOrCode" resultMap="CodeRepoEboMap"
+		flushCache="true">
+		<include refid="selectCodeRepoEbo" />
+		<where>
+			<if test=" id > 0 ">
+				t.id=${id}
+			</if>
+			<if test=" code != null and  code != '' ">
+				and t.code='${code}'
+			</if>
+		</where>
+	</select>
+	<select id="listFollowupMainInnerEbo" resultMap="FollowupMainInnerEboMap" >
+		<include refid="selectFollowupMainInnerEbo" />
+		<where>
+			1=1
+			<if test=" fuQto.prsnId > 0 ">
+				and fm.prsn_id = #{fuQto.prsnId}
+			</if>
+			<if test="fuQto.prsnIdStr != null and fuQto.prsnIdStr != '' ">
+				and fm.prsn_id in (${fuQto.prsnIdStr})
+			</if>
+			<if test=" fuQto.staffId > 0 ">
+				and fm.staff_id = #{fuQto.staffId}
+			</if>
+			<if test=" fuQto.orgId > 0 ">
+				and fm.org_id = #{fuQto.orgId}
+			</if>
+			<if test=" fuQto.tbcfgId > 0 ">
+				and fm.tbcfg_id = #{fuQto.tbcfgId}
+			</if>
+			<if test=" fuQto.flpeMiscType != null and fuQto.flpeMiscType != '' ">
+				and fm.flpe_misc_type = #{fuQto.flpeMiscType}
+			</if>
+			<if test=" fuQto.flpeTypeId != null and fuQto.flpeTypeId != '' ">
+				and fm.flpe_type_id = #{fuQto.flpeTypeId}
+			</if>
+			<!-- 获取某个时间段的随访记录 -->
+			<if test=" fuQto.startTime != null and fuQto.startTime != '' ">
+				and fm.flpe_time >= #{fuQto.startTime}
+			</if>
+			<if test=" fuQto.finishTime != null and fuQto.finishTime != '' ">
+				and fm.flpe_time &lt;= #{fuQto.finishTime}
+			</if>
+		</where>
+		<!-- ORDER BY fm.id -->
+		<!-- 按随访时间倒序 -->
+		ORDER BY fm.flpe_time DESC
+		<if test=" page >=0 and paging >0 ">
+			LIMIT ${page*paging},${paging}
+		</if>
+	</select>
+	<select id="getTotalFollowupMain" resultType="Integer" flushCache="true" useCache="false">
+		<include refid="countFollowupMainInnerEbo" />
+		<where>
+			1=1
+			<if test=" fuQto.prsnId > 0 ">
+				and fm.prsn_id = #{fuQto.prsnId}
+			</if>
+			<if test=" fuQto.staffId > 0 ">
+				and fm.staff_id = #{fuQto.staffId}
+			</if>
+			<if test=" fuQto.orgId > 0 ">
+				and fm.org_id = #{fuQto.orgId}
+			</if>
+			<if test=" fuQto.tbcfgId > 0 ">
+				and fm.tbcfg_id = #{fuQto.tbcfgId}
+			</if>
+			<if test=" fuQto.flpeMiscType != null and fuQto.flpeMiscType != '' ">
+				and fm.flpe_misc_type = #{fuQto.flpeMiscType}
+			</if>
+			<if test=" fuQto.flpeTypeId != null and fuQto.flpeTypeId != '' ">
+				and fm.flpe_type_id = #{fuQto.flpeTypeId}
+			</if>
+			<!-- 获取某个时间段的随访记录 -->
+			<if test=" fuQto.startTime != null and fuQto.startTime != '' ">
+				and fm.flpe_time >= #{fuQto.startTime}
+			</if>
+			<if test=" fuQto.finishTime != null and fuQto.finishTime != '' ">
+				and fm.flpe_time &lt;= #{fuQto.finishTime}
+			</if>
+		</where>
+	</select>
+
+	<!-- 通过id&code t_followup_exam表Ebo对象 -->
+	<sql id="selectFollowupExamEbo">
+		SELECT
+		te.id,te.code,te.prsn_id,te.stafff_id,te.flpe_time,te.flpe_type_id
+		,te.flpe_day,te.org_id,te.res_id,te.res_memo,te.res_staff_id
+		FROM
+		t_followup_exam AS te
+	</sql>
+	<select id="getFollowupExamByIdOrCode" resultMap="FollowupExamMap"
+		flushCache="true">
+		<include refid="selectFollowupExamEbo" />
+		<where>
+			1=1
+			<if test=" id > 0 ">
+				and te.id=${id}
+			</if>
+			<if test=" code != null and code != ''  ">
+				and te.code= '${code}'
+			</if>
+		</where>
+	</select>
+	<select id="getFollowupMainByIdOrCode" resultMap="FollowupMainEboMap"
+		flushCache="true">
+		<include refid="selectFollowupMainEbo" />
+		<where>
+			1=1
+			<if test=" id > 0 ">
+				and fm.id=${id}
+			</if>
+			<if test=" code != null and code != ''  ">
+				and fm.code= '${code}'
+			</if>
+		</where>
+	</select>
+	<select id="getFollowupMainBySelfCode" resultMap="FollowupMainEboMap"
+		flushCache="true">
+		<include refid="selectFollowupMainEbo" />
+		<where>
+			1=1
+			<if test=" selfCode != null and selfCode != ''  ">
+				and fm.self_code= '${selfCode}'
+			</if>
+			<if test=" orgId > 0 ">
+				and fm.org_id=${orgId}
+			</if>
+		</where>
+	</select>
+	<!-- 通过id&code t_followup_rec表Ebo对象 -->
+	<sql id="selectFollowupRecEbo">
+		SELECT
+		tr.id,tr.main_id,tr.main_type,tr.begin_time,tr.end_time,tr.long_pos,tr.lati_pos,tr.org_id
+		FROM
+		t_followup_rec AS tr
+	</sql>
+	<select id="getFollowupRecByIdOrCode" resultMap="FollowupRecEboMap"
+		flushCache="true">
+		<include refid="selectFollowupRecEbo" />
+		<where>
+			<if test=" id > 0 ">
+				tr.id=${id}
+			</if>
+			<if test=" code != null and code != ''  ">
+				tr.code= '${code}'
+			</if>
+		</where>
+	</select>
+	<!-- 添加随访记录 -->
+	<insert id="addFollowupMain" parameterType="com.kjplus.model.FollowupMainEbo"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_followup_main
+		(id,code,self_code,prsn_id,staff_id,org_id,tbcfg_id,flpe_misc_type
+		,flpe_type_id,flpe_time,flpe_day,res_id,res_memo,res_staff_id)
+		VALUES(
+		0,#{code},#{selfCode},#{prsnId},#{stafffId},#{orgId},#{tbcfgId},#{flpeMiscType}
+		,#{flpeTypeId},#{flpeTime},#{flpeDay},#{resId},#{resMemo},#{resStaffId}
+		)
+	</insert>
+	<!-- 添加或者修改随访结论 -->
+	<update id="addOrModifyFollowupRes" parameterType="com.kjplus.model.FollowupMainEbo">
+		UPDATE
+		t_followup_main AS fm
+		<set>
+			fm.code = #{res.code}
+			<if test=" res.resId > 0 ">
+				,fm.res_id = #{res.resId}
+			</if>
+			<if test="res.resMemo !=null and res.resMemo != ''">
+				, fm.res_memo =#{res.resMemo}
+			</if>
+			<if test=" res.resStaffId > 0 ">
+				, fm.res_staff_id = #{res.resStaffId}
+			</if>
+		</set>
+		<where>
+			<if test=" res.code != null and res.code != ''">
+				fm.code =
+				#{res.code}
+			</if>
+		</where>
+	</update>
+	
+	<!-- 添加或者修改随访结论 -->
+	<update id="updateFollowupMain">
+		UPDATE
+		t_followup_main AS fm
+		<set>
+			fm.code = '${fMainEbo.code}'
+			<if test=" fMainEbo.prsnId > 0 ">
+				,fm.prsn_id = ${fMainEbo.prsnId}
+			</if>
+			<if test=" fMainEbo.stafffId > 0 ">
+				,fm.staff_id = ${fMainEbo.stafffId}
+			</if>
+			<if test="fMainEbo.flpeMiscType !=null and fMainEbo.flpeMiscType != ''">
+				, fm.flpe_misc_type ='${fMainEbo.flpeMiscType}'
+			</if>
+			<if test=" fMainEbo.prsnTypeId > 0 ">
+				,fm.flpe_type_id = ${fMainEbo.prsnTypeId}
+			</if>
+		</set>
+		<where>
+			<if test=" fMainEbo.code != null and fMainEbo.code != ''">
+				fm.code = '${fMainEbo.code}'
+			</if>
+		</where>
+	</update>
+</mapper>

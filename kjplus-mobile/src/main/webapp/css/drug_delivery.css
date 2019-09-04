@@ -1,0 +1,84 @@
+body {
+  background-color: #fff;
+}
+.box {
+  background-color: #f5f5f5;
+  padding: 2.375rem 0 0 0;
+}
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+}
+.header h1 {
+  font-size: 0.9375rem;
+  color: #fff;
+  width: 100%;
+  height: 2.3125rem;
+  line-height: 2.3125rem;
+  background-color: #0bd16b;
+  text-align: center;
+  letter-spacing: 0.0625rem;
+  border-bottom: 0.0625rem solid #6ab999;
+}
+.header h1 i {
+  font-size: 1rem;
+  width: 2.625rem;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.main {
+  font-size: 0.75rem;
+}
+.main .order_box {
+  background-color: #fff;
+  margin-top: 0.625rem;
+}
+.main .order_box .time {
+  height: 2.375rem;
+  line-height: 2.375rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  position: relative;
+}
+.main .order_box .time i {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-image: url(../imgs/drug_delivery/icon.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  position: absolute;
+  top: 0.4375rem;
+  left: 1.25rem;
+}
+.main .order_box .time span {
+  font-weight: 700;
+  margin-left: 3.125rem;
+}
+.main .order_box .time em {
+  color: #999999;
+  margin-right: 1.25rem;
+}
+.main .order_box .order_no {
+  padding: 0 1.25rem;
+}
+.main .order_box .order_no p {
+  padding: 0.5rem 0;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.main .order_box .order_no p span {
+  color: #8c8c8c;
+}
+.main .order_box .order_no p em {
+  max-width: 12rem;
+  text-align: left;
+}
+.main .order_box .drug {
+  padding: 0.625rem 1.25rem;
+}
+.main .order_box .drug p {
+  color: #06a450;
+}

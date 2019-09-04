@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 点赞映射文件 -->
+<mapper namespace="com.kjplus.dao.IZanDao">
+	<!-- t_comm_zan -->
+	<resultMap type="com.kjplus.model.ZanEbo" id="ZanEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="CHAR" javaType="String" />
+		<result property="mainDesc" column="main_desc" jdbcType="VARCHAR" javaType="String" />
+		<result property="zanNum" column="zan_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="startTime" column="start_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="lastTime" column="last_time" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!-- t_comm_zan_his -->
+	<resultMap type="com.kjplus.model.ZanHisEbo" id="ZanHisEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zanId" column="zanid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zanTime" column="zan_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="ipAddr" column="ip_addr" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- 点赞文章信息inner对象 -->
+	<resultMap type="com.kjplus.model.inner.ZanInfoInnerEbo" id="ZanInfoInnerEboMap">
+		<result property="zanId" column="zan_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zanUid" column="zan_uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoId" column="info_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoCode" column="info_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<!-- 点赞信息状态对象, rumble -->
+	<resultMap type="com.kjplus.model.inner.ZanStatusInnerEbo" id="ZanStatusInnerEboMap">
+		<result property="zanId" column="zan_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zhId" column="zh_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zhUid" column="zh_uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="zhTime" column="zh_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="ipAddr" column="ip_addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+
+	<sql id="selectZanCountByUidAndInfoid">
+		SELECT 
+			count(*)
+		FROM t_comm_zan_his zh,t_comm_zan z
+		LEFT JOIN t_info_reference ir ON ir.id = z.main_id
+	</sql>
+	<sql id="selectZanInfoInnerEbo">
+		SELECT
+				<!--查询comm_zan_his表 -->
+				tczh.zanid zan_id,tczh.uid zan_uid
+				<!--查询t_info表 -->
+				,info.id info_id,info.info_code info_code
+				<!--查询comm_zan表 -->
+				,tcz.main_type 	main_type
+		FROM
+			t_comm_zan_his                    AS    tczh
+			LEFT  JOIN  t_info                AS    info	 ON 1=1
+		 <if test=" mainType.toString() == 'ZI'.toString()">
+			LEFT  JOIN  t_info       AS    info     ON  tcz.main_id=info.id
+		</if>
+		<if test=" mainType.toString() == 'ZR'.toString()">
+			LEFT  JOIN  t_info_reference AS  tir   ON  tcz.main_id=tir.id
+			LEFT  JOIN  t_info            AS  info  ON  tir.info_id=info.id
+		</if> 
+	</sql>
+	
+	<!--根据info查询出所有的赞和关注的信息 ,TODO:待确认！ -->
+	<sql id="selectZanAndFoInfoInnerEbo">
+		SELECT
+				<!--查询comm_zan_his表 -->
+				tczh.zanid zan_id,tczh.uid zan_uid
+				<!--查询t_info表 -->
+				,info.id info_id,info.info_code info_code
+				<!--查询comm_zan表 -->
+				,tcz.main_type 	main_type
+		FROM
+			t_comm_zan_his                     AS    tczh
+			LEFT JOIN    t_info                AS    info	 ON 1=1
+			LEFT JOIN    t_comm_zan            AS    tcz     ON tcz.id=tczh.zanid  
+			LEFT JOIN    t_info_reference      AS    tir     ON  tir.info_id=info.id
+<!-- 		<if test=" mainType.toString() == 'ZI'.toString()">
+			LEFT  JOIN  t_info       AS    info     ON  tcz.main_id=info.id
+		</if>
+		<if test=" mainType.toString() == 'ZR'.toString()">
+			LEFT  JOIN  t_info_reference AS  tir   ON  tcz.main_id=tir.id
+		</if>  -->
+	</sql>
+
+	<!--筛选用户是否关注特定的mainId和mainType  -->
+	<sql id="selectZanHisStatusEbo">
+		SELECT
+			zh.id zh_id,zh.uid zh_uid,zh.zan_time zh_time,zh.ip_addr ip_addr
+			,z.id zan_id,z.main_id,z.main_type
+		FROM
+			t_comm_zan_his  AS zh
+			,t_comm_zan AS z  
+		where
+			z.id = zh.zanid
+	</sql>
+		
+	<select id="getZanHisNumByUid" resultType="java.lang.Integer" flushCache="true"> 
+		<include refid="selectZanCountByUidAndInfoid"/>
+		<where>
+			1=1 and z.id = zh.zanid
+			<if test=" uid > 0 ">
+				and zh.uid = ${uid}
+			</if>
+			<if test=" zanId > 0 ">
+				and zh.zanid = ${zanId}
+			</if>
+		</where>
+	</select>
+	<sql id="selectZanEbo">
+		SELECT 
+			z.id,z.code,z.main_id,z.main_type,z.main_desc,z.zan_num,z.start_time,z.last_time
+		FROM t_comm_zan z
+	</sql>
+	<select id="getZanByIdOrCode" resultMap="ZanEboMap" flushCache="true"> 
+		<include refid="selectZanEbo"/>
+		<where>
+			<if test=" id > 0 ">
+				z.id=${id}
+			</if>
+			<if test=" code != null and  code != '' ">
+				and z.code='${code}' 
+			</if>
+		</where>
+	</select>
+	<select id="listZanByIdAndType" resultMap="ZanEboMap" flushCache="true"> 
+		<include refid="selectZanEbo"/>
+		<where>
+			<if test=" mainId > 0 ">
+				z.main_id=${mainId}
+			</if>
+			<if test=" mainType != null and  mainType != '' ">
+				and z.main_type='${mainType}' 
+			</if>
+		</where>
+	</select>
+	<select id="getZanHisNum"  resultType="java.lang.Integer" flushCache="true">
+	 	SELECT 
+	 		count(*)
+	    FROM	
+	    	t_comm_zan_his AS hz
+	    <where>
+	    	<if test="zanId > 0">
+	    		hz.zanid=${zanId}
+	    	</if>
+	    </where>
+	</select>
+	<select id="listZanAndFoInfo"  resultMap="ZanInfoInnerEboMap" flushCache="true">
+		<include refid="selectZanAndFoInfoInnerEbo"/>
+		<where>
+		   1=1
+			<if test="infoCode !=null and infoCode != '' ">
+				and info.info_code= '${infoCode}'
+			</if>
+			<if test="infoFlag !=null and infoFlag != ''">
+				and	info.flag='${infoFlag}'
+			</if>
+			<if test="uid > 0">
+				and	tczh.uid=${uid}
+			</if>
+		</where>
+	</select>
+	
+	<select id="listZanHisStatus"  resultMap="ZanStatusInnerEboMap" flushCache="true">
+		<include refid="selectZanHisStatusEbo"/>
+		and	z.main_id in (${mainIds})
+		and	z.main_type = '${mainType}'
+		and	zh.uid = ${uid}
+	</select>
+	
+
+	<insert id="addZan" parameterType="com.kjplus.model.ZanEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_comm_zan
+		VALUES(
+			0,#{code},#{mainId},#{mainType},#{mainDesc},#{zanNum},#{startTime},#{lastTime}
+		)
+	</insert>
+	<insert id="addZanHis" parameterType="com.kjplus.model.ZanHisEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_comm_zan_his
+		VALUES(
+			0,#{zanId},#{uid},#{zanTime},#{ipAddr}
+		)
+	</insert>
+	<update id="updateZanNum">
+	 UPDATE t_comm_zan AS z
+	    <set>
+	    	<if test="zanStatus != null and zanStatus == 'Y'.toString() ">
+            	z.zan_num = z.zan_num + 1
+			</if>
+			<if test="zanStatus != null and zanStatus == 'N'.toString() ">
+            	z.zan_num = z.zan_num - 1
+			</if>
+	    </set>
+	    <where>
+    		z.id=${zanId}
+	    </where>
+	</update>
+	<!-- 删除点赞记录 -->
+	<delete id="delZanHis">
+		DELETE FROM t_comm_zan_his
+		<where>
+			<if test="zanId > 0 and uid > 0 ">  
+				zanid = ${zanId} and uid = ${uid}
+			</if>
+		</where> 
+	</delete>
+	<select id="getZanByMainIdAndUid"  parameterType="com.kjplus.model.ZanEbo" flushCache="true">
+	 	<include refid="selectZanEbo"/>
+	    <where>
+	    	<if test="mainId > 0 ">
+	    		z.mainId=${mainId}
+	    	</if>
+	    </where>
+	</select>
+</mapper>

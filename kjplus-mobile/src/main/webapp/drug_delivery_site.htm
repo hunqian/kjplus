@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>药品配送地址</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/drug_delivery_site.css">
+</head>
+<body>
+<div class="box">
+    <!--header=========================================start-->
+    <div class="header">
+        <h1><i class="iconfont" onclick="javascript:history.back(-1);">&#xe61f;</i>药品配送地址</h1>
+    </div>
+    <!--header===========================================end-->
+
+    <!--main===========================================start-->
+    <div class="main">
+        <div class="delivery">
+            <div class="top clearfix">
+                <span class="fl id_name">欧阳倩</span>
+                <em class="fr id_phone">18888888888</em>
+            </div>
+            <div class="site">
+                <p class="id_site">北京北京市海淀区上地街道上地三街信息路26号中关村创业大厦0016</p>
+            </div>
+            <div class="bottom clearfix">
+                <i class="default"></i>
+                <span class="fl left">默认地址</span>
+                <span class="fr right">
+                    <button class="id_edit">编辑</button>
+                    <button class="id_delete">删除</button>
+                </span>
+            </div>
+        </div>
+
+        <div class="delivery">
+            <div class="top clearfix">
+                <span class="fl id_name">欧阳倩</span>
+                <em class="fr id_phone">18888888888</em>
+            </div>
+            <div class="site">
+                <p class="id_site">北京北京市海淀区上地街道上地三街信息路26号中关村创业大厦0016</p>
+            </div>
+            <div class="bottom clearfix">
+                <i></i>
+                <span class="fl left">设为默认</span>
+                <span class="fr right">
+                    <button class="id_edit">编辑</button>
+                    <button class="id_delete">删除</button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+    <!--main=============================================end-->
+
+    <!--footer=========================================start-->
+    <div class="footer">
+        <button>+ 新建配送地址</button>
+    </div>
+    <!--footer===========================================end-->
+
+</div>
+<!--新建配送地址-->
+<div class="alert">
+    <div class="alert_box">
+        <h3>新建配送地址<i class="off">X</i></h3>
+        <div class="alert_content">
+            <div class="name clearfix">
+                <span class="fl">姓名</span>
+                <input type="text" class="fl id_name">
+            </div>
+            <div class="phone clearfix">
+                <span class="fl">电话</span>
+                <input type="number" class="fl id_phone">
+            </div>
+            <div class="area clearfix">
+                <span class="fl">地区</span>
+                <input type="text" class="fl id_area" readonly="readonly">
+            </div>
+            <div class="site clearfix">
+                <input type="text" placeholder="请填写详细地址" class="fl id_site">
+            </div>
+        </div>
+        <button class="grey id_add_site">立即添加</button>
+    </div>
+</div>
+
+<!--编辑配送地址-->
+<div class="alert_1">
+    <div class="alert_box">
+        <h3>编辑配送地址<i class="off">X</i></h3>
+        <div class="alert_content">
+            <div class="name clearfix">
+                <span class="fl">姓名</span>
+                <input type="text" class="fl id_name">
+            </div>
+            <div class="phone clearfix">
+                <span class="fl">电话</span>
+                <input type="number" class="fl id_phone">
+            </div>
+            <div class="area clearfix">
+                <span class="fl">地区</span>
+                <input type="text" class="fl id_area" readonly="readonly">
+            </div>
+            <div class="site clearfix">
+                <input type="text" placeholder="请填写详细地址" class="fl id_site">
+            </div>
+        </div>
+        <button class="grey id_add_site">保&nbsp;&nbsp;&nbsp;存</button>
+    </div>
+</div>
+
+<!--删除确认提示-->
+<div class="alert_2">
+    <div class="alert_box">
+        <h3>提示<i class="off">X</i></h3>
+        <div class="alert_content">
+            <p>是否确认删除</p>
+        </div>
+        <button class="grey">确&nbsp;&nbsp;&nbsp;定</button>
+    </div>
+</div>
+
+
+</body>
+<script src="./js/jquery-1.12.2.min.js"></script>
+<script src="./js/drug_delivery_site.js"></script>
+</html>

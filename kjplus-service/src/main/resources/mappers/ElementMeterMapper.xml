@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 电力映射文件 -->
+<mapper namespace="com.kjplus.dao.IElectricMeterDao">
+	<resultMap type="com.kjplus.model.ElectricMeterEbo" id="ElectricMeterEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="meterCode" column="meter_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="province" column="province" jdbcType="VARCHAR" javaType="String" />
+		<result property="city" column="city" jdbcType="VARCHAR" javaType="String" />
+		<result property="area" column="area" jdbcType="VARCHAR" javaType="String" />
+		<result property="addr" column="addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="longitude" column="longitude" jdbcType="VARCHAR" javaType="String" />
+		<result property="latitude" column="latitude" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<sql id="selectElectricMeterEbo">
+		SELECT
+			em.id,em.meter_code,em.province,em.city,em.area,em.addr,em.longitude,em.latitude
+		FROM
+			t_electric_meter AS em
+	</sql>
+	
+	<sql id="getTotal">
+		SELECT
+			count(em.id)
+		FROM
+			t_electric_meter AS em
+	</sql>
+	<select id="getElectricMeterEboByIdOrCode" resultMap="ElectricMeterEboMap" flushCache="true" >
+		<include refid="selectElectricMeterEbo"/>
+		<where>
+		1=1
+			<if test=" id > 0 ">
+				and em.id = ${id}
+			</if>
+			<if test=" code != null and  code != '' ">
+				and em.meter_code = '${code}'
+			</if>
+			</where>
+	</select>
+
+	<select id="listElectricMeterEbo" resultMap="ElectricMeterEboMap" flushCache="true" >
+		<include refid="selectElectricMeterEbo"/>
+		<where> 
+		    1=1
+			<if test=" province != null and  province != '' ">
+				and em.province LIKE '%${province}%'
+			</if>
+			<if test=" city != null and  city != '' ">
+				and em.city LIKE '%${city}%'
+			</if>
+			<if test=" area != null and  area != '' ">
+				and em.area LIKE '%${area}%'
+			</if>
+			<if test=" addr != null and  addr != '' ">
+				and em.addr LIKE '%${addr}%'
+			</if>
+		</where>
+			order by em.create_time desc
+			<if test=" page >= 0 and paging >0 ">
+				LIMIT ${page*paging},${paging}
+			</if>
+	</select>
+	
+	<select id="getTotalElectric" resultType="Integer"  flushCache="true" useCache="false" >
+		<include refid="getTotal"/>
+		<where> 
+		    1=1
+			<if test=" province != null and  province != '' ">
+				and em.province LIKE '%${province}%'
+			</if>
+			<if test=" city != null and  city != '' ">
+				and em.city LIKE '%${city}%'
+			</if>
+			<if test=" area != null and  area != '' ">
+				and em.area LIKE '%${area}%'
+			</if>
+			<if test=" addr != null and  addr != '' ">
+				and em.addr LIKE '%${addr}%'
+			</if>
+		</where>
+	</select>
+
+	<insert id="addElectricMeter" parameterType="com.kjplus.model.ElectricMeterEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_electric_meter(id,meter_code,province,city,area,addr,longitude,latitude,create_time)
+		VALUES(
+			0,#{meterCode},#{province},#{city},#{area},#{addr},#{longitude},#{latitude},now()
+		)
+	</insert>
+</mapper>

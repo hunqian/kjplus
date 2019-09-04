@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysFunc 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.ISysFuncDao">
+	<resultMap type="com.kjplus.model.SysFuncEbo" id="funcEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="menuSeq" column="menu_seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="type" column="type" jdbcType="VARCHAR" javaType="string" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="string" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="string" />
+		<result property="menu" column="menu" jdbcType="VARCHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="string" />
+		<result property="funcPath" column="func_path" jdbcType="VARCHAR" javaType="string" />
+		<result property="icon" column="icon" jdbcType="VARCHAR" javaType="string" />
+	</resultMap>
+    
+	<!-- 查询菜单列表-->
+	<select id="findlistFunc" resultMap="funcEboMap" useCache="true" >
+		SELECT
+			f.id,f.pid,f.type,f.code,f.name,f.menu,f.flag,f.func_path
+		FROM
+		 	t_sys_func AS f
+		WHERE 1=1
+		<if test=" funcPath != null and funcPath !='' ">
+			and f.func_path like '%${funcPath}%'
+		</if>
+		<if test="type != null and type != '' ">
+			and f.type = '${type}'
+		</if>
+		order by f.pid asc
+	</select>
+	<!-- 查询角色对应的菜单  多表关联不开启二级缓存-->
+	<select id="listRoleFunc" resultMap="funcEboMap">
+		SELECT
+			f.id,f.pid,f.type,f.code,f.name,f.menu,f.flag,f.func_path
+		FROM  
+			t_sys_role_func AS rf , t_sys_func AS f
+		WHERE 1=1
+			and rf.func_id = f.id
+		<if test=" roleId > 0 ">
+			and rf.role_id =${roleId}
+		</if>
+		order by f.pid asc
+	</select>
+	<!-- 通过funcId,type获取 -->
+	<select id="getFuncById" resultMap="funcEboMap" useCache="true">
+		SELECT
+			f.id,f.pid,f.type,f.code,f.name,f.menu,f.flag,f.func_path
+		FROM
+			t_sys_func AS f
+		WHERE 
+			f.id=#{funcId}
+	</select>
+	<!-- 通过code获取 -->
+	<select id="getFuncByCode" resultMap="funcEboMap" useCache="true">
+		SELECT
+			f.id,f.pid,f.type,f.code,f.name,f.menu,f.flag,f.func_path
+		FROM 
+			t_sys_func AS f
+		WHERE 
+			f.code=${code}
+	</select>
+	<!-- 通过menu,type获取 -->
+	<select id="getFuncByMenu" resultMap="funcEboMap" useCache="true">
+		SELECT
+			f.id,f.pid,f.type,f.code,f.name,f.menu,f.flag,f.func_path
+		FROM 
+			t_sys_func AS f
+		WHERE 1=1
+		<if test="menu != null and menu != '' ">
+		  	and f.menu = '${menu}'
+		</if>
+		<if test="type != null and type != '' ">
+			and f.type = '${type}'
+		</if>
+	</select>
+	<!-- 通过uid获取用户对应的角色对应的菜单-->
+	<select id="listUserFunc" resultMap="funcEboMap" useCache="true">
+		SELECT
+			f.id,f.pid,f.type,f.code,f.name,f.menu,f.flag,f.func_path,f.icon
+		FROM 
+			t_sys_func AS f ,t_sys_user_role AS ur , t_sys_role_func AS rf
+		WHERE 1=1
+			and rf.func_id = f.id  and rf.role_Id = ur.role_id
+		<if test="uid > 0 ">
+		  	and ur.uid =${uid}
+		</if>
+		<if test="flag != null and flag != '' ">
+		  	and f.flag = '${flag}'
+		</if>
+			ORDER BY f.menu_seq asc, f.id ASC
+	</select>
+	<!-- 通过uid获取用户对应的角色对应的菜单-->
+	<select id="listFuncByPath" resultType="Integer" useCache="true">
+		SELECT
+			f.id
+		FROM 
+			t_sys_func AS f
+		WHERE 1=1
+		<if test="funcPath !=null and funcPath != '' ">
+		  	and f.func_path like '%${funcPath}%'
+		</if>
+			ORDER BY f.pid ASC
+	</select>
+	
+	<!-- 添加菜单  获取插入的主键  useGeneratedKeys="true" keyProperty="id"  keyProperty 对应实体对象的字段 -->
+	<insert id="addFunc" parameterType="com.kjplus.model.SysFuncEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_sys_func
+		VALUES(
+			0,#{pid},#{type},#{code},#{name},#{menu},#{flag},#{funcPath},#{menuSeq}
+		)
+	</insert>
+	<!-- 更新菜单路径 -->
+	<update id="updateFuncPath">
+		UPDATE 
+			t_sys_func AS f  
+		SET
+			f.func_path ='${path}'
+		WHERE 
+		<if test="funcId >0 ">
+			 f.id=${funcId}
+		</if>		
+	</update>
+	<!-- 更新flag -->
+	<update id="updateFuncFlag">
+		UPDATE 
+			t_sys_func AS f  
+		SET
+		<if test="flag !=null and flag != '' ">
+			f.flag ='${flag}'
+		</if>			
+		WHERE 
+		<if test="funcId >0 ">
+			 f.id=${funcId}
+		</if>		
+	</update>	
+</mapper>

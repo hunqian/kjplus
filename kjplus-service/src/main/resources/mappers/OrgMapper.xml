@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- org 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.IOrgDao">
+	<resultMap type="com.kjplus.model.OrgEbo" id="OrgEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="alias" column="alias" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgTypeId" column="org_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="prvnId" column="prvn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="cityId" column="city_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="areaId" column="area_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="addr" column="addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="headIconurl" column="head_icon_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+	</resultMap>
+	<resultMap type="com.kjplus.model.inner.OrgInnerEbo" id="OrgInnerEboMap" >
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="pname" column="pname" jdbcType="VARCHAR" javaType="String" />
+		<result property="alias" column="alias" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgTypeId" column="org_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgTypeName" column="org_type_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="prvnId" column="prvn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="prvnName" column="prvn_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="cityId" column="city_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="cityName" column="city_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="areaId" column="area_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="areaName" column="area_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="addr" column="addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="headIconurl" column="head_icon_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+	</resultMap>
+ 	
+	<sql id="selectOrgInnerEbo">
+	    SELECT
+	     	 o.id,o.pid,o.code,o.name,po.name pname,o.alias,o.org_type_id,v.name org_type_name,o.prvn_id,p.local_name prvn_name
+	     	,o.city_id,c.local_name city_name,o.area_id,a.local_name area_name,o.addr,o.head_icon_url,o.flag,o.create_time
+	    FROM
+	    	t_organization AS o
+	    LEFT JOIN t_sys_ref_value v on v.id = o.org_type_id
+	    LEFT JOIN t_sys_regions   p on p.region_id = o.prvn_id
+	    LEFT JOIN t_sys_regions   c on c.region_id = o.city_id
+	    LEFT JOIN t_sys_regions   a on a.region_id = o.area_id
+	    LEFT JOIN t_organization po  on o.pid = po.id
+	</sql>
+	<select id="listOrgInnerEbo" resultMap="OrgInnerEboMap" flushCache="true" useCache="true">
+	    <include refid="selectOrgInnerEbo"/>
+	    <where>
+	        <if test="orgName != null and orgName != '' ">
+	            o.name like '%${orgName}%'
+	        </if>
+	        <if test="flag != null and flag != '' ">
+	            and o.flag = '${flag}'
+	        </if>
+	        <if test="prvnId >0 ">
+	            and o.prvn_id=${prvnId}
+	        </if>
+	        <if test="cityId >0 ">
+	            and o.city_id=${cityId}
+	        </if>
+	    </where>
+		order by o.id asc
+	    <if test="page >=0 and paging >0 ">
+			LIMIT ${page*paging} ,${paging}
+		</if>
+	</select>
+	<select id="listOrgInnerEboByIds" resultMap="OrgInnerEboMap" flushCache="true" useCache="true">
+	    <include refid="selectOrgInnerEbo"/>
+	    <where>
+	    	1=1	        
+	        and o.id in (${orgIds})
+	    </where>
+		order by o.id asc
+	</select>
+	<sql id="selectOrgEbo">
+	    SELECT
+	     	 o.id,o.pid,o.code,o.name,o.alias,o.org_type_id,o.prvn_id
+	     	,o.city_id,o.area_id,o.addr,o.head_icon_url,o.flag,o.create_time
+	    FROM
+	    	t_organization AS o
+	</sql>
+	<select id="getOrgByCode" resultMap="OrgEboMap" flushCache="true" useCache="true">
+	    <include refid="selectOrgEbo"/>
+	    <where>
+	        <if test="code != null and code != '' ">
+	            o.code='${code}'
+	        </if>
+	    </where>
+	</select>
+	<select id="getOrgById" resultMap="OrgEboMap" flushCache="true" useCache="true" >
+	    <include refid="selectOrgEbo"/>
+	    <where>
+	        <if test="orgId > 0">
+	            o.id=${orgId}
+	        </if>
+	    </where>
+	</select>
+	
+	<!-- 获取org实体总数-->
+	<sql id="getTotalOrgBase">
+		SELECT  count(o.id)
+	    FROM
+	    	t_organization AS o
+	 </sql>	
+	 <select id="getTotalOrg" resultType="Integer" flushCache="true" useCache="true">
+	    <include refid="getTotalOrgBase"/>
+        <where>
+	        <if test="orgName != null and orgName != '' ">
+	            o.name like '%${orgName}%'
+	        </if>
+	        <if test="flag != null and flag != '' ">
+	            and o.flag = '${flag}'
+	        </if>
+	        <if test="pid >=0 ">
+	            and o.pid=${pid}
+	        </if>
+	        <if test="prvnId >0 ">
+	            and o.prvn_id=${prvnId}
+	        </if>
+	        <if test="cityId >0 ">
+	            and o.city_id=${cityId}
+	        </if>
+	    </where>
+	</select>
+	
+	<update id="updateOrg">
+	 UPDATE 
+	    	t_organization AS org
+	    <set>
+	    	org.code = org.code 
+	     	<if test=" flag != null and flag != '' ">
+	    		,org.flag = '${flag}'
+	    	</if>
+	    	<if test=" orgAlias != null and orgAlias != '' ">
+	    		,org.name = '${orgAlias}'
+	    	</if>
+	    	<if test=" orgAlias != null and orgAlias != '' ">
+	    		,org.alias = '${orgAlias}'
+	    	</if>
+	    	<if test=" orgAddr != null and orgAddr != '' ">
+	    		,org.addr = '${orgAddr}'
+	    	</if>
+	    	<if test=" headIconUrl != null and headIconUrl != '' ">
+	    		,org.head_icon_url = '${headIconUrl}'
+	    	</if>
+	    	<if test=" orgTypeId != null and orgTypeId > 0 ">
+	    		,org.org_type_id = ${orgTypeId}
+	    	</if>
+	    	<if test=" prvnId != null and prvnId > 0 ">
+	    		,org.prvn_id = ${prvnId}
+	    	</if>
+	    	<if test=" cityId != null and cityId > 0 ">
+	    		,org.city_id = ${cityId}
+	    	</if>
+	    	<if test=" areaId != null and areaId >= 0 ">
+	    		,org.area_id = ${areaId}
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test="orgId > 0">
+	    		org.id = ${orgId}
+	    	</if>
+	    </where>
+	</update>
+	
+	 <!-- 添加reftype -->
+	<insert id="addOrg" parameterType="com.kjplus.model.OrgEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_organization
+		VALUES(
+			0,#{pid},#{code},#{name},#{alias},#{orgTypeId},#{prvnId},#{cityId}
+			,#{areaId},#{addr},#{headIconurl},#{flag},#{createTime}
+		)
+	</insert>  
+</mapper>

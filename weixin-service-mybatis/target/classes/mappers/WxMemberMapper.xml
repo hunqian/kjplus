@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- roleFunc 菜单映射文件 -->
+<mapper namespace="com.ykisswx.dao.IWxMenuDao">
+    <!--数据对应的pojo 主映射(数据库字段全部映射) -->	
+	<resultMap type="com.ykisswx.model.WxMemberEbo" id="WxMemberEboMap">
+		<result property="mid" column="mid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userName" column="user_name" jdbcType="VARCHAR" javaType="string" />
+		<result property="showName" column="nick_name" jdbcType="VARCHAR" javaType="string" />
+		<result property="nickName" column="show_name" jdbcType="VARCHAR" javaType="string" />
+		<result property="userEmail" column="user_email" jdbcType="VARCHAR" javaType="string" />
+		<result property="userMobile" column="user_email" jdbcType="VARCHAR" javaType="string" />
+		<result property="mobileCountryCode" column="mobile_country_code" jdbcType="VARCHAR" javaType="string" />
+		<result property="password" column="password" jdbcType="VARCHAR" javaType="string" />
+		<result property="regTime" column="reg_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userType" column="user_type" jdbcType="CHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="string" />
+	</resultMap>
+	<!-- 复用SQL 查询数据库表映射pojo的全部对象 -->
+	<sql id="selectWxMemberEbo">
+	    SELECT
+			wm.mid,wm.user_name,wm.nick_name,wm.show_name,wm.user_email,wm.user_mobile,wm.mobile_country_code
+			,wm.password,wm.reg_time,wm.user_type,wm.user_type
+		FROM
+		 	t_wx_member AS wm			
+	</sql>
+	<select id="getMemberByMid" resultMap="WxMemberEboMap" flushCache="true" useCache="true">
+	    <include refid="selectWxMemberEbo"/>
+	    <where>
+	        wm.mid=${mid}
+	    </where>
+	</select>
+</mapper>

@@ -1,0 +1,53 @@
+DROP TABLE IF EXISTS `t_service_config`;
+CREATE TABLE `t_service_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `srv_id` int(11) NOT NULL COMMENT '对应主目录id',
+  `main_id` int(11) NOT NULL COMMENT '服务-业务对应表，可以为空',
+  `main_type` char(1) NOT NULL COMMENT 'S无对应/A活动/P预约/F随诊',
+  `acceptor_point` double NOT NULL COMMENT '服务接收方可以获得积分',
+  `provider_point` double NOT NULL COMMENT '服务提供方可以获得积分',
+  `org_id` int(11) NOT NULL COMMENT '服务积分',
+  PRIMARY KEY (`id`),
+  KEY `t_srv_config` (`srv_id`,`org_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务配置表，即一个org所对于的服务配置';
+
+
+
+CREATE TABLE `t_service_entry` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL COMMENT '上下级pid',
+  `srv_type` varchar(4) NOT NULL COMMENT '服务类别，S服务类/M其它',
+  `srv_code` varchar(16) NOT NULL COMMENT '服务编号',
+  `srv_name` varchar(50) NOT NULL COMMENT '服务名称',
+  `srv_type_id` int(11) unsigned zerofill NOT NULL COMMENT '对应参照id，srv_type为S的时候对应参照,M值可能不对应',
+  `prjFlag` char(1) NOT NULL COMMENT '是否有效',
+  `srv_memo` text COMMENT '服务描述',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `org_id` int(11) NOT NULL COMMENT '0系统定义/其它是每一个公司自己定义',
+  PRIMARY KEY (`id`),
+  KEY `org_service_id_code_orgid_deptid_staf` (`id`,`srv_code`,`srv_type_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='服务入口表，设置所有社区卫生中心的总服务入口\r\n\r\n添加一个公司自己定义的服务项目，自动在config表中添加';
+
+
+
+CREATE TABLE `t_service_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `entity_id` int(11) NOT NULL COMMENT '服务实体id，对应sum表中',
+  `srv_id` int(11) NOT NULL COMMENT '对应主目录id',
+  `service_time` int(11) NOT NULL COMMENT '服务时间',
+  `service_point` double NOT NULL COMMENT '服务积分',
+  `prjFlag` char(1) NOT NULL COMMENT '有一些服务可以从清单中零时去除，Y->N,则需要从总积分中减去',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务清单\r\n\r\n服务类别，S服务类/M其它杂项，如果是S则对应服务表中的服务项目，M杂项比如签到，积分兑换什么的？\r\n\r\n建议将杂项也对应到服务表中，做统一管理，只用不同的类别进行区分开来';
+
+
+CREATE TABLE `t_service_sum` (
+  `id` int(11) NOT NULL,
+  `org_id` int(11) NOT NULL COMMENT '服务积分',
+  `body_id` int(11) NOT NULL COMMENT '参与人id,可能是居民/医生/医生团队/部门',
+  `body_type` varchar(1) NOT NULL,
+  `total_earn_point` double NOT NULL COMMENT '总赚的积分',
+  `total_consume_point` double NOT NULL COMMENT '总消费积分,比如兑换了礼物的积分',
+  `total_point` double NOT NULL COMMENT '当前积分'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='服务汇总，记录一个服务汇总';
+

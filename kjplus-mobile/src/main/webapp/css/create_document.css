@@ -1,0 +1,1562 @@
+body {
+  background-color: #fff;
+}
+.box {
+  background-color: #fff;
+  padding: 2.3125rem 0 1rem;
+}
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+}
+.header h1 {
+  font-size: 0.9375rem;
+  color: #fff;
+  width: 100%;
+  height: 2.3125rem;
+  line-height: 2.3125rem;
+  background-color: #0bd16b;
+  text-align: center;
+  letter-spacing: 0.0625rem;
+  border-bottom: 0.0625rem solid #6ab999;
+  position: relative;
+}
+.header h1 i {
+  font-size: 1rem;
+  width: 2.625rem;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.header h1 span {
+  font-size: 0.875rem;
+  width: 2.625rem;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0.25rem;
+}
+.portrait {
+  font-size: 0.75rem;
+  height: 7.75rem;
+  background-color: #fff;
+  text-align: center;
+  overflow: hidden;
+}
+.portrait img {
+  width: 3.375rem;
+  height: 3.375rem;
+  border-radius: 1.6875rem;
+  overflow: hidden;
+  margin: 1.25rem 0 0.75rem 0;
+}
+.portrait p i {
+  width: 0.75rem;
+  height: 0.75rem;
+  -webkit-background-size: 0.75rem 0.75rem;
+  background-size: 0.75rem 0.75rem;
+  display: inline-block;
+  position: relative;
+  top: 0.125rem;
+}
+.portrait p .man {
+  background-image: url(../imgs/create_document/man.png);
+}
+.portrait p .woman {
+  background-image: url(../imgs/create_document/woman.png);
+}
+.tab {
+  border-top: 0.06325rem solid #e6e6e6;
+  border-bottom: 0.06325rem solid #e6e6e6;
+}
+.tab div {
+  font-size: 0.875rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  width: 50%;
+  text-align: center;
+}
+.tab .green {
+  color: #0bd16b;
+  border-bottom: 0.125rem solid #0bd16b;
+}
+.main {
+  padding: 0 1rem;
+}
+.main .data div {
+  font-size: 0.875rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.main .data div em {
+  width: 12rem;
+  height: 100%;
+  color: #d7d9da;
+  text-align: right;
+}
+.main .data div em .my_date {
+  width: 10rem;
+}
+.main .data div em i {
+  color: #d7d9da;
+  margin-left: 0.5rem;
+}
+.main .data div em .add {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-image: url(../imgs/create_document/add.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  margin-top: 0.5625rem;
+}
+.main .data div input {
+  color: #555;
+  height: 100%;
+  width: 12rem;
+  text-align: right;
+  border: none;
+}
+.main .data .disease_history {
+  height: auto;
+  line-height: normal;
+  border: none;
+}
+.main .data .disease_history .disease_box {
+  background-color: #eee;
+  padding: 0 0.5rem 0 1rem ;
+  height: auto;
+  line-height: normal;
+}
+.main .data .disease_history .disease_box div {
+  height: auto;
+  line-height: normal;
+  padding-top: 0.5rem;
+  border-bottom: 0.0625rem solid #bbb;
+}
+.main .data .disease_history .disease_box p {
+  font-size: 0.8125rem;
+  height: auto;
+  line-height: normal;
+}
+.main .data .disease_history .disease_box input {
+  font-size: 0.8125rem;
+  width: 100%;
+  color: #aaa;
+  text-align: right;
+  padding: 0.5rem 0;
+  background-color: #eee;
+}
+.main .data .pregnant_date {
+  height: auto;
+  line-height: normal;
+  border: none;
+}
+.main .data .pregnant_date input {
+  font-size: 0.8125rem;
+  width: 5rem;
+  height: 90%;
+}
+.main .data .pregnant_date b {
+  font-weight: 400;
+}
+.health_box {
+  width: 100%;
+  height: 100%;
+  padding: 2.3125rem 1rem 1rem;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  overflow: auto;
+  display: none;
+}
+.health_main {
+  width: 100%;
+}
+.health_main div {
+  font-size: 0.875rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.health_main div input {
+  width: 60%;
+  height: 100%;
+  border: none;
+  text-align: right;
+}
+.health_main div em {
+  width: 12rem;
+  height: 100%;
+  color: #d7d9da;
+  text-align: right;
+}
+.health_main div em .add {
+  color: #d7d9da;
+  margin-left: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-image: url(../imgs/create_document/add.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  margin-top: 0.5625rem;
+}
+.health_main .health_disease_history {
+  height: auto;
+  line-height: normal;
+  border: none;
+}
+.health_main .health_disease_history .disease_box {
+  background-color: #eee;
+  padding: 0 0.5rem 0 1rem ;
+  height: auto;
+  line-height: normal;
+}
+.health_main .health_disease_history .disease_box div {
+  height: auto;
+  line-height: normal;
+  padding-top: 0.5rem;
+  border-bottom: 0.0625rem solid #bbb;
+}
+.health_main .health_disease_history .disease_box p {
+  font-size: 0.8125rem;
+  height: auto;
+  line-height: normal;
+}
+.health_main .health_disease_history .disease_box input {
+  font-size: 0.8125rem;
+  width: 100%;
+  color: #aaa;
+  text-align: right;
+  padding: 0.5rem 0;
+  background-color: #eee;
+}
+.health_main .family_history {
+  height: 9.5rem;
+  line-height: normal;
+  border-bottom: none;
+  box-sizing: border-box;
+}
+.health_main .family_history div {
+  width: 80%;
+  box-sizing: border-box;
+}
+.health_main .family_history div input {
+  width: 70%;
+}
+.health_main .family_history div span {
+  margin-left: 0.375rem;
+}
+.health_main .family_history .text {
+  width: 20%;
+  height: 100%;
+  line-height: 9.5rem;
+  border-right: 0.0625rem solid #e6e6e6;
+  box-sizing: border-box;
+}
+.live_box {
+  width: 100%;
+  height: 100%;
+  padding: 2.3125rem 1rem 1rem;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  overflow: auto;
+  display: none;
+}
+.live_main {
+  width: 100%;
+}
+.live_main div {
+  font-size: 0.875rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.live_main div input {
+  width: 70%;
+  height: 100%;
+  border: none;
+  text-align: right;
+}
+.live_main div em {
+  width: 12rem;
+  height: 100%;
+  color: #d7d9da;
+  text-align: right;
+}
+.live_main .live_habits {
+  height: 9.5rem;
+  line-height: normal;
+  border-bottom: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: height 0.2s;
+}
+.live_main .live_habits div {
+  width: 78%;
+  box-sizing: border-box;
+}
+.live_main .live_habits div span {
+  margin-left: 0.375rem;
+}
+.live_main .live_habits .text {
+  width: 22%;
+  height: 100%;
+  line-height: 9.5rem;
+  border-right: 0.0625rem solid #e6e6e6;
+  box-sizing: border-box;
+  transition: height 0.2s;
+}
+.live_main .smoke {
+  height: 7.125rem;
+}
+.live_main .smoke .text {
+  line-height: 7.125rem;
+}
+.live_main .wine {
+  height: 11.875rem;
+}
+.live_main .wine .text {
+  line-height: 11.875rem;
+}
+.other_box {
+  width: 100%;
+  height: 100%;
+  padding: 2.3125rem 1rem 1rem;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  overflow: auto;
+  display: none;
+}
+.other_main {
+  width: 100%;
+}
+.other_main div {
+  font-size: 0.875rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.other_main div input {
+  width: 70%;
+  height: 100%;
+  border: none;
+  text-align: right;
+}
+.other_main div em {
+  width: 12rem;
+  height: 100%;
+  color: #d7d9da;
+  text-align: right;
+}
+.alert {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -6rem;
+}
+.alert .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert .alert_box .alert_content {
+  height: 11.5rem;
+}
+.alert .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+  text-align: center;
+}
+.alert_1 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_1 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -10rem;
+}
+.alert_1 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_1 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_1 .alert_box .alert_content {
+  height: 14rem;
+  overflow: auto;
+}
+.alert_1 .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+}
+.alert_1 .alert_box .alert_content div span {
+  color: #989898;
+}
+.alert_1 .alert_box .alert_content div i {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-top: 0.775rem;
+  margin-right: 0.625rem;
+  border-radius: 0.625rem;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  background-image: url(../imgs/drug_delivery_site/no_default.png);
+}
+.alert_1 .alert_box .alert_content div .select {
+  background-image: url(../imgs/drug_delivery_site/default.png);
+}
+.alert_1 .alert_box .alert_content div input {
+  color: #989898;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 1.875rem;
+  background-color: #f6f6f6;
+}
+.alert_1 .alert_box .alert_content #otherDiseaseBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_1 .alert_box .alert_content #theriomaBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_1 .alert_box .alert_content #occupationalBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_1 .alert_box .alert_content .other button {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #fff;
+  background-image: url(../imgs/create_document/add.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0;
+  margin: 0.775rem 0 0 0;
+  border: none;
+  padding: 0;
+  display: none;
+}
+.alert_1 .alert_box .alert_content .other_input {
+  background-color: #f6f6f6;
+  position: relative;
+}
+.alert_1 .alert_box .alert_content .other_input s {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #ddd;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0.625rem;
+  position: absolute;
+  top: 0.775rem;
+  left: 0.875rem;
+}
+.alert_1 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_1 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_1 .alert_box .green {
+  background-color: #0bd16b;
+}
+.alert_2 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 60;
+}
+.alert_2 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -6rem;
+}
+.alert_2 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_2 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_2 .alert_box .alert_content {
+  color: #898989;
+  font-size: 0.8125rem;
+  padding: 0.875rem;
+}
+.alert_2 .alert_box .alert_content p {
+  padding: 0.25rem 0;
+  text-align: center;
+}
+.alert_2 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_2 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_2 .alert_box .green {
+  background-color: #0bd16b;
+}
+.alert_3 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_3 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -8rem;
+}
+.alert_3 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_3 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_3 .alert_box .alert_content {
+  overflow: auto;
+}
+.alert_3 .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+}
+.alert_3 .alert_box .alert_content div span {
+  width: 20%;
+  color: #989898;
+}
+.alert_3 .alert_box .alert_content div i {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-top: 0.775rem;
+  margin-right: 0.625rem;
+  border-radius: 0.625rem;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  background-image: url(../imgs/drug_delivery_site/no_default.png);
+}
+.alert_3 .alert_box .alert_content div .select {
+  background-image: url(../imgs/drug_delivery_site/default.png);
+}
+.alert_3 .alert_box .alert_content .other_input {
+  background-color: #f6f6f6;
+}
+.alert_3 .alert_box .alert_content .other_input input {
+  color: #989898;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 1.875rem;
+  background-color: #f6f6f6;
+}
+.alert_3 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_3 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_3 .alert_box .green {
+  background-color: #0bd16b;
+}
+.alert_4 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_4 .alert_box {
+  width: 80%;
+  height: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+}
+.alert_4 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_4 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_4 .alert_box .alert_content {
+  height: 77%;
+  color: #898989;
+  font-size: 0.8125rem;
+  padding: 0.5rem 0.875rem;
+  overflow: auto;
+}
+.alert_4 .alert_box .alert_content p {
+  padding: 0.25rem 0;
+}
+.alert_4 .alert_box .alert_content p .left {
+  width: 30%;
+}
+.alert_4 .alert_box .alert_content p .right {
+  width: 70%;
+}
+.alert_4 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_4 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_4 .alert_box .green {
+  background-color: #0bd16b;
+}
+.alert_5 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_5 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+}
+.alert_5 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_5 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_5 .alert_box .alert_content {
+  height: auto;
+  max-height: 23rem;
+  overflow: auto;
+  padding-bottom: 0.5rem;
+}
+.alert_5 .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+  text-align: center;
+}
+.alert_6 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_6 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -10rem;
+}
+.alert_6 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_6 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_6 .alert_box .alert_content {
+  height: 14rem;
+  overflow: auto;
+}
+.alert_6 .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+}
+.alert_6 .alert_box .alert_content div span {
+  color: #989898;
+}
+.alert_6 .alert_box .alert_content div i {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-top: 0.775rem;
+  margin-right: 0.625rem;
+  border-radius: 0.625rem;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  background-image: url(../imgs/drug_delivery_site/no_default.png);
+}
+.alert_6 .alert_box .alert_content div .select {
+  background-image: url(../imgs/drug_delivery_site/default.png);
+}
+.alert_6 .alert_box .alert_content div input {
+  color: #989898;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 1.875rem;
+  background-color: #f6f6f6;
+}
+.alert_6 .alert_box .alert_content .operation_box {
+  padding: 0;
+  height: auto;
+  line-height: normal;
+}
+.alert_6 .alert_box .alert_content .other button {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #fff;
+  background-image: url(../imgs/create_document/add.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0;
+  margin: 0.775rem 0 0 0;
+  border: none;
+  padding: 0;
+  display: none;
+}
+.alert_6 .alert_box .alert_content .other_input {
+  background-color: #f6f6f6;
+  position: relative;
+}
+.alert_6 .alert_box .alert_content .other_input s {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #ddd;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0.625rem;
+  position: absolute;
+  top: 0.775rem;
+  left: 0.875rem;
+}
+.alert_6 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_6 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_6 .alert_box .green {
+  background-color: #0bd16b;
+}
+.alert_7 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_7 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -10rem;
+}
+.alert_7 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_7 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_7 .alert_box .alert_content {
+  height: 14rem;
+  overflow: auto;
+}
+.alert_7 .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+}
+.alert_7 .alert_box .alert_content div span {
+  color: #989898;
+}
+.alert_7 .alert_box .alert_content div i {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-top: 0.775rem;
+  margin-right: 0.625rem;
+  border-radius: 0.625rem;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  background-image: url(../imgs/drug_delivery_site/no_default.png);
+}
+.alert_7 .alert_box .alert_content div .select {
+  background-image: url(../imgs/drug_delivery_site/default.png);
+}
+.alert_7 .alert_box .alert_content div input {
+  color: #989898;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 1.875rem;
+  background-color: #f6f6f6;
+}
+.alert_7 .alert_box .alert_content .trauma_box {
+  padding: 0;
+  height: auto;
+  line-height: normal;
+}
+.alert_7 .alert_box .alert_content .other button {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #fff;
+  background-image: url(../imgs/create_document/add.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0;
+  margin: 0.775rem 0 0 0;
+  border: none;
+  padding: 0;
+  display: none;
+}
+.alert_7 .alert_box .alert_content .other_input {
+  background-color: #f6f6f6;
+  position: relative;
+}
+.alert_7 .alert_box .alert_content .other_input s {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #ddd;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0.625rem;
+  position: absolute;
+  top: 0.775rem;
+  left: 0.875rem;
+}
+.alert_7 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_7 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_7 .alert_box .green {
+  background-color: #0bd16b;
+}
+.alert_8 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_8 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -10rem;
+}
+.alert_8 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_8 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_8 .alert_box .alert_content {
+  height: 14rem;
+  overflow: auto;
+}
+.alert_8 .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+}
+.alert_8 .alert_box .alert_content div span {
+  color: #989898;
+}
+.alert_8 .alert_box .alert_content div i {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-top: 0.775rem;
+  margin-right: 0.625rem;
+  border-radius: 0.625rem;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  background-image: url(../imgs/drug_delivery_site/no_default.png);
+}
+.alert_8 .alert_box .alert_content div .select {
+  background-image: url(../imgs/drug_delivery_site/default.png);
+}
+.alert_8 .alert_box .alert_content div input {
+  color: #989898;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 1.875rem;
+  background-color: #f6f6f6;
+}
+.alert_8 .alert_box .alert_content .blood_box {
+  padding: 0;
+  height: auto;
+  line-height: normal;
+}
+.alert_8 .alert_box .alert_content .other button {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #fff;
+  background-image: url(../imgs/create_document/add.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0;
+  margin: 0.775rem 0 0 0;
+  border: none;
+  padding: 0;
+  display: none;
+}
+.alert_8 .alert_box .alert_content .other_input {
+  background-color: #f6f6f6;
+  position: relative;
+}
+.alert_8 .alert_box .alert_content .other_input s {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #ddd;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0.625rem;
+  position: absolute;
+  top: 0.775rem;
+  left: 0.875rem;
+}
+.alert_8 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_8 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_8 .alert_box .green {
+  background-color: #0bd16b;
+}
+.alert_9 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_9 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+}
+.alert_9 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_9 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_9 .alert_box .alert_content {
+  height: auto;
+  max-height: 20rem;
+  overflow: auto;
+}
+.alert_9 .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+}
+.alert_9 .alert_box .alert_content div span {
+  color: #989898;
+}
+.alert_9 .alert_box .alert_content div i {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-top: 0.775rem;
+  margin-right: 0.625rem;
+  border-radius: 0.625rem;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  background-image: url(../imgs/drug_delivery_site/no_default.png);
+}
+.alert_9 .alert_box .alert_content div .select {
+  background-image: url(../imgs/drug_delivery_site/default.png);
+}
+.alert_9 .alert_box .alert_content div input {
+  color: #989898;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 1.875rem;
+  background-color: #f6f6f6;
+}
+.alert_9 .alert_box .alert_content #otherDiseaseBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_9 .alert_box .alert_content #theriomaBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_9 .alert_box .alert_content #occupationalBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_9 .alert_box .alert_content .other_dv {
+  height: auto;
+  line-height: normal;
+  padding: 0;
+}
+.alert_9 .alert_box .alert_content .other button {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #fff;
+  background-image: url(../imgs/create_document/add.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0;
+  margin: 0.775rem 0 0 0;
+  border: none;
+  padding: 0;
+  display: none;
+}
+.alert_9 .alert_box .alert_content .other_input {
+  background-color: #f6f6f6;
+  position: relative;
+}
+.alert_9 .alert_box .alert_content .other_input s {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #ddd;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0.625rem;
+  position: absolute;
+  top: 0.775rem;
+  left: 0.875rem;
+}
+.alert_9 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_9 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_9 .alert_box .green {
+  background-color: #0bd16b;
+}
+
+.alert_message {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 60;
+}
+.alert_message .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -6rem;
+}
+.alert_message .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_message .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_message .alert_box .alert_content {
+  color: #898989;
+  font-size: 0.8125rem;
+  padding: 0.875rem;
+}
+.alert_message .alert_box .alert_content p {
+  padding: 0.25rem 0;
+  text-align: center;
+}
+.alert_message .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_message .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_message .alert_box .green {
+  background-color: #0bd16b;
+}
+/*残疾情况     多选  */
+.alert_11 {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 50;
+}
+.alert_11 .alert_box {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -10rem;
+}
+.alert_11 .alert_box h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-bottom: 0.0625rem solid #e6e6e6;
+}
+.alert_11 .alert_box h3 .off {
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: #ccc;
+}
+.alert_11 .alert_box .alert_content {
+  height: 14rem;
+  overflow: auto;
+}
+.alert_11 .alert_box .alert_content div {
+  font-size: 0.875rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-bottom: 0.0625rem solid #e6e6e6;
+  padding: 0 0.875rem;
+}
+.alert_11 .alert_box .alert_content div span {
+  color: #989898;
+}
+.alert_11 .alert_box .alert_content div i {
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-top: 0.775rem;
+  margin-right: 0.625rem;
+  border-radius: 0.625rem;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  background-image: url(../imgs/drug_delivery_site/no_default.png);
+}
+.alert_11 .alert_box .alert_content div .select {
+  background-image: url(../imgs/drug_delivery_site/default.png);
+}
+.alert_11 .alert_box .alert_content div input {
+  color: #989898;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 1.875rem;
+  background-color: #f6f6f6;
+}
+.alert_11 .alert_box .alert_content #otherDiseaseBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_11 .alert_box .alert_content #theriomaBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_11 .alert_box .alert_content #occupationalBox {
+  height: auto;
+  line-height: normal;
+  border: none;
+  padding: 0;
+}
+.alert_11 .alert_box .alert_content .other button {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #fff;
+  background-image: url(../imgs/create_document/add.png);
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0;
+  margin: 0.775rem 0 0 0;
+  border: none;
+  padding: 0;
+  display: none;
+}
+.alert_11 .alert_box .alert_content .other_input {
+  background-color: #f6f6f6;
+  position: relative;
+}
+.alert_11 .alert_box .alert_content .other_input s {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #ddd;
+  -webkit-background-size: 1.25rem 1.25rem;
+  background-size: 1.25rem 1.25rem;
+  border-radius: 0.625rem;
+  position: absolute;
+  top: 0.775rem;
+  left: 0.875rem;
+}
+.alert_11 .alert_box button {
+  color: #fff;
+  font-size: 1rem;
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  margin: 0.5rem 10%;
+  border: none;
+}
+.alert_11 .alert_box .grey {
+  background-color: #ccc;
+}
+.alert_11 .alert_box .green {
+  background-color: #0bd16b;
+}
+/* 残疾情况页面append  */
+.main .data .physical_history {
+  height: auto;
+  line-height: normal;
+  border: none;
+}
+.main .data .physical_history .physical_box {
+  background-color: #eee;
+  padding: 0 0.5rem 0 1rem ;
+  height: auto;
+  line-height: normal;
+}
+.main .data .physical_history .physical_box div {
+  height: auto;
+  line-height: normal;
+  padding-top: 0.5rem;
+  border-bottom: 0.0625rem solid #bbb;
+}
+.main .data .physical_history .physical_box p {
+  font-size: 0.8125rem;
+  height: auto;
+  line-height: normal;
+}
+.main .data .physical_history .physical_box input {
+  font-size: 0.8125rem;
+  width: 100%;
+  color: #aaa;
+  text-align: right;
+  padding: 0.5rem 0;
+  background-color: #eee;
+}

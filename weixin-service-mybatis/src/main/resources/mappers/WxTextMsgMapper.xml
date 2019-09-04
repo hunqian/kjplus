@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- roleFunc 菜单映射文件 -->
+<mapper namespace="com.ykisswx.dao.IWxTextMsgDao">
+    <!--数据对应的pojo 主映射(数据库字段全部映射) -->
+	<resultMap  type="com.ykisswx.model.inner.WxTextMsgInnerEbo" id="WxTextMsgInnerEboMap" >
+		<!-- 消息文本对象 -->
+		<result property="id" column="msg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="textMsg" column="text_msg" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+			
+		<!-- 微信账户对象 -->
+		<result property="accid" column="acc_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="account" column="acc_name" jdbcType="VARCHAR" javaType="String" />
+		
+		<!-- 用户信息对象 -->
+		<result property="userid" column="user_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="nickname" column="nickname" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<sql id="selectTextMsgEbo">
+		SELECT
+			msg.id msg_id,msg.text_msg text_msg,msg.create_time create_time
+			,acc.id acc_id,acc.account acc_name
+			,u.id user_id,u.nickname nickname
+		from 
+			t_wx_user_textmsg msg
+			left join t_wx_account acc on msg.acc_id = acc.id
+			left join t_wx_user_info u on msg.user_id = u.id 
+		where
+			1=1 
+	</sql>
+	<!-- 获取消息文本数据 -->
+	<select id="listTextMsg" resultMap="WxTextMsgInnerEboMap" flushCache="true" useCache="true" >
+		<include refid="selectTextMsgEbo"/>
+	    <if test=" accid > 0">
+	    	 and msg.acc_id = ${accid}
+	    </if>
+	    <if test=" userid > 0">
+	    	 and u.id = ${userid}
+	    </if>
+	    <if test=" btime > 0">
+	    	 and u.create_time >= ${btime}
+	    </if>
+	    <if test=" etime > 0">
+	    	 and u.create_time &lt;= ${etime} 
+	    </if>
+	    <if test="msg != null and msg != '' ">
+			and msg.text_msg like '%${msg}%'
+		</if>
+		order by msg.create_time desc
+	    <if test="page >=0 and paging >0 ">
+			LIMIT ${page*paging}, ${paging}
+		</if>
+		
+	</select>
+	<!-- 获取消息总数 -->
+	<select id="getTotalTextMsg" resultType="Integer" flushCache="true" useCache="true" >
+		SELECT
+			  COUNT(msg.id)
+		from t_wx_user_textmsg msg,t_wx_account acc ,t_wx_user_info u
+		where msg.acc_id = acc.id and msg.user_id = u.id
+		<if test=" accid > 0">
+	    	 and acc.id = ${accid}
+	    </if>
+	    <if test=" userid > 0">
+	    	 and u.id = ${userid}
+	    </if>
+	    <if test=" btime > 0">
+	    	 and u.create_time >= ${btime}
+	    </if>
+	    <if test=" etime > 0">
+	    	 and u.create_time &lt;= ${etime}  
+	    </if>
+	    <if test="msg != null and msg != '' ">
+			and msg.text_msg like '%${msg}%'
+		</if>
+	</select>
+	
+	<!-- 添加WxTextMsg记录 -->
+	<insert id="addWxTextMsg" parameterType="com.ykisswx.model.inner.WxTextMsgInnerEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT into t_wx_user_textmsg
+			(user_id,acc_id,text_msg,create_time)
+			values(#{userid},#{accid},#{textMsg},#{createTime})
+	</insert>
+</mapper>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.IRongTokenDao">
+	<!--t_rong_token表InnerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.RongTokenInnerEbo" id="RongTokenInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" /> 
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" /> 
+		<result property="rToken" column="r_token" jdbcType="VARCHAR" javaType="String" />
+		<result property="reqTime" column="req_time" jdbcType="INTEGER" javaType="Integer" /> 
+		<result property="resTime" column="res_time" jdbcType="INTEGER" javaType="Integer" /> 
+		<result property="flag" column="info_desc" jdbcType="CHAR" javaType="String" />
+		<result property="isBlock" column="is_block" jdbcType="CHAR" javaType="String" />
+		<result property="isBlack" column="is_black" jdbcType="CHAR" javaType="String" />
+		<result property="nickName" column="nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="face" column="face" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!--t_rong_token表Ebo对象 -->
+	<resultMap type="com.kjplus.model.RongTokenEbo" id="RongTokenEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" /> 
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" /> 
+		<result property="rToken" column="r_token" jdbcType="VARCHAR" javaType="String" />
+		<result property="reqTime" column="req_time" jdbcType="INTEGER" javaType="Integer" /> 
+		<result property="resTime" column="res_time" jdbcType="INTEGER" javaType="Integer" /> 
+		<result property="flag" column="info_desc" jdbcType="CHAR" javaType="String" />
+		<result property="isBlock" column="is_block" jdbcType="CHAR" javaType="String" />
+		<result property="isBlack" column="is_black" jdbcType="CHAR" javaType="String" />
+	</resultMap>
+	
+	<sql id="rongTokens">
+    select 
+        <!-- t_rong_token表 数据 -->
+		r.id,r.uid,r.r_token,r.req_time,r.res_time,r.flag,r.is_block,r.is_black,
+		<!-- t_user 昵称 头像 -->
+		u.nick_name,u.face
+	FROM t_rong_token as r
+		LEFT JOIN t_user AS u ON r.uid = u.uid
+    </sql>
+	<!-- 获取t_rong_token列表 -->
+	<select id="listRongToken" resultMap="RongTokenInnerEboMap" flushCache="true"> 
+		<include refid="rongTokens"/>
+		<where>
+			1=1
+			<if test=" uid > 0 ">
+				and r.uid = ${uid}
+			</if>
+		</where>
+	</select>
+	
+	<sql id="getRongToken">
+    select 
+        <!-- t_rong_token表 数据 -->
+		r.id,r.uid,r.r_token,r.req_time,r.res_time,r.flag,r.is_block,r.is_black,
+		<!-- t_user 昵称 头像 -->
+		u.nick_name,u.face
+	FROM t_rong_token AS r
+		LEFT JOIN t_user AS u ON r.uid = u.uid
+    </sql>
+	<!-- 根据uid获取rongToken对象 -->
+	<select id="getRongTokenByUid"  resultMap="RongTokenInnerEboMap" flushCache="true"> 
+		<include refid="getRongToken"/>
+		<where>
+			1=1
+			<if test=" uid > 0 ">
+				and r.uid = ${uid}
+			</if>
+		</where>
+	</select>
+	<!-- 根据token获取rongToken对象 -->
+	<select id="getRongTokenByToken"  resultMap="RongTokenInnerEboMap" flushCache="true"> 
+		<include refid="getRongToken"/>
+		<where>
+			1=1
+			<if test=" rToken != null and rToken != '' ">
+	    		and r.r_token='${rToken}'
+	    	</if>
+		</where>
+	</select>		
+	
+	<!-- 添加rongToken -->
+	<insert id="addRongToken" parameterType="com.kjplus.model.RongTokenEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_rong_token
+			VALUES
+		(0,${uid},'${rToken}',${reqTime},${resTime},'${flag}','${isBlock}','${isBlack}')
+	</insert>
+	
+    <!--修改 t_rong_token -->
+	<update id="updateRongToken" parameterType="com.kjplus.model.RongTokenEbo">
+	 UPDATE 
+	    	t_rong_token AS r
+	    <set>
+	     	<if test=" rToken != null and rToken != '' ">
+	    		r.r_token='${rToken}',
+	    	</if>
+	    	<if test=" reqTime > 0 ">
+	    		r.req_time=${reqTime},
+	    	</if>
+	    	<if test=" resTime > 0 ">
+	    		r.res_time=${resTime},
+	    	</if>
+	    	<if test=" flag != null and flag != '' ">
+	    		r.flag='${flag}',
+	    	</if>
+	    	<if test=" isBlock != null and isBlock != '' ">
+	    		r.is_block='${isBlock}',
+	    	</if>
+	    	<if test=" isBlack != null and isBlack != '' ">
+	    		r.is_black='${isBlack}'
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test="uid > 0">
+	    		r.uid=${uid}
+	    	</if>
+	    </where>
+	</update>
+</mapper>

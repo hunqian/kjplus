@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<!--To enable @RequestMapping process on type level and method level-->
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+	<!-- 对restful包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
+	<context:component-scan base-package="com.kjplus.rest" />
+
+	<!--支持json类型-->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="marshallingConverter" />
+				<ref bean="atomConverter" />
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="marshallingConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		<constructor-arg ref="jaxbMarshaller" />
+		<property name="supportedMediaTypes" value="application/xml" />
+	</bean>
+
+	<bean id="atomConverter" class="org.springframework.http.converter.feed.AtomFeedHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/atom+xml" />
+	</bean>
+
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json; charset=UTF-8</value>
+				<value>application/x-www-form-urlencoded; charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Client -->
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<property name="messageConverters">
+			<list>
+				<ref bean="marshallingConverter" />
+				<ref bean="atomConverter" />
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

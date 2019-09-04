@@ -1,0 +1,10 @@
+<urlrewrite>
+	<rule>
+		<from>^/qbtextbookarch_(\d+).html</from>
+		<to type="redirect">qbtextbookarch.html?vername=$1</to>
+	</rule>
+	<rule>
+		<from>^/qbtextbookcnt_(\d+).html</from>
+		<to type="redirect">qbtextbookcnt.html?archid=$1</to>
+	</rule>
+</urlrewrite>

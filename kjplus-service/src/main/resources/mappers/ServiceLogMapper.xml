@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.IServiceLogDao">
+	  <!--服务日志Ebo对象  -->
+	 <resultMap type="com.kjplus.model.ServiceLogEbo" id="ServiceLogEboMap">
+	  	<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvId" column="srv_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="providerId" column="provider_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+	 </resultMap>
+	 <!-- t_service_log表  -->
+	 <sql id="selectServiceLogEbo">
+		SELECT
+			sl.id,sl.code,sl.srv_id,sl.provider_id,sl.prsn_id,sl.flag,sl.create_time
+		FROM
+			t_service_log AS sl
+	 </sql>
+	  <sql id="totalServiceLog">
+		SELECT
+			count(sl.id)
+		FROM
+			t_service_log AS sl
+	 </sql>
+	 <select id="getServiceLogEboByIdOrCode" resultMap="ServiceLogEboMap" flushCache="true">
+	 	<include refid="selectServiceLogEbo"/>
+	 	<where>
+	 	1=1
+	 		<if test=" id > 0">
+	 			and sl.id=${id}
+	 		</if>
+	 		<if test=" code != null and  code != '' ">
+	 			and sl.code='${code}'
+	 		</if>
+	 	</where>
+	 </select>	  
+	 
+	 <select id="listServiceLogEbo" resultMap="ServiceLogEboMap" flushCache="true">
+	 	<include refid="selectServiceLogEbo"/>
+	 	<where>
+	 	1=1
+	 		<if test=" srvId > 0">
+	 			and sl.srv_id=${srvId}
+	 		</if>
+	 		<if test=" providerId > 0">
+	 			and sl.provider_id=${providerId}
+	 		</if>
+	 		<if test=" prsnId > 0">
+	 			and sl.prsn_id=${prsnId}
+	 		</if>
+	 		<if test=" flag != null and  flag != '' ">
+	 			and sl.flag='${flag}'
+	 		</if>
+	 		<if test="startTime > 0  ">  
+				and sl.create_time &gt;= ${startTime}
+		 	</if>
+			<if test="endTime > 0  ">  
+				and sl.create_time &lt;= ${endTime}
+		 	</if>
+	 	</where>
+	 	ORDER BY sl.id
+	 	<if test="page >= 0 and paging > 0  ">  
+			LIMIT ${page*paging},${paging} 
+	 	</if>
+	 </select>	
+
+ 	<select id="getTotalServiceLog" resultType="Integer" flushCache="true">
+	 	<include refid="totalServiceLog"/>
+	 	<where>
+	 	1=1
+	 		<if test=" srvId > 0">
+	 			and sl.srv_id=${srvId}
+	 		</if>
+	 		<if test=" providerId > 0">
+	 			and sl.provider_id=${providerId}
+	 		</if>
+	 		<if test=" prsnId > 0">
+	 			and sl.prsn_id=${prsnId}
+	 		</if>
+	 		<if test=" flag != null and  flag != '' ">
+	 			and sl.flag='${flag}'
+	 		</if>
+	 		<if test="startTime > 0  ">  
+				and sl.create_time &gt;= ${startTime}
+		 	</if>
+			<if test="endTime > 0  ">  
+				and sl.create_time &lt;= ${endTime}
+		 	</if>
+	 	</where>
+	</select>	
+		  
+	<insert id="addServiceLog" parameterType="com.kjplus.model.ServiceLogEbo" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+	  	INSERT INTO t_service_log(id,code,srv_id,provider_id,prsn_id,flag,create_time)
+		VALUES(
+			0,#{code},#{srvId},#{providerId},#{prsnId},#{flag},#{createTime}
+		) 
+	</insert>
+	<!--修改服务日志状态-->
+	<update id="updateServiceLog"  >
+	 	UPDATE 
+	 		t_service_log AS sl
+		<set>
+			<if test="flag !=null and flag != '' ">
+	 			sl.flag = #{flag}
+	 		</if>
+		</set>
+		<where>
+	 	1=1
+	 		<if test=" id > 0">
+	 			and sl.id=${id}
+	 		</if>
+	 		<if test=" code != null and  code != '' ">
+	 			and sl.code='${code}'
+	 		</if>
+		</where>
+	 </update>
+	
+	 
+</mapper>

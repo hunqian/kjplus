@@ -1,0 +1,145 @@
+body {
+    background-color: #F3F3F3;
+}
+
+ul.week-f {
+    position: fixed;
+    width: 100%;
+    top: 2.75rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    background-color: #F7F7F7;
+    border-bottom: 0.0625rem solid #CDCDCD;
+    font-size: 0.75rem;
+    z-index: 2;
+    overflow: hidden;
+}
+
+ul.week-f li {
+    float: left;
+    box-sizing: border-box;
+    width: 14.28%;
+    text-align: center;
+}
+
+ul.week-f li.wk {
+    color: #FF902D;
+}
+
+/* 日历相关css */
+.cal-wrap {
+    background-color: #FFFFFF;
+    position: relative;
+    padding-bottom: 0.5rem;
+    color: #585858;
+}
+
+.cal-wrap h2 {
+    text-align: center;
+    font-size: 1rem;
+}
+
+.cal-wrap ul.week {
+    height: 1.5rem;
+    line-height: 1.5rem;
+    background-color: #F7F7F7;
+    border-bottom: 0.0625rem solid #F5F0F0;
+    margin: 0.1875rem 0 0.3125rem;
+    font-size: 0.75rem;
+    overflow: hidden;
+}
+
+.cal-wrap ul.week li {
+    float: left;
+    box-sizing: border-box;
+    width: 2.75rem;
+    text-align: center;
+}
+
+.cal-wrap ul.week li.wk {
+    color: #FF902D;
+}
+
+.cal-wrap ul.day {
+    overflow: hidden;
+}
+
+.cal-wrap ul.day li {
+    float: left;
+    box-sizing: border-box;
+    width: 2.75rem;
+    text-align: center;
+    height: 2.75rem;
+    line-height: 2.625rem;
+    padding: 0.125rem 0;
+    overflow: hidden;
+}
+
+.cal-wrap ul.day li i {
+    font-style: normal;
+    display: block;
+}
+
+/* 多行 */
+.cal-wrap ul.day li.dl {
+    line-height: 1.25rem;
+    padding-top: 0.125rem;
+    font-size: 0.8125rem;
+}
+/*活动*/
+.cal-wrap ul.day li.hd {
+    line-height: 1.25rem;
+    padding-top: 0.125rem;
+    font-size: 0.8125rem;
+}
+.cal-wrap ul.day li.dd {
+    border-radius: 1.375rem;
+}
+
+/* 节日 */
+.cal-wrap ul.day li.jj {
+    color: #03C7AD;
+}
+
+/* 双休 */
+.cal-wrap ul.day li.wk {
+    color: #FF902D;
+}
+
+/* 不可点状态 */
+.cal-wrap ul.day li.iv {
+    color: #cfcfcf!important;
+}
+
+/* 当前选中态 */
+.cal-wrap ul.day li.cur {
+    background-color: #03C7AD;
+    color: #FFFFFF;
+}
+
+/*自定义按钮样式*/
+.wrap {
+    position: relative;
+}
+.wrap button {
+    color: #fff;
+    font-size: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: none;
+    border-radius: 0.1875rem;
+    padding: 0.125rem 0.1875rem;
+    background-color: #fff;
+    -webkit-background-size: 1.5rem 1.5rem;
+    background-size: 1.5rem 1.5rem;
+    position: absolute;
+    top: 0.3125rem;
+}
+.wrap .btn_l {
+    left: 4.125rem;
+    background-image: url(../imgs/schedule/left.png);
+}
+.wrap .btn_r {
+    right: 4.125rem;
+    background-image: url(../imgs/schedule/right.png);
+}

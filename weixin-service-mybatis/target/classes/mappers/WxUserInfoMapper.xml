@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- roleFunc 菜单映射文件 -->
+<mapper namespace="com.ykisswx.dao.IWxUserInfoDao">
+    <!--数据对应的pojo 主映射(数据库字段全部映射) -->	
+	<resultMap type="com.ykisswx.model.WxUserInfoEbo" id="WxUserInfoEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refUserId" column="ref_user_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="openid" column="openid" jdbcType="VARCHAR" javaType="String" />
+		<result property="nickname" column="nickname" jdbcType="VARCHAR" javaType="String" />
+		<result property="mobile" column="mobile" jdbcType="VARCHAR" javaType="String" />
+		<result property="email" column="email" jdbcType="VARCHAR" javaType="String" />
+		<result property="age" column="age" jdbcType="INTEGER" javaType="Integer" />
+		<result property="sex" column="sex" jdbcType="CHAR" javaType="String" />
+		<result property="address" column="address" jdbcType="VARCHAR" javaType="String" />
+		<result property="area" column="area" jdbcType="VARCHAR" javaType="String" />
+		<result property="city" column="city" jdbcType="VARCHAR" javaType="String" />
+		<result property="province" column="province" jdbcType="VARCHAR" javaType="String" />
+		<result property="country" column="country" jdbcType="VARCHAR" javaType="String" />
+		<result property="language" column="language" jdbcType="VARCHAR" javaType="String" />
+		<result property="photo" column="photo" jdbcType="VARCHAR" javaType="String" />
+		<result property="subtime" column="subtime" jdbcType="INTEGER" javaType="Integer" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="accId" column="acc_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="level" column="level" jdbcType="INTEGER" javaType="Integer" />
+		<result property="memberId" column="member_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="remarkName" column="remark_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="multiTag" column="multi_tag" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+    <resultMap  type="com.ykisswx.dto.WxUserInfoNnDto" id="WxUserInfoNnDtoMap">
+        <result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="refUserId" column="ref_user_id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="nickname" column="nickname" jdbcType="VARCHAR" javaType="String" />
+        <result property="refNickname" column="ref_nickname" jdbcType="VARCHAR" javaType="String" />
+        <result property="openid" column="openid" jdbcType="VARCHAR" javaType="String" />
+        <result property="mobile" column="mobile" jdbcType="VARCHAR" javaType="String" />
+        <result property="email" column="email" jdbcType="VARCHAR" javaType="String" />
+        <result property="age" column="age" jdbcType="VARCHAR" javaType="String" />
+        <result property="sex" column="sex" jdbcType="VARCHAR" javaType="String" />
+        <result property="address" column="address" jdbcType="VARCHAR" javaType="String" />
+        <result property="area" column="area" jdbcType="VARCHAR" javaType="String" />
+        <result property="city" column="city" jdbcType="VARCHAR" javaType="String" />
+        <result property="province" column="province" jdbcType="VARCHAR" javaType="String" />
+        <result property="country" column="country" jdbcType="VARCHAR" javaType="String" />
+        <result property="language" column="language" jdbcType="VARCHAR" javaType="String" />
+        <result property="photo" column="photo" jdbcType="VARCHAR" javaType="String" />
+        <result property="tag" column="tag" jdbcType="VARCHAR" javaType="String" />        
+        <result property="orgid" column="org_id" jdbcType="INTEGER" javaType="Integer" />        
+        <result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+    </resultMap>
+	<!-- 复用SQL 查询数据库表映射pojo的全部对象 -->
+	<sql id="selectWxUserInfoEbo">
+	    SELECT
+			u.id,u.ref_user_id,u.openid,u.nickname,u.mobile,u.email,u.age,u.sex,u.address,u.area
+			,u.city,u.province,u.country,u.language,u.photo,u.subtime,u.create_time,u.flag,u.acc_id
+			,u.org_id,u.level,u.member_id,u.remark_name,u.multi_tag
+		FROM
+		 	t_wx_user_info AS u			
+	</sql>
+	<!-- 通过openid查询ebo对象 -->
+	<select id="getUserInfoByOpenid" resultMap="WxUserInfoEboMap" flushCache="true" useCache="true">
+	    <include refid="selectWxUserInfoEbo"/>
+	    <where>
+	        <if test="openId != null and openId != '' ">
+	            u.openid=${openId}
+	        </if>
+	    </where>	    
+	</select>
+	<!-- 通过userId查询ebo对象 -->
+	<select id="getUserById" resultMap="WxUserInfoEboMap" flushCache="true" useCache="true">
+	    <include refid="selectWxUserInfoEbo"/>
+	    <where>
+	        <if test="userId > 0 ">
+	            u.id=${userId}
+	        </if>
+	    </where>	    
+	</select>
+	<select id="getAccid" resultType="Integer" flushCache="true" useCache="true">
+	    SELECT 
+	    	w.acc_id 
+	    FROM
+	   		 t_wx_user_info AS w
+	    <where>
+	        <if test=" wxUserid > 0 ">
+	            w.id=${wxUserid}
+	        </if>
+	    </where>  
+	</select>
+	<select id="listUserByOrg" resultMap="WxUserInfoNnDtoMap" flushCache="true" useCache="true">
+		SELECT
+			info.id,info.ref_user_id,info2.nickname ref_nickname, info.openid,info.nickname,info.mobile,info.email
+			,info.age,info.sex,info.address,info.area,info.city,info.province,info.org_id
+			,info.country,info.language,info.photo,info.create_time
+		FROM
+	    	t_wx_user_info AS info
+	    	left join t_wx_user_info AS info2 on info.ref_user_id = info.id
+		<where>
+			1=1
+			<if test="nickname !=null and  nickname != ''  ">
+				and info.nickname like '%${nickname}%'
+			</if>
+			<if test="orgid > 0 ">
+				and info.org_id = ${orgid}
+			</if>
+		</where>
+	  	order by info.create_time desc
+        <if test="page >= 0 and  paging > 0 ">
+            LIMIT ${page*paging},${paging}
+        </if>
+    </select>
+
+    <select id="getTotal" resultType="Integer" flushCache="true" useCache="true">
+        SELECT
+              count(info.id)
+        FROM
+        t_wx_user_info AS info
+        <where>
+			1=1
+			<if test="nickname !=null and  nickname != ''  ">
+				and info.nickname like '%${nickname} %'
+			</if>
+			<if test="orgid > 0 ">
+				and info.org_id = ${orgid}
+			</if>
+		</where>
+    </select>
+	<!-- 添加WxUserInfo表记录-->
+	<insert id="addWxUserInfo" parameterType="com.ykisswx.model.WxUserInfoEbo" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO t_wx_user_info
+		VALUES(
+			0,#{refUserId},#{openid},#{nickname},#{mobile},#{email},#{age},#{sex}
+			,#{address},#{area},#{city},#{province},#{country},#{language},#{photo}
+			,#{subtime},#{createTime},#{flag},#{accId},#{orgId},#{level},#{memberId}
+			,#{remarkName},#{multiTag}
+		)
+	</insert>
+	
+	<sql id="selectWxUserEbo">
+		select 
+			i.photo from t_wx_user_info as i 
+		where 
+			1=1 
+	</sql>
+	
+	<select id="getWxUser" flushCache="true" useCache="true">
+	  	<include refid="selectWxUserEbo"/>
+	  		<if test=" uid > 0 ">
+	  			and i.id = ${uid}
+	  		</if>
+	 </select>
+	 
+	 <!-- 上传头像 -->
+	<update id="uploadFace">
+	 UPDATE 
+	    	t_wx_user_info AS i
+	    <set>
+	     	<if test=" face != null and face != '' ">
+	    		i.photo='${face}'
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test="uid > 0">
+	    		i.id=${uid}
+	    	</if>
+	    </where>
+	</update>
+	
+	<sql id="selectUserEbo">
+		select
+				i.id,i.ref_user_id,i.openid,i.nickname,i.mobile,i.email,i.age,i.sex,i.address,i.area,
+				i.city,i.province,i.country,i.language,i.photo,i.subtime,i.create_time,i.flag,i.acc_id,
+				i.org_id,i.level,i.member_id,i.remark_name,i.multi_tag
+			from t_wx_user_info AS i 
+		where 
+			1=1 
+	</sql>
+	
+	<select id="getWxUserById" resultMap="WxUserInfoEboMap" flushCache="true" useCache="true">
+	  	<include refid="selectUserEbo"/>
+	  		<if test=" uid > 0 ">
+	  			and i.id = ${uid}
+	  		</if>
+	  		
+	 </select>
+</mapper>

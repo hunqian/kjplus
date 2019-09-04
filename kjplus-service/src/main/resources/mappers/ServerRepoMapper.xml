@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.IServerRepoDao">
+	<resultMap type="com.kjplus.model.ServerRepoEbo" id="serverRepoEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvName" column="srv_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="ipAddr" column="ip_addr" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+	</resultMap>
+	<sql id="selectServerRepoEbo">
+		SELECT
+			sr.id,sr.code,sr.srv_name,sr.ip_addr,sr.flag
+		FROM
+			t_server_repo AS sr		 	
+	</sql>
+	<!--根据id或Code 查询   t_server_repo 表 -->
+	<select id="getSrvRepoByIdOrCode" resultMap="serverRepoEboMap" flushCache="true">
+		<include refid="selectServerRepoEbo"/>
+		<where>
+		1=1
+			<if test=" id > 0">
+				and	sr.id = ${id}
+			</if>
+			<if test="code !=null and code != '' ">
+				and sr.code = '${code}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据name模糊查询 t_server_repo表 -->
+	<select id="listSrvRepo" resultMap="serverRepoEboMap" flushCache="true">
+		<include refid="selectServerRepoEbo"/>
+		<where>
+		1=1
+			<if test="name !=null and name != '' ">
+				and sr.srv_name LIKE '%${name}%'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加	 t_server_repo 表-->
+	<insert id="addSrvRepoEbo" parameterType="com.kjplus.model.ServerRepoEbo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_server_repo (id,code,srv_name,ip_addr,flag)
+		VALUES(
+			0,#{code},#{srvName},#{ipAddr},#{flag}
+		)
+	</insert>
+	
+</mapper>

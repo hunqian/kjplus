@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- roleFunc 菜单映射文件 -->
+<mapper namespace="com.ykisswx.dao.IWxUserAccountDao">
+    <!--数据对应的pojo 主映射(数据库字段全部映射) -->	
+	<resultMap type="com.ykisswx.model.WxUserAccountEbo" id="WxUserAccountEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userId" column="user_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="accid" column="accid" jdbcType="VARCHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="string" />
+		<result property="unionid" column="unionid" jdbcType="VARCHAR" javaType="string" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+	</resultMap>
+	<!-- 复用SQL 查询数据库表映射pojo的全部对象 -->
+	<sql id="selectWxUserAccountEbo">
+	    SELECT
+			ua.id,ua.user_id,ua.accid,ua.flag,ua.unionid,ua.create_time	
+		FROM
+		 	t_wx_user_account AS ua		
+	</sql>
+	<!-- 通过openid查询ebo对象 -->
+	<select id="getUserAccountByUserAccId" resultMap="WxUserAccountEboMap" flushCache="true" useCache="true">
+	    <include refid="selectWxUserAccountEbo"/>
+	    <where>
+	        <if test="userId > 0 ">
+	            ua.user_id=${userId}
+	        </if      >
+	        <if test="accId > 0 ">
+	            and ua.accid=${accId}
+	        </if>
+	    </where>
+	</select>
+	<!-- 修改WxUserAccount表记录 -->
+	<update id="updateUserAccount">
+	    UPDATE 
+	    	t_wx_user_account AS ua
+	    <set>
+	        <if test="flag != null and flag != '' ">
+	            ua.flag=${flag},
+	        </if>
+	        <if test="unionid !=null and unionid != '' ">
+	           	ua.unionid=${unionid}
+	        </if>
+	    </set>
+	    <where>
+	        us.user_id=${userId}
+	    </where>
+	</update>
+	<!-- 添加WxUserAccount表记录 -->
+	<insert id="addWxUserAccount" parameterType="com.ykisswx.model.WxUserAccountEbo" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO t_wx_user_info
+	    VALUES(
+			0,#{userId},#{accid},#{flag},#{unionid},#{createTime}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.IRichContentDao">
+	<!--t_info表Ebo对象 -->
+	<resultMap type="com.kjplus.model.RichContentEbo" id="RichContentEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainTypeCode" column="main_type_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgid" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="String" />
+		<result property="showPic1" column="show_pic1" jdbcType="VARCHAR" javaType="String" />		
+		<result property="showPic2" column="show_pic2" jdbcType="VARCHAR" javaType="String" />
+		<result property="showPic3" column="show_pic3" jdbcType="VARCHAR" javaType="String" />
+		<result property="showPic4" column="show_pic4" jdbcType="VARCHAR" javaType="String" />
+		<result property="showPic5" column="show_pic5" jdbcType="VARCHAR" javaType="String" />
+		<result property="content" column="content" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />	
+
+	</resultMap>
+	
+	<!-- InfoInnerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.RichContentInnerEbo" id="RichContentInnerEboMap">
+		<!-- info -->
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainTypeCode" column="main_type_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="mainTypeName" column="main_type_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgid" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptid" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptName" column="dept_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="staffid" column="staff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="staffName" column="staff_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="String" />
+		<result property="showPic1" column="show_pic1" jdbcType="VARCHAR" javaType="String" />		
+		<result property="showPic2" column="show_pic2" jdbcType="VARCHAR" javaType="String" />
+		<result property="showPic3" column="show_pic3" jdbcType="VARCHAR" javaType="String" />
+		<result property="showPic4" column="show_pic4" jdbcType="VARCHAR" javaType="String" />
+		<result property="showPic5" column="show_pic5" jdbcType="VARCHAR" javaType="String" />
+		<result property="content" column="content" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />	
+	</resultMap>
+	
+	<sql id="selectRichContentEbo">
+		select 
+			n.id,n.code,n.main_id,n.main_type_code,n.title,n.show_pic1,n.show_pic2,n.show_pic3,n.show_pic4,
+			n.show_pic5,n.content,n.org_id,n.create_time
+		from t_rich_content AS n
+	</sql>
+	<sql id="selectRichContentEboByRef">
+		SELECT 
+			n.id,n.code,n.main_id,n.main_type_code,vl.name main_type_name,n.title,n.show_pic1,n.show_pic2,n.show_pic3,n.show_pic4,n.show_pic5,
+			n.content,n.create_time,n.org_id
+			<if test=" mainTypeCode != null and  mainTypeCode != '' ">
+				<if test="mainTypeCode.toString() == 'RT_ORG'.toString()">
+		  	 		,o.name org_name
+	   			</if>
+				<if test="mainTypeCode.toString() == 'RT_DEPT'.toString()">
+		  	 		,d.id dept_id,d.name dept_name
+	   			</if>
+				<if test="mainTypeCode.toString() == 'RT_STAFF'.toString()">
+		  	 		,s.id staff_id,s.name staff_name
+	   			</if>
+   			</if>
+		from t_rich_content AS n
+			<if test=" mainTypeCode != null and  mainTypeCode != '' ">
+				<if test="mainTypeCode.toString() == 'RT_ORG'.toString()">
+		  	 		LEFT JOIN t_organization AS o ON o.id = n.main_id
+	   			</if>
+				<if test="mainTypeCode.toString() == 'RT_DEPT'.toString()">
+		  	 		LEFT JOIN t_department AS d on d.id = n.main_id
+	   			</if>
+				<if test="mainTypeCode.toString() == 'RT_STAFF'.toString()">
+		  	 		LEFT JOIN t_staff AS s ON s.id = n.main_id
+	   			</if>
+	   		</if>
+   			left join t_sys_ref_value vl on n.main_type_code = vl.code
+	</sql>
+	<sql id="getTotalRich">
+		SELECT 
+			count(n.id)
+		from t_rich_content AS n
+		<if test=" mainTypeCode != null and  mainTypeCode != '' ">
+			<if test="mainTypeCode.toString() == 'RT_ORG'.toString()">
+	  	 		LEFT JOIN t_organization AS o ON o.id = n.main_id
+   			</if>
+			<if test="mainTypeCode.toString() == 'RT_DEPT'.toString()">
+	  	 		LEFT JOIN t_department AS d on d.id = n.main_id
+   			</if>
+			<if test="mainTypeCode.toString() == 'RT_STAFF'.toString()">
+	  	 		LEFT JOIN t_staff AS s ON s.id = n.main_id
+   			</if>
+   		</if>
+   			left join t_sys_ref_value vl on n.main_type_code = vl.code
+	</sql>
+
+	<!-- 根据咨询id或Code查询指定通用内容 -->
+	<select id="getContentByIdOrCode" resultMap="RichContentEboMap" flushCache="true"> 
+		<include refid="selectRichContentEbo"/>
+		<where>
+			1=1
+			<if test=" id > 0 ">
+				and n.id=${id}
+			</if>
+			<if test=" code != null and  code != '' ">
+				and n.code='${code}' 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据咨询mainid或mainTypeCode查询指定通用内容 -->
+	<select id="getContentByMainIdAndMainType" resultMap="RichContentEboMap" flushCache="true"> 
+		<include refid="selectRichContentEboByRef"/>
+		<where>
+		1=1
+			<if test=" mainId > 0 and  mainTypeCode != null and  mainTypeCode != '' " >
+				and n.main_id=${mainId}
+				and n.main_type_code='${mainTypeCode}' 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获取通用内容数据 -->
+	<select id="listContent" resultMap="RichContentInnerEboMap" flushCache="true"> 
+		<include refid="selectRichContentEboByRef"/>
+		<where>
+			1=1
+			<if test=" mainTypeCode != null and  mainTypeCode != '' ">
+				and n.main_type_code='${mainTypeCode}' 
+			</if>
+			<if test=" orgId > 0 ">
+				and n.org_id=${orgId}
+			</if>
+			<if test=" title != null and  title != '' ">
+				and n.title='${title}' 
+			</if>
+		</where>
+			<if test="page >0 and paging >0 ">
+				LIMIT ${page*paging} ,${paging}
+			</if>
+	</select>
+	
+	<!-- 获取通用内容数据总数 -->
+	<select id="getTotalContent" resultType="Integer" flushCache="true"> 
+		<include refid="getTotalRich"/>
+		<where>
+			1=1
+			<if test=" mainTypeCode != null and  mainTypeCode != '' ">
+				and n.main_type_code='${mainTypeCode}' 
+			</if>
+			<if test=" orgId > 0 ">
+				and n.org_id=${orgId}
+			</if>
+			<if test=" title != null and  title != '' ">
+				and n.title='${title}' 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加通用信息内容 -->
+	<insert id="addContent" parameterType="com.kjplus.model.RichContentEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT into t_rich_content
+			VALUES 
+		(0,#{code},#{mainId},#{mainTypeCode},#{title},#{showPic1},#{showPic2},#{showPic3},#{showPic4},#{showPic5},#{content},#{orgid},#{createTime})	
+	
+	</insert>
+
+	<!-- 修改通用内容 -->
+	<update id="updateContent" parameterType="com.kjplus.model.RichContentEbo">
+	    UPDATE 
+	    	t_rich_content AS n
+	    <set>
+	    	<if test=" mainId > 0 ">
+				n.main_id=${mainId},
+			</if>
+	     	<if test=" title != null and  title != '' ">
+				n.title='${title}' ,
+			</if>
+	     	<if test=" showPic1 != null and  showPic1 != '' ">
+				n.show_pic1='${showPic1}' ,
+			</if>
+	     	<if test=" showPic2 != null and  showPic2 != '' ">
+				n.show_pic2='${showPic2}' ,
+			</if>
+	     	<if test=" showPic3 != null and  showPic3 != '' ">
+				n.show_pic3='${showPic3}' ,
+			</if>
+	     	<if test=" showPic4 != null and  showPic4 != '' ">
+				n.show_pic4='${showPic4}' ,
+			</if>
+	     	<if test=" showPic5 != null and  showPic5 != '' ">
+				n.show_pic5='${showPic5}' ,
+			</if>
+	     	<if test=" content != null and  content != '' ">
+				n.content='${content}'
+			</if>
+	    </set>
+	    <where>
+	    	<if test=" code != null and  code != '' ">
+				and code='${code}' 
+			</if>
+	    </where>
+	</update>
+	
+</mapper>

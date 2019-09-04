@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.IExamDao">
+	<!--t_exam_blood表Ebo对象 -->
+	<resultMap type="com.kjplus.model.ExamBloodEbo" id="ExamBloodEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="exmainId" column="exmain_id" jdbcType="INTEGER" javaType="Integer"/>	
+		<result property="shrinkPress" column="shrink_press" jdbcType="DOUBLE" javaType="double" />
+		<result property="diastolePress" column="diastole_press" jdbcType="DOUBLE" javaType="double" />
+		<result property="heartRate" column="heart_rate" jdbcType="INTEGER" javaType="Integer"/>
+	</resultMap>
+	<!--t_exam_glycemic表Ebo对象 -->
+	<resultMap type="com.kjplus.model.ExamGlycemicEbo" id="ExamGlycemicEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>	
+		<result property="exmainId" column="exmain_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="glycemicVal" column="glycemic_val" jdbcType="DOUBLE" javaType="double" />
+		<result property="measureStatus" column="measure_status" jdbcType="CHAR" javaType="String" />
+	</resultMap>
+	<!--t_exam_urine_line表Ebo对象 -->
+	<resultMap type="com.kjplus.model.ExamUrineEbo" id="ExamUrineEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>	
+		<result property="exmainId" column="exmain_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="urineTypeId" column="urine_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="urineVl" column="urine_vl" jdbcType="CHAR" javaType="String" />
+	</resultMap>
+	<!--t_exam_main表Ebo对象 -->
+	<resultMap type="com.kjplus.model.ExamMainEbo" id="ExamMainEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="examCode" column="exam_code" jdbcType="VARCHAR" javaType="String"/>
+		<result property="examTypeId" column="exam_type_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="flpeId" column="flpe_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="staffId" column="staff_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="examDay" column="exam_day" jdbcType="DATE" javaType="Date" />
+		<result property="examTime" column="exam_time" jdbcType="INTEGER" javaType="Integer"/>
+	</resultMap>
+	<!--examMainInnerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.ExamMainInnerEbo" id="ExamMainInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="examCode" column="exam_code" jdbcType="VARCHAR" javaType="String"/>
+		<result property="examTypeId" column="exam_type_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="examTypeCode" column="exam_type_code" jdbcType="VARCHAR" javaType="String"/>
+		<result property="flpeId" column="flpe_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="staffId" column="staff_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="examDay" column="exam_day" jdbcType="DATE" javaType="Date" />
+		<result property="examTime" column="exam_time" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="shrinkPress" column="shrink_press" jdbcType="DOUBLE" javaType="double" />
+		<result property="diastolePress" column="diastole_press" jdbcType="DOUBLE" javaType="double" />
+		<result property="heartRate" column="heart_rate" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="glycemicVal" column="glycemic_val" jdbcType="DOUBLE" javaType="double" />
+		<result property="measureStatus" column="measure_status" jdbcType="CHAR" javaType="String" />
+		<result property="refTypeName" column="ref_value_name" jdbcType="VARCHAR" javaType="String"/>
+		<result property="prsnName" column="prsn_name" jdbcType="VARCHAR" javaType="String"/>
+		<result property="staffName" column="staff_name" jdbcType="VARCHAR" javaType="String"/>
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String"/>
+		<!-- 尿检数据 -->
+		<result property="urineTypeId" column="urine_type_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="urineTypeCode" column="urine_type_code" jdbcType="VARCHAR" javaType="String"/>
+		<result property="urineTypeName" column="urine_type_name" jdbcType="VARCHAR" javaType="String"/>
+		<result property="urineVl" column="urine_vl" jdbcType="VARCHAR" javaType="String"/>
+	</resultMap>
+
+	<!--t_exam_blood表Ebo对象 -->
+	<sql id="selectExamBloodEbo">
+		SELECT
+			eb.id,eb.exmain_id,eb.shrink_press,eb.diastole_press,eb.heart_rate
+		FROM
+			t_exam_blood AS eb
+	</sql>
+	<!--t_exam_glycemic表Ebo对象 -->
+	<sql id="selectExamGlycemicEbo">
+		SELECT
+			eg.id,eg.exmain_id,eg.glycemic_val,eg.measure_status
+		FROM
+			t_exam_glycemic AS eg
+	</sql>
+	<sql id="selectExamUrineEbo">
+		SELECT
+			u.id,u.exmain_id,u.urine_type_id,u.urine_vl
+		FROM
+			t_exam_urine_line AS u
+	</sql>
+	
+	<!--t_exam_main表Ebo对象 -->
+	<sql id="selectExamMainEbo">
+		SELECT
+			em.id,em.exam_code,em.exam_type_id,em.flpe_id,em.prsn_id,em.staff_id,em.org_id,em.exam_day,em.exam_time
+		FROM
+			t_exam_main AS em
+	</sql>
+	<!--examMainInnerEbo对象 -->
+	<sql id="selectExamMainInnerEbo">
+		SELECT
+			<!--t_exam_main表 -->
+			em.id,em.exam_code,em.exam_type_id,em.flpe_id,em.prsn_id,em.staff_id,em.org_id,em.exam_day,em.exam_time
+			<!--t_exam_glycemic表 -->
+			,eg.glycemic_val,eg.measure_status
+			<!--t_exam_blood表 -->		
+			,eb.shrink_press,eb.diastole_press,eb.heart_rate
+			<!--t_exam_urine_line表 -->
+			,u.urine_type_id,srv1.code urine_type_code,srv1.name urine_type_name,u.urine_vl
+			<!--t_sys_ref_value表 -->		
+			,srv.name ref_value_name ,srv.code exam_type_code
+			<!--t_document_info表 -->
+			,di.prsn_name prsn_name
+			<!--t_staff表 -->
+			,s.name staff_name
+			<!--t_organization表 -->
+			,o.name org_name
+		FROM
+			t_exam_main                     AS   em
+			LEFT JOIN     t_exam_glycemic   AS   eg   ON   em.id = eg.exmain_id
+			LEFT JOIN     t_exam_blood      AS   eb   ON   em.id = eb.exmain_id
+			LEFT JOIN     t_exam_urine_line AS   u   ON    em.id = u.exmain_id
+			LEFT JOIN     t_sys_ref_value   AS   srv1  ON     u.urine_type_id = srv1.id
+			LEFT JOIN     t_sys_ref_value   AS   srv  ON   em.exam_type_id = srv.id
+			LEFT JOIN     t_document_info   AS   di   ON   em.prsn_id = di.prsn_id
+			LEFT JOIN     t_staff           AS   s    ON   em.staff_id = s.id
+			LEFT JOIN     t_organization    AS   o    ON   em.org_id = o.id
+	</sql>
+	<sql id="countExamMainInnerEbo">
+		SELECT
+			count(em.id)
+		FROM
+			t_exam_main                     AS   em
+			LEFT JOIN     t_exam_glycemic   AS   eg   ON   em.id = eg.exmain_id
+			LEFT JOIN     t_exam_blood      AS   eb   ON   em.id = eb.exmain_id
+			LEFT JOIN     t_sys_ref_value   AS   srv  ON   em.exam_type_id = srv.id
+			LEFT JOIN     t_document_info   AS   di   ON   em.prsn_id = di.prsn_id
+			LEFT JOIN     t_staff           AS   s    ON   em.staff_id = s.id
+			LEFT JOIN     t_organization    AS   o    ON   em.org_id = o.id
+	</sql>
+	<!-- 通过id&exmainId t_exam_blood表Ebo对象 -->
+	<select id="getExamBloodEboByIdOrMainId" resultMap="ExamBloodEboMap">
+		<include refid="selectExamBloodEbo"/>
+		<where>
+		1=1
+			<if test=" id > 0 ">
+				and eb.id = ${id}
+			</if>
+			<if test=" exmainId > 0 ">
+				and eb.exmain_id = ${exmainId}
+			</if>
+		</where>	
+	</select>	
+	<!-- 通过id&exmainId t_exam_glycemic表Ebo对象 -->
+	<select id="getExamGlycemicEboByIdOrMainId" resultMap="ExamGlycemicEboMap">
+		<include refid="selectExamGlycemicEbo"/>
+		<where>
+		1=1
+			<if test=" id > 0 ">
+				and eg.id = ${id}
+			</if>
+			<if test=" exmainId > 0 ">
+				and eg.exmain_id = ${exmainId}
+			</if>
+		</where>	
+	</select>
+	<!-- 通过id&exmainId t_exam_urine_line表Ebo对象 -->
+	<select id="getExamUrineEboById" resultMap="ExamUrineEboMap">
+		<include refid="selectExamUrineEbo"/>
+		<where>
+		1=1
+			<if test=" id > 0 ">
+				and u.id = ${id}
+			</if>
+		</where>	
+	</select>	
+	<!-- 通过id&code t_exam_main表Ebo对象 -->
+	<select id="getExamMainEboByIdOrCode" resultMap="ExamMainEboMap">
+		<include refid="selectExamMainEbo"/>
+		<where>
+		1=1
+			<if test=" id > 0 ">
+				and em.id = ${id}
+			</if>
+			<if test=" code != null and code != '' ">
+				and em.exam_code = ${code}
+			</if>
+		</where>	
+	</select>
+	<!-- 通过exmainId ExamMainInnerEbo对象 -->
+	<select id="getExamMainInnerEbo" resultMap="ExamMainInnerEboMap">
+		<include refid="selectExamMainInnerEbo"/>
+		<where>
+		1=1
+			<if test=" exmainId > 0 ">
+				and em.id = ${exmainId}
+			</if>
+		</where>	
+	</select>
+	
+	<select id="listExamMainInnerEbo" resultMap="ExamMainInnerEboMap">
+		<include refid="selectExamMainInnerEbo"/>
+		<where>
+		1=1
+			<if test=" examQto.exmainId > 0 ">
+				and em.id = #{examQto.exmainId}
+			</if>
+			<if test=" examQto.examTypeId > 0 ">
+				and em.exam_type_id = #{examQto.examTypeId}
+			</if>
+			<if test=" examQto.prsnId > 0 ">
+				and em.prsn_id = #{examQto.prsnId}
+			</if>
+			<if test="examQto.prsnIdStr != null and examQto.prsnIdStr != '' ">
+				and em.prsn_id in (${examQto.prsnIdStr})
+			</if>
+			<if test=" examQto.staffId > 0 ">
+				and em.staff_id = #{examQto.staffId}
+			</if>
+			<if test=" examQto.orgId > 0 ">
+				and em.org_id = #{examQto.orgId}
+			</if>
+			<!-- 获取某个时间段的测试记录    -->
+			<if test=" examQto.firstTime != null and examQto.firstTime != '' ">
+				and em.exam_day >=  #{examQto.firstTime}
+			</if>
+			<if test=" examQto.lastTime != null and examQto.lastTime != '' ">
+				and em.exam_day &lt;= #{examQto.lastTime}
+			</if>
+		</where>
+		ORDER BY em.id	
+		<if test=" page >=0 and paging >0 ">
+			LIMIT ${page*paging},${paging}
+		</if>	
+	</select>
+	
+	<select id="listExamMainInnerEboByFlpeId" resultMap="ExamMainInnerEboMap">
+		<include refid="selectExamMainInnerEbo"/>
+		<where>
+		1=1
+			<if test=" flpeIdsStr != null and  flpeIdsStr != '' ">
+				and em.flpe_id in (${flpeIdsStr})
+			</if>
+		</where>
+	</select>	
+	
+	<select id="gettotalExamMain" resultType="Integer"  flushCache="true" useCache="false">
+		<include refid="countExamMainInnerEbo"/>
+		<where>
+		1=1
+			<if test=" examTypeId > 0 ">
+				and em.exam_type_id = ${examTypeId}
+			</if>
+			<if test=" prsnId > 0 ">
+				and em.prsn_id = ${prsnId}
+			</if>
+			<if test=" staffId > 0 ">
+				and em.staff_id = ${staffId}
+			</if>
+			<if test=" orgId > 0 ">
+				and em.org_id = ${orgId}
+			</if>
+			<!-- 获取某个时间段的测试记录    -->
+			<if test=" firstDay != null and firstDay != '' ">
+				and em.exam_day >= '${firstDay}'
+			</if>
+			<if test=" lastDay != null and lastDay != '' ">
+				and em.exam_day &lt;= '${lastDay}'
+			</if>
+		</where>
+	</select>
+		
+	<!-- 添加t_exam_blood表Ebo对象 -->	
+	<insert id="addExamBloodEbo" parameterType="com.kjplus.model.ExamBloodEbo" useGeneratedKeys="true" keyProperty="id">
+		insert into t_exam_blood 
+				(id,exmain_id,shrink_press,diastole_press,heart_rate)
+		VALUES
+				(0,#{exmainId},#{shrinkPress},#{diastolePress},#{heartRate})	
+	</insert>
+	<!-- 添加t_exam_glycemic表Ebo对象 -->	
+	<insert id="addExamGlycemicEbo" parameterType="com.kjplus.model.ExamGlycemicEbo" useGeneratedKeys="true" keyProperty="id">
+		insert t_exam_glycemic 
+				(id,exmain_id,glycemic_val,measure_status)
+		VALUES
+				(0,#{exmainId},#{glycemicVal},#{measureStatus})	
+	</insert>
+	<!-- 批量添加t_exam_urine_line表Ebo对象   -->
+	<insert id="addExamUrineEbo" parameterType="list" flushCache="true" useGeneratedKeys="true">
+		INSERT INTO t_exam_urine_line
+			(id,exmain_id,urine_type_id,urine_vl)
+		VALUES
+		<foreach collection="list" item="urine" separator=",">  
+            (
+			null,#{urine.exmainId},#{urine.urineTypeId},#{urine.urineVl}
+		)
+        </foreach>
+	</insert>
+	
+	
+	<!-- 添加t_exam_main表Ebo对象 -->	
+	<insert id="addExamMainEbo" parameterType="com.kjplus.model.ExamMainEbo" useGeneratedKeys="true" keyProperty="id">
+		insert t_exam_main (id,exam_code,exam_type_id,flpe_id,prsn_id,staff_id,org_id,exam_day,exam_time)
+		VALUES(0,#{examCode},#{examTypeId},#{flpeId},#{prsnId},#{staffId},#{orgId},#{examDay},#{examTime})	
+	</insert>
+
+</mapper>

@@ -1,0 +1,61 @@
+.my_consult_box {
+  height: 450px;
+  border-bottom: 1px solid #ccc;
+}
+.my_consult_box .my_other {
+  position: relative;
+  padding-left: 60px;
+}
+.my_consult_box .my_other p {
+  color: #fff;
+  max-width: 60%;
+  display: inline-block;
+  font-size: 14px;
+  padding: 10px;
+  background-color: #bbb;
+  border-radius: 5px;
+}
+.my_consult_box .my_other img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  position: absolute;
+  top: 0;
+  left: 10px;
+}
+.my_consult_box .my_me {
+  position: relative;
+  padding-right: 60px;
+  text-align: right;
+}
+.my_consult_box .my_me p {
+  max-width: 60%;
+  display: inline-block;
+  font-size: 14px;
+  padding: 10px;
+  background-color: #eee;
+  border-radius: 5px;
+  text-align: left;
+}
+.my_consult_box .my_me img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+.my_textarea_box {
+  margin-top: 20px;
+  padding-bottom: 50px;
+  position: relative;
+}
+.my_textarea_box .my_textarea {
+  width: 100%;
+  height: 80px;
+  background-color: #fff;
+}
+.my_textarea_box .my_btn {
+  position: absolute;
+  bottom: 0;
+}

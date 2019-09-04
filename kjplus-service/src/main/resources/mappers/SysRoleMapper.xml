@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- role 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.ISysRoleDao">
+	<resultMap type="com.kjplus.model.SysRoleEbo" id="RoleEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="type" column="type" jdbcType="VARCHAR" javaType="String" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="string" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="string" />
+	</resultMap>
+	<!-- t_sys——user_role Ebo对象 -->
+	<resultMap type="com.kjplus.model.UserRoleEbo" id="UserRoleEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="roleId" column="role_id" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!-- t_sys——user_role innerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.SysRoleInnerEbo" id="SysRoleInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="type" column="type" jdbcType="VARCHAR" javaType="String" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="string" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="string" />
+        <result property="urId" column="ur_id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+		
+	<select id="listRelatedUserRole" resultMap="SysRoleInnerEboMap" flushCache="true">
+        SELECT
+			r.id,r.type,r.code,r.name,r.flag,ur.id ur_id,ur.uid
+		FROM
+			t_sys_user_role ur 
+			,t_sys_role r
+		where 1=1
+			and r.id = ur.role_id
+            and ur.uid in (${uids})
+        <if test=" type != null and type != '' ">
+            and r.type = '${type}'
+        </if>
+        order by ur.uid,r.id 
+    </select>
+    
+    <select id="listUserRole" resultMap="SysRoleInnerEboMap" flushCache="true">
+        SELECT
+			r.id,r.type,r.code,r.name,r.flag,ur.id ur_id,ur.uid
+		FROM
+			t_sys_role r
+			LEFT JOIN t_sys_user_role ur ON r.id = ur.role_id and ur.uid = ${uid}
+        <where>
+            1=1
+            <if test=" roleId > 0 ">
+                and r.role_id = ${roleId}
+            </if>
+            <if test=" type != null and type != '' ">
+                and r.type = '${type}'
+            </if>
+        </where>
+    </select>
+	<!-- 通过code获取角色对象-->
+	<select id="getRoleByCode" resultMap="RoleEboMap" useCache="true" >
+		SELECT
+			r.id,r.type,r.code,r.name,r.flag
+		FROM
+		 	t_sys_role AS r
+		WHERE  
+			r.code ='${code}'		
+	</select>
+
+    <select id="getRoleById" resultMap="RoleEboMap" useCache="true" >
+        SELECT
+            r.id,r.type,r.code,r.name,r.flag
+        FROM
+           t_sys_role AS r
+        WHERE
+           r.id =${id}
+    </select>
+
+
+	<!-- 查询角色列表-->
+	<select id="listRole" resultMap="RoleEboMap" useCache="true" >
+		SELECT
+			r.id,r.type,r.code,r.name,r.flag
+		FROM
+		 	t_sys_role AS r
+		WHERE 1=1
+		<if test="type !=null and type != '' ">
+			 and r.type='${type}'
+		</if>
+		<if test="code !=null and code != '' ">
+			 and r.code='${code}'
+		</if>
+				
+		<if test="name !=null and name != '' ">
+			 and r.name like '%${name}%'
+		</if>
+		<if test="flag !=null and flag != '' ">
+			 and r.flag='${flag}'
+		</if>
+		<if test="page >= 0 and paging > 0">
+		 LIMIT ${page*paging} , ${paging}    
+		</if> 
+	</select>
+    <select id="listUserRoleAll" resultMap="UserRoleEboMap" flushCache="true">
+        SELECT
+            ur.uid,ur.role_id
+        FROM
+            t_sys_user_role AS ur
+        WHERE
+          <if test=" uid > 0">
+              ur.uid=${uid}
+          </if>
+          <if test=" roleId > 0">
+              and ur.role_id=${roleId}
+          </if>
+    </select>
+   <!-- 添加角色 -->
+	<insert id="addRole" parameterType="com.kjplus.model.SysRoleEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_sys_role
+		VALUES(
+			0,#{type},#{code},#{name},#{flag}
+		)
+	</insert>
+    <!-- 添加用户对应的角色-->
+    <insert id="addUserRole" parameterType="com.kjplus.model.UserRoleEbo" useGeneratedKeys="true" keyProperty="id">
+        INSERT  INTO  t_sys_user_role
+        VALUES (
+            0,#{uid},#{roleId}
+        )
+    </insert>
+
+    <!--插入多条用户对应角色的记录 -->
+    <insert id="addUserRoleAll" parameterType="list" useGeneratedKeys="true">
+        INSERT INTO
+                t_sys_user_role
+          (id,uid,role_id)
+        VALUES
+        <foreach collection="list" item="userRole" separator=",">
+            (
+             null,#{userRole.uid},#{userRole.roleId}
+            )
+        </foreach>
+    </insert>
+	<update id="updateRoleFlag">
+	    UPDATE 
+	    	t_sys_role AS r 
+	    SET 
+	    	r.flag='${flag}'
+	    WHERE
+	    	r.id=${roleId}
+	    
+	</update>
+    <delete id="delUserRoleAll">
+        DELETE
+          FROM
+              t_sys_user_role
+        WHERE
+             uid=${uid}
+    </delete>
+</mapper>

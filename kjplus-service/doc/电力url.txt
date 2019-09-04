@@ -1,0 +1,19 @@
+1、电力列表	listelectricmeter.html
+http://localhost:8080/kjplus/listelectricmeter.html?province=贵州
+http://59.110.42.139:9595/listelectricmeter.html?province=贵州
+
+2、电表详情	getelectricmeter.html
+http://localhost:8080/kjplus/getelectricmeter.html?metercode=123456987
+http://59.110.42.139:9595/getelectricmeter.html?metercode=123456987
+http://59.110.42.139:9595/getelectricmeter.html?metercode=7490369242623541
+
+3、添加电表	addelectricmeter.html
+http://localhost:8080/kjplus/addelectricmeter.html?metercode=123456987&province=贵州&city=开阳&area=乌当区&addr=贵开路129号&longitude=111.111&latitude=222.2222
+http://59.110.42.139:9595/addelectricmeter.html?metercode=123456987&province=贵州&city=开阳&area=乌当区&addr=贵开路129号&longitude=111.111&latitude=222.2222
+
+4、上传图片	/uploadele.html
+http://localhost:8080/kjplus/uploadelemeterform.html
+http://59.110.42.139:9595/uploadelemeterform.html
+
+5、上传图片form	/uploadelefile.html
+http://localhost:8080/kjplus/uploadelefile.html

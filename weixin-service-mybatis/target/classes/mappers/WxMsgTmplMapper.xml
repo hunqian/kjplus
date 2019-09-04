@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- IWxMsgtmplDao 菜单映射文件 -->
+<mapper namespace="com.ykisswx.dao.IWxMsgtmplDao">
+    <!--t_wx_msgtmpl_lib 主映射(数据库字段全部映射) -->	
+	<resultMap type="com.ykisswx.model.WxMsgtmplLibEbo" id="wxMsgtmplLibEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="string" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="string" />
+		<result property="mainIndustry" column="main_industry" jdbcType="VARCHAR" javaType="string" />
+		<result property="subIndustry" column="sub_industry" jdbcType="VARCHAR" javaType="string" />
+		<result property="useNum" column="use_num" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!--t_wx_msgtmpl_content 主映射(数据库字段全部映射) -->	
+	<resultMap type="com.ykisswx.model.WxMsgtmplContentEbo" id="wxMsgtmplContentEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="string" />
+		<result property="content" column="content" jdbcType="VARCHAR" javaType="string" />
+		<result property="demoSample" column="demo_sample" jdbcType="VARCHAR" javaType="string" />
+	</resultMap>
+	<!--	WxMsgtmplEbo 主映射(数据库字段全部映射) -->	
+	<resultMap type="com.ykisswx.model.WxMsgtmplEbo" id="wxMsgtmplEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="string" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="string" />
+		<result property="mainIndustry" column="main_industry" jdbcType="VARCHAR" javaType="string" />
+		<result property="subIndustry" column="sub_industry" jdbcType="VARCHAR" javaType="string" />
+		<result property="useNum" column="use_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="content" column="content" jdbcType="VARCHAR" javaType="string" />
+		<result property="demoSample" column="demo_sample" jdbcType="VARCHAR" javaType="string" />
+	</resultMap>
+	<!-- t_wx_msgtmpl_log 主映射(数据库字段全部映射)  -->	
+	<resultMap type="com.ykisswx.model.WxMsgtmplLogEbo" id="wxMsgtmplLogEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="accId" column="acc_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="toWxUserid" column="to_wx_userid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="string" />
+		<result property="msgContent" column="msg_content" jdbcType="VARCHAR" javaType="string" />
+		<result property="sendTime" column="send_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="msgId" column="msg_id" jdbcType="VARCHAR" javaType="string" />
+		<result property="msgStatus" column="msg_status" jdbcType="VARCHAR" javaType="string" />
+		<result property="msgCode" column="msg_code" jdbcType="VARCHAR" javaType="string" />
+	</resultMap>
+
+	<!-- t_wx_msgtmpl_use 主映射(数据库字段全部映射)  -->	
+	<resultMap type="com.ykisswx.model.WxMsgtmplUseEbo" id="wxMsgtmplUseEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="accId" column="acc_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="tmplCode" column="tmpl_code" jdbcType="VARCHAR" javaType="string" />
+		<result property="tmplId" column="tmpl_id" jdbcType="VARCHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="string" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!-- WxMsgTmplUseInnerEbo 主映射(数据库字段全部映射)  -->	
+	<resultMap type="com.ykisswx.model.inner.WxMsgtmplUseInnerEbo" id="wxMsgtmplUseInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="accId" column="acc_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="account" column="account" jdbcType="VARCHAR" javaType="string" />
+		<result property="tmplCode" column="tmpl_code" jdbcType="VARCHAR" javaType="string" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="string" />
+		<result property="content" column="content" jdbcType="VARCHAR" javaType="string" />
+		<result property="tmplId" column="tmpl_id" jdbcType="VARCHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="string" />
+	</resultMap>
+
+	<sql id="selectWxMsgtmplEbo">
+	   	SELECT
+	   		<!-- t_wx_msgtmpl_lib -->
+			tl.id id,tl.code code,tl.title title,tl.main_industry main_industry
+			,tl.sub_industry sub_industry,tl.use_num use_num
+	   		<!-- t_wx_msgtmpl_content --> 
+	   		,tc.content content,tc.demo_sample demo_sample
+		FROM
+			t_wx_msgtmpl_lib AS tl,
+			t_wx_msgtmpl_content AS tc
+		WHERE 
+			1=1
+			AND tl.code = tc.code
+	</sql>
+	
+ 	<sql id="selectWxtmpLibEbo">
+	   	SELECT
+			tl.id id,tl.code code,tl.title title,tl.main_industry main_industry
+			,tl.sub_industry sub_industry,tl.use_num use_num
+		FROM
+			t_wx_msgtmpl_lib AS tl
+	</sql>
+	
+	<sql id="selectWxtmpContentEbo">
+	   	SELECT
+	   		tc.id id,tc.code code,tc.content content,tc.demo_sample demo_sample
+		FROM
+			t_wx_msgtmpl_content AS tc
+	</sql>
+	
+	<sql id="selectWxtmplLogEbo">
+	   	SELECT
+			mlg.id,mlg.acc_id,mlg.to_wx_userid,mlg.code,mlg.msg_content,mlg.send_time
+			,mlg.msg_id,mlg.msg_status,mlg.msg_code
+		FROM
+			t_wx_msgtmpl_log AS mlg
+	</sql>
+
+	<sql id="selectWxtmplUseInnerEbo">
+	SELECT
+		mu.id,mu.acc_id,acc.account account,mu.tmpl_code,ml.title title
+		,mc.content content,mu.tmpl_id,mu.flag
+	FROM
+		t_wx_msgtmpl_use AS mu
+		LEFT JOIN t_wx_msgtmpl_lib    		AS    ml  ON  mu.tmpl_code = ml.code
+		LEFT JOIN t_wx_msgtmpl_content    	AS    mc  ON  mu.tmpl_code = mc.code
+		,t_wx_account  acc
+	where
+		1=1
+		and mu.acc_id    = acc.id 
+	</sql>
+	<sql id="countWxtmplUseInnerEbo">
+	SELECT
+		count(mu.id)
+	FROM
+		t_wx_msgtmpl_use AS mu
+		LEFT JOIN t_wx_msgtmpl_lib    		AS    ml  ON  mu.tmpl_code = ml.code
+		LEFT JOIN t_wx_msgtmpl_content    	AS    mc  ON  mu.tmpl_code = mc.code
+		,t_wx_account  acc
+	where
+		1=1
+		and mu.acc_id    = acc.id 
+	</sql>
+	
+	
+	<select id="listTmpl" resultMap="wxMsgtmplEboMap" flushCache="true" useCache="true">
+	    <include refid="selectWxMsgtmplEbo"/>
+		   	<if test=" tmplTitle !=null and tmplTitle !='' ">
+				and	tl.title like  '%${tmplTitle}%'
+			</if>
+			<if test=" tmplCode !=null and tmplCode !='' ">
+				and	tl.code like  '%${tmplCode}%'
+			</if>
+			order by tl.id
+			<if test=" page >= 0 and paging >= 0 ">
+				limit ${page*paging},${paging}
+			</if>
+	</select>
+	
+	<select id="getTmpL" resultMap="wxMsgtmplEboMap" flushCache="true" useCache="true">
+	   		 <include refid="selectWxMsgtmplEbo"/>
+		   	<if test=" libId > 0 ">
+				and	tl.id =  '${libId}'
+			</if>
+			<if test=" cntId > 0 ">
+				and	tc.id =  '${cntId}'
+			</if>
+		   	<if test=" tmplCode !=null and tmplCode !='' ">
+				and	tl.code = '${tmplCode}'
+			</if>
+			 	<if test=" tmplCode !=null and tmplCode !='' ">
+				and	tc.code = '${tmplCode}'
+			</if>
+	</select>
+	
+	<select id="getTotalTmpl" resultType="Integer" flushCache="true" useCache="true">
+	    SELECT
+			 count(tl.id)
+		FROM
+			t_wx_msgtmpl_lib AS tl
+		WHERE 
+			1=1			
+		   	<if test=" tmplTitle !=null and tmplTitle !='' ">
+				and	tl.title like  '%${tmplTitle}%'
+			</if>
+			<if test=" tmplCode !=null and tmplCode !='' ">
+				and	tl.code like  '%${tmplCode}%'
+			</if>
+	</select>
+	
+	 <select id="getTmplLib" resultMap="wxMsgtmplLibEboMap" flushCache="true" useCache="true">
+	   		<include refid="selectWxtmpLibEbo"/>
+		    <where>
+		      1=1
+		     	<if test=" id > 0 ">
+					and	tl.id = ${id}
+				</if>
+			   	<if test=" tmplCode !=null and tmplCode !='' ">
+					and	tl.code =  '${tmplCode}'
+				</if>
+				<if test=" tmplTitle !=null and tmplTitle !='' ">
+					and	tl.title = '${tmplTitle}'
+				</if>
+			</where>
+	</select>
+	
+	<select id="getTmplContent" resultMap="wxMsgtmplContentEboMap" flushCache="true" useCache="true">
+	   		<include refid="selectWxtmpContentEbo"/>
+		    <where>
+		    1=1
+		    	<if test=" id > 0 ">
+					and	tc.id = ${id}
+				</if>
+			   	<if test=" tmplCode != null and tmplCode !='' ">
+					and	tc.code = '${tmplCode}'
+				</if>
+			</where>
+	</select>
+	
+	<select id="listTmplLog" resultMap="wxMsgtmplLogEboMap" flushCache="true" useCache="true">
+	   		<include refid="selectWxtmplLogEbo"/>
+		    <where>
+		    1=1
+		    	<if test=" accid > 0 ">
+					and	mlg.acc_id = ${accid}
+				</if>
+				<if test=" toUserid > 0 ">
+					and	mlg.to_wx_userid = ${toUserid}
+				</if>
+			   	<if test=" tmplCode != null and tmplCode !='' ">
+					and	mlg.code = '${tmplCode}'
+				</if>
+			</where>
+			<if test=" page >= 0 and paging > 0  ">
+				LIMIT ${page}, ${paging}
+			</if>
+	</select>
+	
+	<select id="listTmplUse" resultMap="wxMsgtmplUseInnerEboMap" flushCache="true" useCache="true">
+	   		<include refid="selectWxtmplUseInnerEbo"/>
+	    	<if test=" accId > 0 ">
+				and	mu.acc_id = ${accId}
+			</if>
+			<if test=" tmplCode != null and tmplCode !='' ">
+				and	mu.tmpl_code like '%${tmplCode}%'
+			</if>
+			<if test=" flag != null and flag !='' ">
+				and	mu.flag = '${flag}'
+			</if>
+			<if test=" page >= 0 and paging > 0  ">
+				LIMIT ${page*paging}, ${paging}
+			</if>
+	</select>
+	
+	<select id="getTotalTmplUse" resultType="Integer" flushCache="true" useCache="true">
+	   		<include refid="countWxtmplUseInnerEbo"/>
+	    	<if test=" accId > 0 ">
+				and	mu.acc_id = ${accId}
+			</if>
+			<if test=" tmplCode != null and tmplCode !='' ">
+				and	mu.tmpl_code like '%${tmplCode}%'
+			</if>
+			<if test=" flag != null and flag !='' ">
+				and	mu.flag = '${flag}'
+			</if>
+	</select>
+	
+	
+    <insert id="addTmplContent" parameterType="com.ykisswx.model.WxMsgtmplContentEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_wx_msgtmpl_content
+		VALUES(
+			0,#{code},#{content},#{demoSample}
+		)
+	</insert>     
+
+	<insert id="addTmplLib" parameterType="com.ykisswx.model.WxMsgtmplLibEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_wx_msgtmpl_lib
+		VALUES(
+			0,#{code},#{title},#{mainIndustry},#{subIndustry},0
+		)
+	</insert> 
+	
+	<insert id="addTmplUse" parameterType="com.ykisswx.model.WxMsgtmplUseEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_wx_msgtmpl_use
+		VALUES(
+			0,#{accId},#{tmplCode},#{tmplId},#{flag},#{createTime}
+		)
+	</insert> 
+	 
+	<!-- t_wx_msgtmpl_content -->
+ 	<update id="updateTmplContent">
+		UPDATE 
+	    	t_wx_msgtmpl_content AS tc
+	    <set>
+	     	<if test=" content != null and content != '' ">
+	    		tc.content = '${content}',
+	    	</if>
+	    	<if test=" demo != null and demo != '' ">
+	    		tc.demo_sample= '${demo}',
+	    	</if>
+	    </set>
+	    <where>
+	    1=1
+	    	<if test=" tmplCode !=null and tmplCode != ''">
+	    		and tc.code= '${tmplCode}'
+	    	</if>
+	    </where>
+	</update> 
+ 	<update id="updateTmplLib">
+	 UPDATE 
+	    	t_wx_msgtmpl_lib AS tl
+	    <set>
+	     	<if test=" title != null and title != '' ">
+	    		tl.title='${title}',
+	    	</if>
+	    	<if test=" mainIndustry != null and mainIndustry != '' ">
+	    		tl.main_industry='${mainIndustry}',
+	    	</if>
+	    	<if test=" subIndustry != null and subIndustry != '' ">
+	    		tl.sub_industry='${subIndustry}'
+	    	</if>
+	    </set>
+	    <where>
+	    1=1
+	    	<if test="tmplCode !=null and tmplCode != ''">
+	    		and tl.code='${tmplCode}'
+	    	</if>
+	    </where>
+	</update> 
+
+</mapper>

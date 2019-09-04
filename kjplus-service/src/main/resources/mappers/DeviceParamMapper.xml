@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- org 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.IDeviceParamDao">
+	<resultMap type="com.kjplus.model.DeviceParamEbo" id="DvcParamEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deviceType" column="device_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="paramType" column="param_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="deviceParam" column="device_param" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<sql id="selectDeviceParamEbo">
+		SELECT
+			dp.id,dp.device_type,dp.param_type,dp.device_param,dp.flag,dp.create_time
+		FROM
+			t_device_param AS dp
+	</sql>
+	<sql id="countDeviceParamEbo">
+		SELECT
+			count(dp.id)
+		FROM
+			t_device_param AS dp
+	</sql>
+	
+	<select id="getDeviceParam" resultMap="DvcParamEboMap" flushCache="true" >
+		<include refid="selectDeviceParamEbo"/>
+		<where> 
+		    1=1
+			<if test=" id > 0 ">
+				and dp.id = ${id}
+			</if>
+			<if test=" dvcParam != null and  dvcParam != '' ">
+				and dp.device_param = '${dvcParam}'
+			</if>
+		</where>
+	</select>
+	
+	<select id="listDeviceParamList" resultMap="DvcParamEboMap" flushCache="true" >
+		<include refid="selectDeviceParamEbo"/>
+		<where> 
+		    1=1
+			<if test=" dvcType != null and  dvcType != '' ">
+				and dp.device_type like '%${dvcType}%'
+			</if>
+			<if test=" paramType != null and  paramType != '' ">
+				and dp.param_type = '${paramType}'
+			</if>
+			<if test=" dvcParam != null and  dvcParam != '' ">
+				and dp.device_param = '${dvcParam}'
+			</if>
+			<if test=" flag != null and  flag != '' ">
+				and dp.flag = '${flag}'
+			</if>
+			ORDER BY dp.id
+			<if test=" page >=0 and  paging >0 ">
+			LIMIT ${page*paging},${paging}
+			</if>
+		</where>
+	</select>	
+	
+	<select id="getTotalDeviceParam" resultType="Integer" flushCache="true" >
+		<include refid="countDeviceParamEbo"/>
+		<where> 
+		    1=1
+			<if test=" dvcType != null and  dvcType != '' ">
+				and dp.device_type like '%${dvcType}%'
+			</if>
+			<if test=" paramType != null and  paramType != '' ">
+				and dp.param_type = '${paramType}'
+			</if>
+			<if test=" dvcParam != null and  dvcParam != '' ">
+				and dp.device_param = '${dvcParam}'
+			</if>
+			<if test=" flag != null and  flag != '' ">
+				and dp.flag = '${flag}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加设备-->
+	<insert id="addDeviceParam" parameterType="com.kjplus.model.DeviceParamEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_device_param
+		VALUES(
+			0,#{deviceType},#{paramType},#{deviceParam},#{flag},#{createTime}
+		)
+	</insert>
+	
+</mapper>

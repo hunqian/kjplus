@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- roleFunc 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.ISysRoleFuncDao">
+	<resultMap type="com.kjplus.model.SysRoleFuncEbo" id="RoleFuncEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="roleId" column="role_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="funcId" column="func_id" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	
+	<!-- roleId和funcId获取对象-->
+	<select id="getRoleFuncByrfId" resultMap="RoleFuncEboMap" useCache="true" >
+		SELECT
+			rf.id,rf.role_id,rf.func_id
+		FROM
+		 	t_sys_role_func AS rf
+		<where>  
+			<if test="roleId > 0 ">
+		    	rf.role_id =${roleId}
+			</if>
+			<if test="funcId > 0 ">
+		    	and rf.func_id=${funcId}
+			</if> 	
+		</where>						
+	</select>
+	<select id="listRoleFuncId" resultType="Integer" useCache="true" >
+		SELECT
+			rf.id
+		FROM
+		 	t_sys_role_func AS rf , t_sys_func AS f
+		WHERE  1=1
+			and  rf.func_id = f.id
+		<if test="roleId > 0 ">
+		    rf.role_id =${roleId}
+		</if>
+		<if test="path != null and path != '' ">
+		    and f.func_path like '%${path}%'
+		</if> 							
+	</select>
+   <!-- 添加角色菜单对应关系 -->
+	<insert id="addRoleFuncLine" parameterType="com.kjplus.model.SysRoleFuncEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_sys_role_func
+		VALUES(
+			0,#{roleId},#{funcId}
+		)
+	</insert>
+	<!-- 删除角色对应的所有菜单 -->
+	<delete id="delAllRoleFunc">
+	    DELETE FROM t_sys_role_func  AS rf
+	    WHERE 
+	     rf.role_id =${roleId}
+	</delete>
+	<!-- 通过id删除角色菜单对应关系 -->
+	<delete id="delRoleFuncById">
+	    DELETE FROM t_sys_role_func  AS rf
+	    WHERE
+	    	rf.id=${id}
+	</delete>
+</mapper>

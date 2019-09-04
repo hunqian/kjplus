@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sesionSocket的映射文件 -->
+<mapper namespace="com.kjplus.dao.ISessionSocketDao">
+	<resultMap type="com.kjplus.model.SessionSocketEbo" id="SessionSocketEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="sessionCode" column="session_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="seq" column="seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="face" column="face" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+ 	
+	<sql id="selectSessionSocketEbo">
+	    SELECT
+	     	 ss.id,ss.uid,ss.org_id,ss.session_code,ss.status,ss.seq,u.face	     	
+	    FROM
+	    	t_session_socket AS  ss
+	    	LEFT JOIN t_user AS u ON u.uid = ss.uid
+	</sql>
+	
+	<!--添加sessionSocket -->
+	<insert id="addSessionSocket"  parameterType="com.kjplus.model.SessionSocketEbo" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		INSERT INTO t_session_socket
+		VALUES(
+			0,#{uid},#{orgId},#{sessionCode},#{status},#{seq}
+		)
+	</insert>
+		
+	<!--通过sessionCode获取session -->
+	<select id="getSessionByCode" resultMap="SessionSocketEboMap" flushCache="true"> 
+		<include refid="selectSessionSocketEbo"/>
+		<where>
+		1=1
+			<if test="sessionCode != null and sessionCode != ''">
+				and ss.session_code='${sessionCode}'
+			</if>
+			<if test="status !=null and status != '' ">
+				and ss.status='${status}'	
+			</if>
+		</where>
+	</select>
+	
+	<!--通过uid获取session -->
+	<select id="getSessionByUid" resultMap="SessionSocketEboMap" flushCache="true"> 
+		<include refid="selectSessionSocketEbo"/>
+		<where>
+		1=1
+			<if test=" uid &gt; 0 ">
+				and ss.uid=${uid}
+			</if>
+			<if test="status !=null and status != '' ">
+				and ss.status='${status}'
+			</if>
+		</where>
+	</select>
+		
+	<!--获取用户的session列表-->
+	<select id="listSessionByCode" resultMap="SessionSocketEboMap" flushCache="true"> 
+		<include refid="selectSessionSocketEbo"/>
+		<where>
+		1=1
+			<if test="sessionCode != null and sessionCode != ''">
+				and ss.session_code='${sessionCode}'
+			</if>
+			<if test="status !=null and status != '' ">
+				and ss.status='${status}'
+			</if>
+			<if test=" uid &gt; 0 ">
+				and ss.uid=${uid}
+			</if>
+		</where>
+	</select>
+	<!--通过sessionCode修改session状态 -->
+	<update id="updateSessionStatus">
+		UPDATE 
+			t_session_socket AS ss
+		<set>
+			<if test="status !=null and status != '' ">
+				ss.status='${status}'
+			</if>
+		</set>		
+		<where>
+			<if test="sessionCode != null and sessionCode != ''">
+				ss.session_code='${sessionCode}'
+			</if>
+		</where>
+		ORDER BY ss.seq DESC <!-- 倒序 -->
+	</update>
+</mapper>

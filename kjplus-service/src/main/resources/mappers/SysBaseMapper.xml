@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.ISysBaseDao">
+	<resultMap type="com.kjplus.model.SysRefTypeEbo" id="RefTypeEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refCode" column="ref_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="refName" column="ref_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="refType" column="ref_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="refMemo" column="ref_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+	</resultMap>
+	<resultMap type="com.kjplus.model.SysRefValueEbo" id="RefValueEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refId" column="ref_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="refVl" column="ref_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="extVlType" column="ext_vl_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+	</resultMap>
+	<resultMap type="com.kjplus.model.inner.SysRefValueInnerEbo" id="RefValueInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refId" column="ref_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="refVl" column="ref_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="refCode" column="ref_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="refName" column="ref_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="refType" column="ref_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="refMemo" column="ref_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="extVlType" column="ext_vl_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+	</resultMap>
+	<!-- t_ref_type单表查询 -->
+	<sql id="selectRefTypeEbo">
+		SELECT
+			rt.id,rt.ref_code,rt.ref_name,rt.ref_type,rt.ref_memo,rt.flag
+		FROM
+		 	t_sys_ref_type AS rt
+	</sql>
+	
+	<!-- t_ref_valuee单表查询 -->
+	<sql id="selectRefValueEbo">
+		SELECT
+			rv.id,rv.ref_id,rv.code,rv.ref_vl,rv.name,rv.ext_vl_type,rv.flag
+		FROM
+		 	t_sys_ref_value AS rv	
+	</sql>
+	
+	<!-- t_ref_valuee单表查询 -->
+	<sql id="selectRefValueInnerEbo">
+		SELECT
+			rv.id,rv.ref_id,rv.code,rv.ref_vl,rv.name,rv.ext_vl_type,rv.flag
+			,t.ref_code,t.ref_name,t.ref_type,t.ref_memo
+		FROM
+		 	t_sys_ref_value AS rv
+		 	,t_sys_ref_type t
+		where 1=1
+		    and rv.ref_id = t.id
+	</sql>
+	
+	<sql id="selectTypeCount">
+		SELECT count(rt.id)
+		FROM
+			t_sys_ref_type AS rt
+	</sql>
+	
+	<!-- 通过reftypecode获取reftype实体-->
+	<select id="getRefTypeById" resultMap="RefTypeEboMap" flushCache="true" useCache="true" > 
+		<include refid="selectRefTypeEbo"/>
+		<where>
+			1=1
+			and rt.id ='${typeId}'
+		</where>		
+	</select>
+	
+	<!-- 通过reftypecode获取reftype实体-->
+	<select id="getRefTypeByCode" resultMap="RefTypeEboMap" flushCache="true" useCache="true" > 
+		<include refid="selectRefTypeEbo"/>
+		<where>
+			1=1
+			and rt.ref_code ='${refCode}'
+		</where>		
+	</select>
+	<!-- 通过valueId(id)查询refValueEbo对象 -->
+	<select id="getRefVlById" resultMap="RefValueEboMap" flushCache="true" useCache="true">
+		<include refid="selectRefValueEbo"/>
+		<where>
+			<if test="valueId > 0">
+				rv.id=${valueId}
+			</if>
+		</where>
+	</select>
+	<!-- 通过valueId(id)查询refValueEbo对象 -->
+	<select id="getRefVlByCode" resultMap="RefValueEboMap" flushCache="true" useCache="true">
+		<include refid="selectRefValueEbo"/>
+		<where>
+			<if test="vlCode !=null and vlCode != '' ">
+				rv.code='${vlCode}'
+			</if>
+		</where>
+	</select>
+	<!-- 通过valueId(id)查询refValueEbo对象 -->
+	<select id="getRefVlByRefId" resultMap="RefValueEboMap" flushCache="true" useCache="true">
+		<include refid="selectRefValueEbo"/>
+		<where>
+			1=1
+			<if test="refId >0 ">
+				and rv.ref_id = ${refId}
+			</if>
+			<if test="flag !=null and flag != '' ">
+				and rv.flag = '${flag}'
+			</if>
+			<if test="prefix !=null and prefix != '' ">
+				and rv.code like '${prefix}%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="listRefVlInnerEbo" resultMap="RefValueInnerEboMap" flushCache="true" useCache="true">
+		<include refid="selectRefValueInnerEbo"/>
+			<if test="typeIds !=null and typeIds != '' ">
+				and t.id in (${typeIds})
+			</if>
+	</select>
+	
+	<!-- 通过code,name模糊查询refTypeEbo对象 -->
+	<select id="listRefType" resultMap="RefTypeEboMap" flushCache="true" useCache="true">
+		<include refid="selectRefTypeEbo"/>
+		<where>
+				1=1
+		        <if test="code != null and code !='' ">
+		            and rt.ref_code like '%${code}%'
+		        </if>
+		        <if test="name != null and name !='' ">
+		            and rt.ref_name like '%${name}%'
+		        </if>
+		        <if test="flag != null and flag !='' ">
+		            and rt.flag = '${flag}'
+		        </if>
+			</where>
+			order by rt.id
+    		<if test="page >=0 and paging >0 ">
+				LIMIT ${page*paging},${paging}
+			</if>
+	</select>	
+
+	<!-- 通过code,name模糊查询refTypeEbo对象 的数目 -->
+	<select id="getTotalRefType" resultType="Integer" flushCache="true" useCache="false">
+		<include refid="selectTypeCount"/>
+		<where>
+				1=1
+		        <if test="code != null and code !='' ">
+		            and rt.ref_code like '%${code}%'
+		        </if>
+		        <if test="name != null and name !='' ">
+		            and rt.ref_name like '%${name}%'
+		        </if>
+		        <if test="flag != null and flag !='' ">
+		            and rt.flag = '${flag}'
+		        </if>
+			</where>
+	</select>
+	
+	 <!-- 添加reftype -->
+	<insert id="addRefType" parameterType="com.kjplus.model.SysRefTypeEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_sys_ref_type
+		VALUES(
+			0,#{refCode},#{refName},#{refType},#{refMemo},#{flag}
+		)
+	</insert> 
+	
+	<!-- 添加refVl -->
+	<insert id="addRefVl" parameterType="com.kjplus.model.SysRefValueEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_sys_ref_value
+		VALUES(
+			0,#{refId},#{code},#{refVl},#{name},#{extVlType},#{flag}
+		)
+	</insert> 
+</mapper>

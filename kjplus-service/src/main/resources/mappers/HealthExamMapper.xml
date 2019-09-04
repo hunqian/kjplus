@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.IHealthExamDao">
+	<!--t_health_examination表Ebo对象 -->
+	<resultMap type="com.kjplus.model.HealthExamEbo" id="HealthExamEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="staffId" column="staff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="tbcfgId" column="tbcfg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="temperature" column="temperature" jdbcType="DOUBLE" javaType="double" />
+		<result property="respiratoryFrequency" column="respiratory_frequency" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pulseRate" column="pulse_rate" jdbcType="INTEGER" javaType="Integer" />
+		<result property="leftHightBlood" column="left_hight_blood" jdbcType="INTEGER" javaType="Integer" />
+		<result property="leftLowBlood" column="left_low_blood" jdbcType="INTEGER" javaType="Integer" />
+		<result property="rightHightBlood" column="right_hight_blood" jdbcType="INTEGER" javaType="Integer" />
+		<result property="rightLowBlood" column="right_low_blood" jdbcType="INTEGER" javaType="Integer" />
+		<result property="height" column="height" jdbcType="DOUBLE" javaType="double" />
+		<result property="weight" column="weight" jdbcType="DOUBLE" javaType="double" />
+		<result property="theWaist" column="the_waist" jdbcType="DOUBLE" javaType="double" />
+		<result property="bodyMassIndex" column="body_mass_index" jdbcType="DOUBLE" javaType="double" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+		<result property="healthMemo" column="health_memo" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<!-- HealthExaminationInnerEbo对象 -->
+	<resultMap type="com.kjplus.model.inner.HealthExamInnerEbo" id="HealthExamInnerEboMap">
+		<!-- t_health_examination表InnerEbo对象 -->
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="prsnName" column="prsn_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="staffId" column="staff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="staffName" column="staff_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="tbcfgId" column="tbcfg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="temperature" column="temperature" jdbcType="DOUBLE" javaType="double" />
+		<result property="respiratoryFrequency" column="respiratory_frequency" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pulseRate" column="pulse_rate" jdbcType="INTEGER" javaType="Integer" />
+		<result property="leftHightBlood" column="left_hight_blood" jdbcType="INTEGER" javaType="Integer" />
+		<result property="leftLowBlood" column="left_low_blood" jdbcType="INTEGER" javaType="Integer" />
+		<result property="rightHightBlood" column="right_hight_blood" jdbcType="INTEGER" javaType="Integer" />
+		<result property="rightLowBlood" column="right_low_blood" jdbcType="INTEGER" javaType="Integer" />
+		<result property="height" column="height" jdbcType="DOUBLE" javaType="double" />
+		<result property="weight" column="weight" jdbcType="DOUBLE" javaType="double" />
+		<result property="theWaist" column="the_waist" jdbcType="DOUBLE" javaType="double" />
+		<result property="bodyMassIndex" column="body_mass_index" jdbcType="DOUBLE" javaType="double" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />	
+		<result property="healthMemo" column="health_memo" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<sql id="selectHealthExamEbo">
+		select 
+			he.id,he.code,he.prsn_id,he.staff_id,he.org_id,he.tbcfg_id,he.temperature,
+			he.respiratory_frequency,he.pulse_rate,he.left_hight_blood,he.left_low_blood,
+			he.right_hight_blood,he.right_low_blood,he.height,he.weight,he.the_waist,
+			he.body_mass_index,he.flag,he.create_time,he.health_memo
+		from t_health_examination AS he
+	</sql>
+	<sql id="selectHealthExamInnerEbo">
+		select 
+			<!-- 健康体检记录表全数据信息 -->
+			he.id,he.code,he.prsn_id,he.staff_id,he.org_id,he.tbcfg_id,he.temperature,
+			he.respiratory_frequency,he.pulse_rate,he.left_hight_blood,he.left_low_blood,
+			he.right_hight_blood,he.right_low_blood,he.height,he.weight,he.the_waist,
+			he.body_mass_index,he.flag,he.create_time,he.health_memo,
+			<!-- t_document_info -->
+			doc.prsn_name,
+			<!-- t_staff -->
+			stf.name staff_name,
+			<!-- t_organization -->
+			org.name org_name
+		from t_health_examination AS he
+			LEFT JOIN t_document_info AS doc ON doc.prsn_id = he.prsn_id
+			LEFT JOIN t_organization AS org ON org.id = doc.org_id
+			LEFT JOIN t_staff AS stf ON stf.id = he.staff_id
+	</sql>
+	<sql id="healthExamNums">
+		select 
+			count(1)
+		from t_health_examination AS he
+			LEFT JOIN t_document_info AS doc ON doc.prsn_id = he.prsn_id
+			LEFT JOIN t_organization AS org ON org.id = doc.org_id
+			LEFT JOIN t_staff AS stf ON stf.id = he.staff_id
+	</sql>
+
+	<!-- 根据咨询id或Code查询指定通用内容 -->
+	<select id="listHealthExam" resultMap="HealthExamInnerEboMap" parameterType="com.kjplus.qto.HealthExamQto" flushCache="true"> 
+		<include refid="selectHealthExamInnerEbo"/>
+		<where>
+			1=1
+			<if test="hExamQto.prsnId >0 ">
+				and he.prsn_id=${hExamQto.prsnId}
+			</if>
+			<if test="hExamQto.staffId >0 ">
+				and he.staff_id=${hExamQto.staffId}
+			</if>
+			<if test="hExamQto.orgId >0">
+				and he.org_id=${hExamQto.orgId}
+			</if>
+			<if test="hExamQto.startTime != null and  hExamQto.startTime != '' ">
+				and he.create_time >= '${hExamQto.startTime}'
+			</if>
+			<if test="hExamQto.endTime != null and  hExamQto.endTime != '' ">
+				and he.create_time &lt;= '${hExamQto.endTime}'
+			</if>
+			<if test="hExamQto.flag != null and  hExamQto.flag != '' ">
+				and he.flag = '${hExamQto.flag}'
+			</if>
+		</where>
+			<if test=" page >=0 and paging >0 ">
+				LIMIT ${page*paging},${paging}
+			</if>
+	</select>
+	
+	<!-- 获取健康检查记录数据总数 -->
+	<select id="getTotalHealthExam" resultType="Integer" parameterType="com.kjplus.qto.HealthExamQto" flushCache="true"> 
+		<include refid="healthExamNums"/>
+		<where>
+			1=1
+			<if test="hExamQto.prsnId >0 ">
+				and he.prsn_id=${hExamQto.prsnId}
+			</if>
+			<if test="hExamQto.staffId >0 ">
+				and he.staff_id=${hExamQto.staffId}
+			</if>
+			<if test="hExamQto.orgId >0">
+				and he.org_id=${hExamQto.orgId}
+			</if>
+			<if test="hExamQto.startTime != null and  hExamQto.startTime != '' ">
+				and he.create_time >= '${hExamQto.startTime}'
+			</if>
+			<if test="hExamQto.endTime != null and  hExamQto.endTime != '' ">
+				and he.create_time &lt;= '${hExamQto.endTime}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据咨询mainid或mainTypeCode查询指定通用内容 -->
+	<select id="getHealthExamByIdOrCode" resultMap="HealthExamEboMap" flushCache="true"> 
+		<include refid="selectHealthExamEbo"/>
+		<where>
+		1=1
+			<if test="id >0 ">
+				and he.id=${id}
+			</if>
+			<if test="code != null and  code != '' " >
+				and he.code='${code}' 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加健康体检记录 -->
+	<insert id="addHealthExam" parameterType="com.kjplus.model.HealthExamEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT into t_health_examination
+			VALUES 
+		(0,#{code},#{prsnId},#{staffId},#{orgId},#{flag},#{tbcfgId},#{temperature},#{respiratoryFrequency},#{pulseRate}
+		,#{leftHightBlood},#{leftLowBlood},#{rightHightBlood},#{rightLowBlood},#{height},#{weight},#{theWaist},#{bodyMassIndex},
+		#{createTime},#{healthMemo})
+	</insert>
+	
+	<!-- 修改健康体检记录 -->
+	<update id="updateHealthExam" parameterType="com.kjplus.model.HealthExamEbo">
+	    UPDATE 
+	    	t_health_examination AS he
+	    <set>
+	    	he.id = he.id,
+	    	<if test="prsnId > 0 ">
+				he.prsn_id=#{prsnId},
+			</if>
+	    	<if test=" staffId > 0 ">
+				he.staff_id=#{staffId},
+			</if>
+	    	<if test=" orgId > 0 ">
+				he.org_id=#{orgId},
+			</if>
+	    	<if test=" tbcfgId > 0 ">
+				he.tbcfg_id=#{tbcfgId},
+			</if>
+	    	<if test=" temperature > 0 ">
+				he.temperature=#{temperature},
+			</if>
+	    	<if test=" respiratoryFrequency > 0 ">
+				he.respiratory_frequency=#{respiratoryFrequency},
+			</if>
+			<if test=" respiratoryFrequency > 0 ">
+				he.pulse_rate=#{respiratoryFrequency},
+			</if>
+	    	<if test=" leftHightBlood > 0 ">
+				he.left_hight_blood=#{leftHightBlood},
+			</if>
+	    	<if test=" leftLowBlood > 0 ">
+				he.left_low_blood=#{leftLowBlood},
+			</if>
+	    	<if test=" rightHightBlood > 0 ">
+				he.right_hight_blood=#{rightHightBlood},
+			</if>
+	    	<if test=" rightLowBlood > 0 ">
+				he.right_low_blood=#{rightLowBlood},
+			</if>
+	    	<if test=" height > 0 ">
+				he.height=#{height},
+			</if>
+	    	<if test=" weight > 0 ">
+				he.weight=#{weight},
+			</if>
+	    	<if test=" theWaist > 0 ">
+				he.the_waist=#{theWaist},
+			</if>
+	    	<if test=" bodyMassIndex > 0 ">
+				he.body_mass_index=#{bodyMassIndex},
+			</if>
+	     	<if test=" flag != null and  flag != '' ">
+				he.flag=#{flag},
+			</if>
+	     	<if test=" createTime != null and  createTime != '' ">
+				he.create_time=#{createTime},
+			</if>
+	     	<if test=" healthMemo != null and  healthMemo != '' ">
+				he.health_memo=#{healthMemo}
+			</if>
+			
+	    </set>
+	    <where>
+	    	1=1
+	    	<if test=" code != null and  code != '' ">
+				and he.code=#{code}
+			</if>
+	    </where>
+	</update>
+	
+</mapper>

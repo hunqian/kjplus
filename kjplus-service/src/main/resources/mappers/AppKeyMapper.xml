@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- org 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.ISysAppKeyDao">
+	<resultMap type="com.kjplus.model.SysAppKeyEbo" id="SysAppKeyEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="openid" column="openid" jdbcType="VARCHAR" javaType="String" />
+		<result property="openSeq" column="open_seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="opentoken" column="opentoken" jdbcType="VARCHAR" javaType="String" />
+		<result property="lastVisitTime" column="last_visit_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="visitNum" column="visit_num" jdbcType="INTEGER" javaType="Integer" />
+		<result property="visitIp" column="visit_ip" jdbcType="VARCHAR" javaType="String" />
+		<result property="visitUid" column="visit_uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="visitOrgid"  column="visit_orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+
+	<sql id="selectSysAppKeyEbo">
+		SELECT 
+			ak.id,ak.openid,ak.open_seq,ak.opentoken,ak.last_visit_time,ak.visit_num,ak.visit_ip
+			,ak.visit_uid,ak.visit_orgid,ak.flag,ak.create_time
+		FROM
+			t_sys_app_key AS  ak
+	</sql>
+
+	<!--根据token获得-->
+	<select id="getKey" resultMap="SysAppKeyEboMap" flushCache="true">
+			<include refid="selectSysAppKeyEbo"/>
+			<where>
+				<if test="token !=null and token != '' ">
+					ak.opentoken = '${token}'
+				</if>
+				<if test="flag !=null and flag != '' ">
+					AND ak.flag = '${flag}'
+				</if>
+			</where>
+		order by ak.open_seq DESC
+	</select>
+
+	<!--根据openid获得-->
+	<select id="getKeyByOpenid" resultMap="SysAppKeyEboMap" flushCache="true">
+		<include refid="selectSysAppKeyEbo"/>
+		<where>
+			<if test="openid !=null and openid != '' ">
+				ak.openid = '${openid}'
+			</if>
+			<if test="flag !=null and flag != '' ">
+				AND ak.flag = '${flag}'
+			</if>
+		</where>
+		  order by ak.open_seq DESC
+	</select>
+
+	<!--获得openid的数量-->
+	<select id="getKeyOpenidNum" resultType="Integer" flushCache="true">
+		SELECT
+			COUNT(ak.id)
+		FROM
+			t_sys_app_key AS  ak
+		<where>
+			<if test="openid !=null and openid != '' ">
+				ak.openid = '${openid}'
+			</if>
+		</where>
+			order by ak.open_seq DESC
+	</select>
+
+	<select id="getKeyByUid" resultMap="SysAppKeyEboMap" flushCache="true">
+		<include refid="selectSysAppKeyEbo"/>
+		<where>
+			<if test="uid &gt; 0 ">
+				ak.visit_uid = ${uid}
+			</if>
+			<if test="flag !=null and flag != '' ">
+				and ak.flag = '${flag}'
+			</if>
+		</where>
+		order by ak.open_seq DESC
+		<!--只查询当前用户最近一条token记录-->
+		LIMIT 0,1
+	</select>
+
+	<!-- 添加一个openid和token的对应关系，本方法只添加，不负责对token的超时管理-->
+	<insert id="addKey" parameterType="com.kjplus.model.SysAppKeyEbo" useGeneratedKeys="true" keyProperty="id">
+		INSERT  t_sys_app_key
+		VALUES (
+			0,#{openid},#{openSeq},#{opentoken},#{lastVisitTime},#{visitNum},#{visitIp}
+			,#{visitUid},#{visitOrgid},#{flag},#{createTime}
+		)
+	</insert>
+	<!--更行token失效时间 -->
+	<update id="updateKey">
+		UPDATE
+			t_sys_app_key AS ak
+		<set>
+			<if test=" lastVisitTime &gt; 0 ">
+				ak.last_visit_time = ${lastVisitTime}
+				,ak.visit_num = ak.visit_num + 1,
+			</if>
+			<if test=" uid &gt;  0">
+				ak.visit_uid = ${uid},
+			</if>
+			<if test=" orgid &gt;  0  ">
+				ak.visit_orgid = ${orgid}
+			</if>
+		</set>
+		<where>
+			<if test=" token != null token != '' ">
+				ak.opentoken = '${token}'
+			</if>
+		</where>
+	</update>
+	<!--通过openId失效token -->
+	<update id="lapseTokenByOpenId">
+		UPDATE
+		t_sys_app_key AS ak
+		<set>
+			<if test=" flag != null and flag != '' ">
+				ak.flag = '${flag}'
+			</if>
+		</set>
+		<where>
+			<if test=" openid != null and  openid != '' ">
+				ak.openid = '${openid}' and ak.flag = 'Y'
+			</if>
+		</where>
+	</update>
+</mapper>

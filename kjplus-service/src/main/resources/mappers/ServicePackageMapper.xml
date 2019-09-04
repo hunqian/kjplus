@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- servAsgn 服务映射文件 -->
+<mapper namespace="com.kjplus.dao.IServicePackageDao">
+	<!-- t_service_package表ebo对象 -->	
+	<resultMap type="com.kjplus.model.ServicePackageEbo" id="srvPackageEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="alias" column="alias" jdbcType="VARCHAR" javaType="String" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="srvPrice" column="srv_price" jdbcType="DOUBLE" javaType="Double" />
+		<result property="isDefault" column="is_default" jdbcType="VARCHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="VARCHAR" javaType="String" />
+		<!-- 获取数据库中时分秒 -->
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="Date" />
+		<result property="periodTypeId" column="period_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="periodVal" column="period_val" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!-- 居民服务包inner对象 -->
+	<resultMap type="com.kjplus.model.inner.ServicePackageInnerEbo" id="srvPackageInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="alias" column="alias" jdbcType="VARCHAR" javaType="String" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvPrice" column="srv_price" jdbcType="DOUBLE" javaType="Double" />
+		<result property="isDefault" column="is_default" jdbcType="VARCHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="VARCHAR" javaType="String" />
+		<result property="periodTypeId" column="period_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<!-- 获取数据库中时分秒 -->
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="Date" />
+		<result property="periodName" column="period_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="periodVal" column="period_val" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!-- t_servcie_package单表查询 -->
+	<sql id="selectSrvPackageEbo">
+	    SELECT 
+			sc.id,sc.code,sc.name,sc.alias,sc.memo,sc.orgid,sc.srv_price,sc.is_default
+			,sc.status,sc.create_time,sc.period_type_id,sc.period_val
+		FROM 
+			t_service_package sc
+	</sql>
+	<!-- 居民服务包inner对象 -->
+	<sql id="selectSrvPackageInnerEbo">
+		SELECT
+			<!-- t_service_package  -->
+			sc.id,sc.code,sc.name,sc.alias,sc.memo,sc.orgid,sc.srv_price,sc.is_default
+			,sc.status,sc.create_time,sc.period_type_id,sc.period_val
+			<!-- t_organization -->
+			,org.name org_name,
+			<!-- t_sys_ref_value-->
+			rv.name period_name
+		FROM
+			t_service_package             AS   sc 
+			LEFT JOIN   t_organization    AS   org      ON      sc.orgid=org.id
+			LEFT JOIN   t_sys_ref_value   AS   rv       ON      sc.period_type_id = rv.id
+	</sql>
+	<sql id="countTotalSrvPackage">
+		SELECT  
+			count(sc.id)
+	    FROM
+			t_service_package             AS   sc 
+			LEFT JOIN   t_organization    AS   org      ON      sc.orgid=org.id
+			LEFT JOIN   t_sys_ref_value   AS   rv       ON      sc.period_type_id = rv.id
+	 </sql>
+
+	<!-- 根据code编号或id查询居民服务包 -->
+	<select id="getSrvPackageByIdOrCode" resultMap="srvPackageEboMap" flushCache="true" useCache="true">
+	    <include refid="selectSrvPackageEbo"/>
+	    <where>
+	    1=1
+	        <if test=" id > 0">
+	            and sc.id=${id}
+	        </if>
+	        <if test="code != null and code != '' ">
+	            and sc.code='${code}'
+	        </if>
+	    </where>
+	</select>
+	
+	<!-- 获取组织的默认居民服务包 -->
+	<select id="getSrvPackageByIsDefault" resultMap="srvPackageEboMap" flushCache="true" useCache="true">
+	    <include refid="selectSrvPackageEbo"/>
+	    <where>
+	    1=1
+	        <if test="isDefault != null and isDefault != '' ">
+	            and sc.is_default = '${isDefault}'
+	        </if>
+	        <if test=" orgId > 0 ">
+	            and sc.orgid = ${orgId}
+	        </if>
+	    </where>
+	    <!-- 每个组织仅有一条默认记录    防止数据出错 -->
+	    LIMIT 0,1
+	</select>
+	
+	<!-- 列表居民服务包inner对象 -->
+	<select id="listSrvPackageInner" resultMap="srvPackageInnerEboMap" flushCache="true" useCache="false">
+		<include refid="selectSrvPackageInnerEbo"/>
+		<where>
+			1=1
+			<if test="orgId >0 ">
+				and	sc.orgid = ${orgId}
+			</if>
+			<if test="name != null and name != '' ">
+				and (sc.name like '%${name}%' OR sc.alias like '%${name}%')
+			</if>
+			<if test="status != null and status != ''">
+				and sc.status = '${status}'
+			</if>
+			<if test="isDefault != null and isDefault != '' ">
+			 	and sc.is_default = '${isDefault}'
+			</if>
+			<if test="periodCode != null and periodCode != '' ">
+				and rv.code = '${periodCode}'
+			</if>
+			<if test="periodVal >0">
+				and sc.period_val=${periodVal}
+			</if>
+			<!-- 选取时间段 -->
+			<if test=" startDay != null and startDay != '' ">
+				and sc.create_time &gt;= '${startDay}'
+			</if>
+			<if test=" finishDay != null and finishDay != '' ">
+				and sc.create_time &lt;=  '${finishDay}'
+			</if>
+		</where>
+			<!-- 按创建时间倒叙排列 -->
+			ORDER BY sc.create_time DESC		
+			<if test="page >= 0 and  paging > 0">
+				LIMIT ${page*paging},${paging}
+			</if>
+	</select>
+	
+	<!-- 居民服务包计数 -->	
+	 <select id="getTotalSrvPackage" resultType="Integer" flushCache="true" useCache="true">
+	    <include refid="countTotalSrvPackage"/>
+        <where>
+			1=1
+			<if test="orgId >0 ">
+				and	sc.orgid = ${orgId}
+			</if>
+			<if test="name != null and name != '' ">
+				and sc.name like '%${name}%'
+			</if>
+			<if test="status != null and status != ''">
+				and sc.status='${status}'
+			</if>
+			<if test="isDefault != null and isDefault != '' ">
+			 	and sc.is_default='${isDefault}'
+			</if>
+			<if test="periodCode !=null and periodCode != '' ">
+				and rv.code='${periodCode}'
+			</if>
+			<if test="periodVal >0">
+				and sc.period_val=${periodVal}
+			</if>
+		</where>
+	</select>
+	
+	 <!-- 添加t_service_package  居民服务包 -->
+	<insert id="addSrvPackage" parameterType="com.kjplus.model.ServicePackageEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_service_package
+					(id,code,name,alias,memo,orgid,srv_price,is_default
+					,status,create_time,period_type_id,period_val)
+		VALUES(
+			0,#{code},#{name},#{alias},#{memo},#{orgId},#{srvPrice},#{isDefault}
+			,#{status},#{createTime},#{periodTypeId},#{periodVal}
+		)
+	</insert>
+	
+	<!-- 修改居民默认服务包  -->
+	<update id="updateSrvPackageIsDefault">
+		UPDATE 
+			t_service_package sc
+		<set>
+		sc.code = sc.code
+			<if test = " isDefault != null and isDefault != '' ">
+			 	,sc.is_default = '${isDefault}'
+			 </if>	
+		</set>  	
+		<where>
+			sc.is_default = 'Y'
+			<if test = "orgId > 0">
+				and sc.orgid = ${orgId}
+			</if>
+		</where>	
+	</update>  
+	
+	<!-- 修改服务包基本信息 -->
+	<update id="updateSrvPackage" parameterType="com.kjplus.model.ServicePackageEbo">
+		UPDATE 
+			t_service_package sc
+		<set>
+		sc.code = sc.code
+			<if test = "name != null and name != '' ">
+				,sc.name = '${name}'
+			</if>
+			<if test = "alias != null and alias != '' ">
+				,sc.alias = '${alias}'
+			</if>
+			<if test = "memo != null and memo != '' ">
+				,sc.memo = '${memo}'
+			</if>
+			<if test = "orgId > 0">
+				,sc.orgid = ${orgId}
+			</if>
+			<if test = "srvPrice > 0">
+				,sc.srv_price = ${srvPrice}
+			</if>
+			<if test = "isDefault != null and isDefault != '' ">
+				,sc.is_default = '${isDefault}'
+			</if>
+			<if test = "status != null and status != '' ">
+				,sc.status = '${status}'
+			</if>
+			<if test = "periodTypeId > 0">
+				,sc.period_type_id = '${periodTypeId}'
+			</if>
+			<if test = "periodVal > 0 ">
+				,sc.period_val = '${periodVal}'
+			</if>
+		</set>  	
+		<where>
+		1=1
+			<if test = " id > 0">
+				and sc.id = ${id}
+			</if>
+			<if test = "code != null and code != '' ">
+				and sc.code = '${code}'
+			</if>
+		</where>	
+	</update>  
+	
+</mapper>

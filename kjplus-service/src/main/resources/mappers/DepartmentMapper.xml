@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- department 部门映射文件 -->
+<mapper namespace="com.kjplus.dao.IDeptDao">
+	<resultMap type="com.kjplus.model.DepartmentEbo" id="DepartmentEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptType" column="dept_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<resultMap type="com.kjplus.dto.DepartmentDto" id="DepartmentDtoMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pName" column="p_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptType" column="dept_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgId" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<sql id="selectDepartmentDto">
+	    SELECT 
+			d.id,d.pid,d.code,d.name,d.dept_type,d.orgid,o.name org_name,d.flag,d.memo
+	    FROM 
+	    	T_DEPARTMENT AS d
+	    LEFT JOIN t_organization o ON o.id = d.orgid
+	</sql>
+	
+	<sql id="selectDeptDto">
+	     SELECT 
+			d.id,d.code,d.name,d.dept_type,d.orgid,o.name org_name,d.flag,d.memo,
+			d1.id pid,d1.name p_name
+	    FROM 
+	    	T_DEPARTMENT AS d
+	    LEFT JOIN t_organization o ON o.id = d.orgid
+			LEFT JOIN t_department d1 ON d1.id = d.pid
+	</sql>
+	
+	<select id="listDepartmentDto" resultMap="DepartmentDtoMap" flushCache="true" useCache="true">
+	    <include refid="selectDeptDto"/>
+	    <where>
+	    1=1
+	        <if test="deptName != null and deptName != '' ">
+	           and d.name like '%${deptName}%'
+	        </if>
+	        <if test="deptType != null and deptType != '' ">
+	           and d.dept_type = '${deptType}'
+	        </if>
+	        <if test="orgid > 0">
+	           and d.orgid=${orgid}
+	        </if>
+	        <if test=" flag != null and flag != '' ">
+               and d.flag='${flag}'
+			</if>
+	    </where>
+	   
+	    <if test="page >=0 and paging >0 ">
+			LIMIT ${page*paging} ,${paging}
+		</if>	   
+	</select>
+	<sql id="selectDepartmentEbo">
+	    SELECT
+	     	 d.id,d.pid,d.code,d.name,d.dept_type,d.orgid,d.flag,d.memo
+	    FROM
+	    	t_department AS d
+	</sql>
+	<select id="getDepartmentByCode" resultMap="DepartmentEboMap" flushCache="true" useCache="true">
+	    <include refid="selectDepartmentEbo"/>
+	    <where>
+	        <if test="code != null and code != '' ">
+	            d.code='${code}'
+	        </if>
+	    </where>
+	</select>
+	<select id="getDepartmentById" resultMap="DepartmentEboMap" flushCache="true" useCache="true" >
+	    <include refid="selectDepartmentEbo"/>
+	    <where>
+	        <if test="deptId > 0">
+	            d.id=${deptId}
+	        </if>
+	    </where>
+	</select>
+	 <!-- 添加reftype -->
+	<insert id="addDepartment" parameterType="com.kjplus.model.DepartmentEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_department
+		VALUES(
+			0,#{pid},#{code},#{name},#{deptType},#{flag},#{orgId},#{memo}
+		)
+	</insert> 
+	 
+	<!-- 查询部门总数 -->
+	<sql id="getTotalDeptBase">
+		SELECT 
+			count(d.id)
+	    FROM 
+	    	T_DEPARTMENT AS d
+	 </sql>	
+	 <!-- 获取部门总数 -->
+	<select id="getTotalDept" resultType="Integer" flushCache="true" useCache="true">
+	   <include refid="getTotalDeptBase"/>
+	    <where>
+	    1=1
+	        <if test="deptName != null and deptName != '' ">
+	            and d.name like '%${deptName}%'
+	        </if>
+	        <if test="orgid >= 0">
+	            and d.orgid = ${orgid}
+	        </if>
+	        <if test="flag != null and flag != '' ">
+	            and d.flag = '${flag}'
+	        </if>
+	    </where>
+	</select>
+	
+	<!-- 修改部门信息 -->
+	<update id="updateDepartment" parameterType="com.kjplus.model.DepartmentEbo">
+	 UPDATE 
+	    	t_department AS d
+	    <set>
+	    	d.code = d.code
+	     	<if test="pid > 0">
+	            ,d.pid = ${pid}
+	        </if>
+	     	<if test=" name != null and name != '' ">
+	    		,d.name = '${name}'
+	    	</if>
+	    	<if test=" deptType != null and deptType != '' ">
+	    		,d.dept_type = '${deptType}'
+	    	</if>
+	    	 <if test="orgId >= 0">
+	            ,d.orgid = ${orgId}
+	        </if>
+	        <if test="flag != null and flag != '' ">
+	            ,d.flag = '${flag}'
+	        </if>
+	    	<if test=" memo != null and memo != '' ">
+	    		,d.memo = '${memo}'
+	    	</if>
+	    </set>
+	    <where>
+    		<if test=" code != null and code != '' ">
+    			d.code = '${code}'
+    		</if>
+	    </where>
+	</update>
+	
+</mapper>

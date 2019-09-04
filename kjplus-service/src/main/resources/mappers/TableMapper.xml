@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.ITableDao">
+	<!-- t_table_cfg_head表table对象映射 -->
+	<resultMap type="com.kjplus.model.TableCfgHeadEbo" id="TableCfgHeadEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="String" />
+		<result property="typeId" column="table_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="prsnTypeId" column="prsn_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="dataType" column="table_data_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+	</resultMap>
+	<!-- t_table_cfg_line表table对象映射 -->
+	<resultMap type="com.kjplus.model.TableCfgLineEbo" id="TableCfgLineEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="cfgId" column="cfg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="String" />
+		<result property="lingSeq" column="line_seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="linePos" column="line_pos" jdbcType="INTEGER" javaType="Integer" />
+		<result property="linePos2" column="line_pos2" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refId" column="ref_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="multiRef" column="multi_ref" jdbcType="VARCHAR" javaType="String" />
+		<result property="inputVlType" column="input_vl_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="inputVlRepl" column="input_vl_repl" jdbcType="VARCHAR" javaType="String" />
+		<result property="isReq" column="is_req" jdbcType="CHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="titleWidth" column="title_width" jdbcType="DOUBLE" javaType="Double" />
+		<result property="contentWidth" column="content_width" jdbcType="DOUBLE" javaType="Double" />
+		<result property="typeVlId" column="type_vl_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="fieldMapName" column="field_map_name" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- t_table_data_head表table对象映射 -->
+	<resultMap type="com.kjplus.model.TableDataHeadEbo" id="TableDataHeadEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="cfgId" column="cfg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="sheetCode" column="sheet_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="staffId" column="staff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="total" column="total" jdbcType="DOUBLE" javaType="Double" />
+		<result property="sheetDay" column="sheet_day" jdbcType="DATE" javaType="Date" />
+		<result property="beginTime" column="begin_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="endTime" column="end_time" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<!-- t_table_data_line表table对象映射 -->
+	<resultMap type="com.kjplus.model.inner.TableDataLineInnerEbo" id="TableDataLineInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="checkId" column="check_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="cfgLineId" column="cfg_line_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="lineCode" column="line_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="vlType" column="vl_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="refTypeId" column="ref_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="multiRef" column="multi_ref" jdbcType="VARCHAR" javaType="String" />
+		<result property="refId" column="ref_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refVl" column="ref_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="inputVl" column="input_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="cklnSeq" column="ckln_seq" jdbcType="INTEGER" javaType="Integer" />
+   </resultMap>
+   
+   <!-- t_table_data_line表table对象映射 -->
+	<resultMap type="com.kjplus.model.inner.TableCfgInnerEbo" id="TableCfgInnerEboMap">
+		<result property="cfgId" column="cfg_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="cfgCode" column="cfg_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="cfgName" column="cfg_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="cfgTypeId" column="cfg_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="cfgTypeName" column="cfg_type_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="cfgFlag" column="cfg_flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="cfgCreateTime" column="cfg_create_time" jdbcType="DATE" javaType="Date"/>
+		
+		<result property="lineId" column="line_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="lineCode" column="line_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="linePid" column="line_pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="lineTitle" column="line_title" jdbcType="VARCHAR" javaType="String" />
+		<result property="lineSeq" column="line_seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="linePos" column="line_pos" jdbcType="INTEGER" javaType="Integer" />
+		<result property="linePos2" column="line_pos2" jdbcType="INTEGER" javaType="Integer" />
+		<result property="lineRefTypeId" column="line_ref_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="lineRefTypeName" column="line_ref_type_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="lineMultiRef" column="line_multi_ref" jdbcType="VARCHAR" javaType="String" />
+		<result property="lineInputVlType" column="line_input_vl_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="lineInputVlRepl" column="line_input_vl_repl" jdbcType="VARCHAR" javaType="String" />
+		<result property="lineFlag" column="line_flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="lineTitleWidth" column="line_title_width" jdbcType="DOUBLE" javaType="Double" />
+		<result property="lineContentWidth" column="line_content_width" jdbcType="DOUBLE" javaType="Double" />
+		<result property="lineTypeVlId" column="line_type_vl_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="lineTypeVlName" column="line_type_vl_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="isReq" column="is_req" jdbcType="CHAR" javaType="String" />
+		<result property="fieldMapName" column="field_map_name" jdbcType="VARCHAR" javaType="String" />
+		
+		<result property="refVlId" column="ref_vl_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refVlCode" column="ref_vl_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="refVl" column="ref_vl" jdbcType="VARCHAR" javaType="String" />
+		<result property="extVlType" column="ext_vl_type" jdbcType="VARCHAR" javaType="String" />	
+		<result property="refVlName" column="ref_vl_name" jdbcType="VARCHAR" javaType="String" />
+
+		<result property="refTypeId" column="ref_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refTypeCode" column="ref_type_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="refTypeName" column="ref_type_name" jdbcType="VARCHAR" javaType="String" />
+		
+   </resultMap>
+   
+   		<!-- t_table_data_line表table对象映射 -->
+		<resultMap type="com.kjplus.model.inner.CfgHeadsInnerEbo" id="CfgHeadsInnerEboMap">
+			<result property="cfgId" column="cfg_id" jdbcType="INTEGER" javaType="Integer" />
+			<result property="cfgName" column="cfg_name" jdbcType="VARCHAR" javaType="String" />
+			<result property="rvId" column="rv_id" jdbcType="INTEGER" javaType="Integer" />
+			<result property="rvName" column="rv_name" jdbcType="VARCHAR" javaType="String" />
+   		</resultMap>
+   
+   <!-- t_table_cfg_head单表查询 -->
+   <sql id="selectTableCfgHeadEbo">
+   		SELECT 
+   			tch.id,tch.code,tch.name,tch.table_type_id,tch.table_data_type,tch.flag,tch.create_time,tch.prsn_type_id
+   		FROM
+   			t_table_cfg_head AS tch	
+   </sql>
+   <!--通过 id code 查询t_table_cfg_head表table对象-->
+   <select id="getCfgHeadById" resultMap="TableCfgHeadEboMap" flushCache="true" useCache="true">
+   		<include refid="selectTableCfgHeadEbo"/>
+   		<where>
+   			<if test="cfgHeadId > 0">
+   				tch.id=${cfgHeadId}
+   			</if>
+   			<if test="cfgHeadCode !=null and cfgHeadCode != '' ">
+   				and tch.code='${cfgHeadCode}'
+   			</if>
+   		</where>
+   </select> 
+
+   <select id="listCfgHeadEbo" resultMap="TableCfgHeadEboMap" flushCache="true" useCache="true">
+   		<include refid="selectTableCfgHeadEbo"/>
+   		<where>
+   		1=1
+   			<if test="code !=null and code != '' ">
+   				and tch.code='${code}'
+   			</if>
+   			<if test="name !=null and name != '' ">
+   				and tch.name like '%${name}%'
+   			</if>
+   			<if test="typeId > 0">
+   				and tch.table_type_id = ${typeId}
+   			</if>
+   		</where>
+   </select> 
+   
+   <!-- t_table_cfg_head,line,sys_ref_vl联合查询 -->
+   <sql id="selectTableCfgInnerEbo">
+   		SELECT
+   		    <!-- t_table_cfg_head -->
+			hd.id cfg_id,hd.code cfg_code,hd.name cfg_name,hd.table_type_id cfg_type_id,  ref2.name cfg_type_name    ,hd.flag cfg_flag,hd.create_time cfg_create_time
+			 <!-- t_table_cfg_line -->
+			,ln.id line_id,ln.code line_code,ln.pid line_pid,ln.title line_title,ln.line_seq line_seq,ln.line_pos line_pos,ln.line_pos2 line_pos2
+			,ln.ref_type_id line_ref_type_id ,  reftp.ref_name  line_ref_type_name
+			,ln.multi_ref line_multi_ref,ln.input_vl_type line_input_vl_type,ln.input_vl_repl line_input_vl_repl,ln.flag line_flag
+			,ln.title_width line_title_width,ln.content_width line_content_width,ln.type_vl_id line_type_vl_id, ref.name line_type_vl_name,ln.is_req,ln.field_map_name
+			<!-- t_sys_value -->
+			,ref.id ref_vl_id,ref.code ref_vl_code,ref.ref_vl ref_vl,ref.name ref_vl_name,ref.ext_vl_type
+			<!-- t_sys_type -->
+			,reftp.id,reftp.ref_code,reftp.ref_name,reftp.ref_type
+		FROM
+			t_table_cfg_head  				AS 		hd
+			left join t_sys_ref_value       AS      ref2   on    ref2.id     =  hd.table_type_id    and ref2.flag='Y' 
+			,t_table_cfg_line  	AS 		ln  
+			left join t_sys_ref_value       AS      ref    on    ref.id     =  ln.type_vl_id    and ref.flag='Y'  
+			left join t_sys_ref_type        AS      reftp  on    reftp.id   =  ln.ref_type_id   and ref.flag='Y'
+		where 1=1
+		     and  ln.cfg_id  = hd.id    AND      ln.flag ='Y'
+   </sql>
+   <!--通过 id code 查询t_table_cfg_head表table对象-->
+   <select id="listTableCfg" resultMap="TableCfgInnerEboMap" flushCache="true" useCache="true">
+   		<include refid="selectTableCfgInnerEbo"/>
+  			<if test="cfgId > 0">
+   				and hd.id=${cfgId}
+   			</if>
+   			<if test="cfgCode !=null and cfgCode != '' ">
+   				and hd.code='${cfgCode}'
+   			</if>
+   			<if test="cfgLineCode !=null and cfgLineCode != '' ">
+   				and ln.code like '%${cfgLineCode}%'
+   			</if>
+   			order by hd.id,ln.id asc
+   </select> 
+   
+   <!--t_table_cfg_line单表查询  -->
+   <sql id="selectTableCfgLineEbo">
+		SELECT 
+   			tcl.id,tcl.cfg_id,tcl.code,tcl.pid,tcl.title,tcl.line_seq,tcl.line_pos,tcl.line_pos2
+   			,tcl.ref_type_id,tcl.multi_ref,tcl.input_vl_type,tcl.input_vl_repl,tcl.flag
+   			,tcl.title_width,tcl.content_width,tcl.type_vl_id,tcl.field_map_name
+   		FROM   
+   			t_table_cfg_line AS tcl
+   </sql>
+    <!-- 通过 id code  查询t_table_cfg_line表table对象 -->
+   <select id="getCfgLineById" resultMap="TableCfgLineEboMap" flushCache="true" useCache="false">
+   		<include refid="selectTableCfgLineEbo"/>
+   		<where>
+   			<if test="cfgLineId > 0">
+   				and tcl.id=${cfgLineId}
+   			</if>
+   			<if test="cfgLineCode !=null and cfgLineCode != '' ">
+   				and tcl.code='${cfgLineCode}'
+   			</if>
+   			<if test="cfgId > 0">
+   				and tcl.cfg_id=${cfgId}
+   			</if>
+   			<if test="lineSeq > 0">
+   				and tcl.line_seq =${lineSeq}
+   			</if>
+   			<if test="linePos > -2">
+   				and tcl.line_pos =${linePos}
+   			</if>
+   			<if test="linePos > -2">
+   				and tcl.line_pos2 =${linePos2}
+   			</if>
+   			
+   		<!-- 	<if test="linePos !=null and linePos != '' ">
+   				and find_in_set('${linePos}',tcl.line_pos);
+   				tcl.line_pos='${linePos}'
+   			</if> -->
+   		</where>
+   </select>
+   
+   <!--t_table_data_head单表查询  -->
+   <sql id="selectTableDataHeadEbo">
+   		SELECT 
+   			tdh.id,tdh.cfg_id,tdh.code,tdh.sheet_code,tdh.uid,tdh.staff_id,tdh.orgid,tdh.total
+   			,tdh.sheet_day,tdh.begin_time,tdh.end_time,tdh.main_id,tdh.main_type
+   		FROM
+   			t_table_data_head AS tdh
+   </sql>
+   
+   <!--通过 id code 查询t_table_data_head表table对象 -->
+   <select id="getDataHeadById" resultMap="TableDataHeadEboMap" flushCache="true" useCache="true">
+   		<include refid="selectTableDataHeadEbo"/>
+   		<where>
+   			1=1
+   			<if test="dataHeadId > 0">
+   				and tdh.id = ${dataHeadId}
+   			</if>
+   			<if test="dataHeadCode !=null and dataHeadCode != '' ">
+   				and tdh.code = '${dataHeadCode}'
+   			</if>
+   		</where>
+   </select>
+   
+   <!--通过 id code 查询t_table_data_head表table对象 -->
+   <select id="listDataHeadByMainId" resultMap="TableDataHeadEboMap" flushCache="true" useCache="true">
+   		<include refid="selectTableDataHeadEbo"/>
+   		<where>
+   		1=1
+   			<if test="mainId > 0">
+   				and tdh.main_id = ${mainId}
+   			</if>
+   			<if test="mainType !=null and mainType != '' ">
+   				and tdh.main_type = '${mainType}'
+   			</if>
+   		</where>
+   </select>
+   
+   
+   <!--通过 orgid sheetCode 查询t_table_data_head表table对象 -->
+   <select id="getDataHeadByOrgSheetCode" resultMap="TableDataHeadEboMap" flushCache="true" useCache="true">
+   		<include refid="selectTableDataHeadEbo"/>
+   		<where>
+   		1=1
+   			<if test="orgId > 0">
+   				and tdh.orgid=${orgId}
+   			</if>
+   			<if test="sheetCode !=null and sheetCode != '' ">
+   				and tdh.sheet_code = '${sheetCode}'
+   			</if>
+   		</where>
+   </select>
+
+   <!--通过 id code 查询t_table_data_head表table对象 -->
+   <select id="listDataHeadSheetCode" resultMap="TableDataHeadEboMap" flushCache="true" useCache="true">
+   		<include refid="selectTableDataHeadEbo"/>
+   		<where>
+   			1=1
+   			<if test="orgId > 0">
+   				and tdh.orgid=${orgId}
+   			</if>
+   			<if test="sheetCode !=null and sheetCode != '' ">
+   				and tdh.sheet_code ='${sheetCode}'
+   			</if>
+   		</where>
+   </select>
+   
+   <!-- t_table_data_line单表查询 -->
+   <sql id="selectTableDataLineEbo">
+   		SELECT 
+   			tdl.id,tdl.check_id,tdl.cfg_line_id,tdl.vl_type,tdl.ref_id,refvl.name ref_vl, tdl.input_vl,tdl.ckln_seq
+   			,line.code line_code,line.ref_type_id ref_type_id,line.multi_ref multi_ref 
+   		FROM
+   			t_table_data_line AS tdl 
+   			LEFT JOIN t_sys_ref_value AS refvl on tdl.ref_id = refvl.id
+   			,t_table_cfg_line line 
+   		where 
+   			1=1
+   			and line.id = tdl.cfg_line_id
+   </sql>
+   <!--通过 id cfglingid checkid 查询 t_table_data_line表table对象 -->
+   <select id="listDataLine" resultMap="TableDataLineInnerEboMap" flushCache="true" useCache="true">
+   		<include refid="selectTableDataLineEbo"/>
+   			<if test="id > 0">
+   				and tdl.id = ${id}
+   			</if>
+   			<if test="cfgLineId > 0 ">
+   				and tdl.cfg_line_id = ${cfgLineId}
+   			</if>
+   			<if test="checkId > 0 ">
+   				and tdl.check_id = ${checkId} 
+   			</if>
+   </select>
+   
+   <!-- 添加 t_table_cfg_head 记录-->
+   <insert id="addCfgHead" parameterType="com.kjplus.model.TableCfgHeadEbo" useGeneratedKeys="true" keyProperty="id">
+   		INSERT INTO t_table_cfg_head
+		VALUES(
+			0,#{code},#{name},#{typeId},#{flag},#{createTime}
+		)
+   </insert>
+   
+   <delete id="delDataLine" parameterType="Integer">
+   		delete from t_table_data_line
+		where 
+			check_id =  ${checkId}
+   </delete>
+   
+  <!-- 添加 t_table_cfg_line 记录 传入list提升数据处理速度进行批量插入 插入直接刷新缓存 防止数据不同步-->
+   <insert id="addCfgLine" parameterType="list" flushCache="true" useGeneratedKeys="true">
+   		INSERT INTO t_table_cfg_line
+   		(
+   		  id,cfg_id,code,pid,title,line_seq,line_pos,ref_type_id,multi_ref
+   		  ,input_vl_type,input_vl_repl,flag,title_width,content_width,type_vl_id
+   		)
+		VALUES
+			<foreach collection="list" item="cfgLing" separator=",">
+			(	
+			  null,#{cfgLing.cfgId},#{cfgLing.code},#{cfgLing.pid},#{cfgLing.title}
+			  ,#{cfgLing.lingSeq},#{cfgLing.linePos},#{cfgLing.refTypeId},#{cfgLing.multiRef}
+			  ,#{cfgLing.inputVlType},#{cfgLing.inputVlRepl},#{cfgLing.flag}
+			  ,#{cfgLing.titleWidth},#{cfgLing.contentWidth},#{cfgLing.typeVlId}
+			)
+		</foreach>	
+   </insert>
+    <!-- 添加 t_table_data_head 记录-->
+   <insert id="addDataHead" parameterType="com.kjplus.model.TableDataHeadEbo" useGeneratedKeys="true" keyProperty="id" >
+   		INSERT INTO t_table_data_head(id,cfg_id,code,sheet_code,uid,main_id,main_type,staff_id,orgid,total,sheet_day,begin_time,end_time)
+		VALUES(
+			0,#{cfgId},#{code},#{sheetCode},#{uid},#{mainId},#{mainType},#{staffId},#{orgId},#{total},#{sheetDay},#{beginTime},#{endTime}
+		)
+   </insert>
+    <!-- 添加 t_table_data_line 记录 数据做批量插入-->
+   <insert id="addDataLine" parameterType="list" flushCache="true" useGeneratedKeys="true">
+   		INSERT INTO t_table_data_line (id,check_id,cfg_line_id,vl_type,ref_id,input_vl,ckln_seq)		
+		VALUES
+			<foreach collection="list" item="dataLine" separator=",">
+				(
+					0,#{dataLine.checkId},#{dataLine.cfgLineId},#{dataLine.vlType}
+					,#{dataLine.refId},#{dataLine.inputVl},#{dataLine.cklnSeq}
+				)
+   			</foreach>
+   </insert>  
+   
+   
+	<update id="updateCfgHead">
+	 UPDATE 
+	    	t_table_cfg_head AS tch
+	    <set>
+	    	<if test=" name != null and name != '' ">
+	    		tch.name = '${name}'
+	    	</if>
+	     	<if test=" flag != null and flag != '' ">
+	    		,tch.flag = '${flag}'
+	    	</if>
+	    </set>
+	    <where>
+	    		tch.code = '${code}'
+	    </where>
+	</update>
+
+	<update id="updateCfgLine">
+	 UPDATE 
+	    	t_table_cfg_line AS tcl
+	    <set>
+	    	<if test=" title != null and title != '' ">
+	    		tcl.title = '${title}'
+	    	</if>
+	     	<if test=" flag != null and flag != '' ">
+	    		,tcl.flag = '${flag}'
+	    	</if>
+	   		<if test=" typeVlId > 0 ">
+	    		,tcl.typeVlId = '${typeVlId}'
+	    	</if>
+	    </set>
+	    <where>
+	    		tcl.code = '${code}'
+	    </where>
+	</update>
+		
+	<!-- 用于存储计算总分 -->	
+	<update id="updateDataHead">
+	 UPDATE 
+	    	t_table_data_head AS tdh
+	    <set>
+	    	<if test=" total > 0.0 ">
+	    		tdh.total = '${total}'
+	    	</if>
+	    </set>
+	    <where>
+	    		tdh.id = '${id}'
+	    </where>
+	</update>
+	
+	<!-- t_table_cfg_head单表查询 -->
+   <sql id="selectCfgHeads">
+		SELECT 
+			ch.id,ch.code,ch.name
+		from t_table_cfg_head AS ch
+   </sql>
+   <select id="listCfgHeadByTypeId" resultMap="TableCfgHeadEboMap" flushCache="true" useCache="true">
+   		<include refid="selectCfgHeads"/>
+   		<where>
+   		1=1
+   			<if test="tableTypeId > 0">
+   				and ch.table_type_id = ${tableTypeId}
+   			</if>
+   		 </where>
+   		ORDER BY ch.id
+	    <if test="page >=0 and paging >0 ">
+			LIMIT ${page*paging} ,${paging}
+		</if>
+   		
+   </select>
+   
+   <!-- 获取随访详情页实体总数-->
+	<sql id="getTotalFollowupPage">
+		select 
+			count(ch.id)
+		from t_table_cfg_head AS ch
+	 </sql>	
+	 <select id="getTotalFollowupPage" resultType="Integer" flushCache="true" useCache="true">
+	    <include refid="getTotalFollowupPage"/>
+        <where>
+	       <if test="tableTypeId > 0">
+   				and ch.table_type_id = ${tableTypeId}
+   			</if>
+	    </where>
+	</select>
+</mapper>

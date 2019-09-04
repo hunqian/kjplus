@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- tag映射文件 -->
+<mapper namespace="com.kjplus.dao.ITagDao">
+	<resultMap type="com.kjplus.model.TagEbo" id="tagInnerMap" >
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="refValId" column="ref_val_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="refValCode" column="ref_val_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="refValName" column="ref_val_name" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<sql id="selectTagDto">
+	    SELECT 
+	    	t.id,t.main_id,t.main_type,t.ref_val_id
+	    	,rv.code ref_val_code, rv.name ref_val_name
+	    FROM t_tag t 
+		LEFT JOIN t_sys_ref_value rv ON rv.id = t.ref_val_id
+	</sql>
+	
+	<!-- 根据id查询标签 -->
+	<select id="getTagById" resultMap="tagInnerMap" flushCache="true" useCache="true" >
+	    <include refid="selectTagDto"/>
+	    <where>
+            t.id = ${tagId}
+	    </where>
+	</select>
+	
+	<select id="getTag" resultMap="tagInnerMap" flushCache="true" useCache="true" >
+	    <include refid="selectTagDto"/>
+	    <where>
+	    	1=1
+            and t.main_id = ${mainId}
+            and t.main_type = '${mainType}'
+            and t.ref_val_id = '${refValId}'
+	    </where>
+	</select>
+	
+	<select id="listTag" resultMap="tagInnerMap" flushCache="true" useCache="true">
+	    <include refid="selectTagDto"/>
+	    <where>
+	        <if test="mainId >0 ">
+	            and t.main_id = ${mainId}
+	        </if>
+	        <if test="mainType != null and  mainType != '' ">
+				and t.main_type = '${mainType}'
+			</if>
+	    </where>
+	</select>
+	<select id="listTagArray" resultMap="tagInnerMap" flushCache="true" useCache="true">
+	    <include refid="selectTagDto"/>
+	    <where>
+	        <if test="mainIds != null ">
+	            and t.main_id in (${mainIds})
+	        </if>
+	        <if test="mainType != null and  mainType != '' ">
+				and t.main_type = '${mainType}'
+			</if>
+	    </where>
+	</select>	
+	 <!-- 添加标签 -->
+	<insert id="addTag" parameterType="com.kjplus.model.TagEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_tag 
+		VALUES(
+			0,#{mainId},#{mainType},#{refValId}
+		)
+	</insert>
+	
+	<delete id="delTags" >
+		DELETE from t_tag
+		<where>
+			1=1
+			and main_id = ${mainId}
+			and main_type = '${mainType}'
+		</where>  
+	</delete> 
+	<!-- 统计打过标签的人数 -->
+	<select id="getTotalTagPrsns" resultMap="tagInnerMap" flushCache="true" useCache="true">
+	    <include refid="selectTagDto"/>
+	    <where>
+	    	1=1
+	        <if test="mainType != null and  mainType != '' ">
+				and t.main_type = '${mainType}'
+			</if>
+	    </where>
+	    <!-- 以main_id分組，相当于去重 -->
+	    GROUP BY t.main_id
+	</select>	
+	 
+</mapper>

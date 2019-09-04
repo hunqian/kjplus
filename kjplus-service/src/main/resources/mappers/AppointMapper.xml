@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.IAppointDao">
+	<resultMap type="com.kjplus.model.AppointEbo" id="AppointEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="calInfoId" column="cal_info_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="startTime" column="start_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="endTime" column="end_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="appTypeId" column="app_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="appMemo" column="app_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	<resultMap type="com.kjplus.model.inner.AppointInfoInnerEbo" id="AppointInfoInnerEboMap">
+		<!-- 预约表信息 -->
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="calInfoId" column="cal_info_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="startTime" column="start_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="endTime" column="end_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="appTypeId" column="app_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="appMemo" column="app_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="INTEGER" javaType="Integer" />
+		<!-- 预约信息 -->
+		<result property="infoCode" column="info_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoTitle" column="info_title" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoMemo" column="info_memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="infoStartTime" column="info_starttime" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoEndTime" column="info_endtime" jdbcType="INTEGER" javaType="Integer" />
+		<result property="infoFlag" column="info_flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="maxPerson" column="max_person" jdbcType="INTEGER" javaType="Integer" />
+		<result property="joinPerson" column="join_person" jdbcType="INTEGER" javaType="Integer" />
+		<!--  预约人信息 -->
+		<result property="prsnCode" column="prsn_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnName" column="prsn_name" jdbcType="VARCHAR" javaType="String" />
+		<!-- 预约组织信息 -->
+		<result property="orgCode" column="org_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgAlias" column="org_alias" jdbcType="VARCHAR" javaType="String" />
+		<!-- 被预约人信息 -->
+		<!-- 医生 -->
+		<result property="bkStaffCode" column="bk_staff_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="bkStaffName" column="bk_staff_name" jdbcType="VARCHAR" javaType="String" />
+		<!-- 部门 -->
+		<result property="bkDeptCode" column="bk_dept_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="bkDeptName" column="bk_dept_name" jdbcType="VARCHAR" javaType="String" />
+		<!-- 组织 -->
+		<result property="bkOrgCode" column="bk_org_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="bkOrgName" column="bk_org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="bkOrgAlias" column="bk_org_alias" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<sql id="selectAppointEbo">
+		SELECT
+			a.id,a.code,a.cal_info_id,a.prsn_id,a.org_id,a.main_id,a.main_type,a.status
+			,a.start_time,a.end_time,a.app_type_id,a.app_memo,a.create_time
+		FROM
+		 	t_appoint AS a
+	</sql>
+	
+	<!-- 获取预约列表 -->
+	<sql id="selectAppointInfoInnerEbo">
+		SELECT
+			<!-- t_appoint表 -->
+			a.id,a.code,a.cal_info_id,a.prsn_id,a.org_id,a.main_id,a.main_type,a.status
+			,a.start_time,a.end_time,a.app_type_id,a.app_memo,a.create_time
+			<!-- t_calendar_info表 -->
+			,ci.code info_code,ci.cal_title info_title,ci.cal_memo info_memo,ci.start_time info_starttime
+			,ci.end_time info_endtime,ci.flag info_flag,ci.max_person max_person,ci.join_person join_person
+			<!-- t_document_info 表 -->
+			,di.code prsn_code,di.prsn_name prsn_name 
+			<!-- t_organization 表 -->
+			,o.code	org_code,o.name org_name,o.alias org_alias			
+			<!-- 被预约信息    be booked 被预约 -->
+			<!-- t_staff 表   -->			
+			,s.code bk_staff_code,s.name bk_staff_name
+			<!-- t_department 表 -->
+			,d.code bk_dept_code,d.name bk_dept_name
+			<!-- t_organization 表 -->
+			,o2.code bk_org_code,o2.name bk_org_name,o2.alias bk_org_alias
+		FROM
+			t_appoint                      AS    a
+			<!-- 预约信息内容 -->
+			LEFT JOIN  t_calendar_info     AS    ci     ON   a.cal_info_id = ci.id
+			<!-- 预约人信息 -->
+			LEFT JOIN t_document_info  	   AS    di     ON   a.prsn_id = di.prsn_id
+			<!-- 预约组织 -->
+			LEFT JOIN  t_organization      AS    o      ON   a.org_id = o.id
+			<!--  mainId和mainType来区别 被预约人信息       mainType   预约类型 S医生/O组织/D部门-->
+			<!-- 被预约人为医生 -->
+			LEFT JOIN  t_staff             AS    s      ON   a.main_id = s.id        AND    a.main_type = "STAFF"
+			<!-- 被预约为部门 -->
+			LEFT JOIN  t_department        AS    d      ON   a.main_id = d.id        AND    a.main_type = "DEPT"
+			<!-- 被预约为组织  -->	
+			LEFT JOIN  t_organization      AS    o2     ON   a.main_id = o2.id	     AND    a.main_type = "ORG"
+	</sql>
+	
+	<!-- 获取预约列表 -->
+	<sql id="countAppoint">
+		SELECT
+			count(a.id)
+		FROM
+			t_appoint                      AS    a
+			<!-- 预约信息内容 -->
+			LEFT JOIN  t_calendar_info     AS    ci     ON   a.cal_info_id = ci.id
+			<!-- 预约人信息 -->
+			LEFT JOIN t_document_info  	   AS    di     ON   a.prsn_id = di.prsn_id
+			<!-- 预约组织 -->
+			LEFT JOIN  t_organization      AS    o      ON   a.org_id = o.id
+			<!--  mainId和mainType来区别 被预约人信息       mainType   预约类型 S医生/O组织/D部门-->
+			<!-- 被预约人为医生 -->
+			LEFT JOIN  t_staff             AS    s      ON   a.main_id = s.id        AND    a.main_type = "STAFF"
+			<!-- 被预约为部门 -->
+			LEFT JOIN  t_department        AS    d      ON   a.main_id = d.id        AND    a.main_type = "DEPT"
+			<!-- 被预约为组织  -->	
+			LEFT JOIN  t_organization      AS    o2     ON   a.main_id = o2.id	     AND    a.main_type = "ORG"
+	</sql>
+	
+	<select id="getAppointByIdOrCode" resultMap="AppointEboMap" flushCache="true">
+		<include refid="selectAppointEbo"/>
+		<where>
+		1=1
+			<if test=" id > 0">
+				and a.id = ${id}
+			</if>
+			<if test="code !=null and code != '' ">
+				and a.code = '${code}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 列表预约信息 -->
+	<select id="listAppointInfo" resultMap="AppointInfoInnerEboMap" flushCache="true">
+		<include refid="selectAppointInfoInnerEbo"/>
+		<where>
+		1=1
+			<if test=" calId > 0">
+				and a.cal_info_id = ${calId}
+			</if>
+			<!-- mobile 多人查询 -->
+			<if test=" prsnIdStr !=null and prsnIdStr != '' ">
+				and a.prsn_id IN (${prsnIdStr})
+			</if>
+			<if test=" orgId > 0">
+				and a.org_id = ${orgId}
+			</if>
+			<if test=" mainId > 0">
+				and a.main_id = ${mainId}
+			</if>
+			<if test=" mainType !=null and mainType != '' ">
+				and a.main_type  =  '${mainType}'
+			</if>
+			<!--TODO 部门名称LIKE筛选  -->
+			<if test=" staffName !=null and staffName != '' ">
+				and a.name  LIKE  '%${staffName}%'
+			</if>	
+			<if test="startTime > 0  ">  
+				and ci.start_time &gt;= ${startTime}
+		 	</if>
+			<if test="endTime > 0  ">  
+				and ci.end_time &lt;= ${endTime}
+		 	</if>
+		 	<if test=" status !=null and status != '' ">
+				and a.status  =  '${status}'
+			</if>
+			<!-- 日历类型 eg:接种 -->
+			<if test=" typeId > 0  ">  
+				and ci.type_id = ${typeId}
+		 	</if>
+		 	<!-- 具体预约类型 eg:预约接种乙肝疫苗 -->
+		 	<if test=" appTypeId > 0  ">  
+				and a.app_type_id = ${appTypeId}
+		 	</if>	
+		</where> 	
+		 	<!-- TODO  按预约项目的結束时间升序排列 -->			
+			ORDER BY ci.end_time ASC
+		<if test=" page >=0 and paging > 0 ">
+			LIMIT ${page*paging},${paging}
+		</if>		
+	</select>
+	
+	<!-- 列表预约信息 -->
+	<select id="getTotalAppoint" resultType="Integer" flushCache="true">
+		<include refid="countAppoint"/>
+		<where>
+		1=1
+			<if test=" calId > 0">
+				and a.cal_info_id = ${calId}
+			</if>
+			<!-- mobile 多人查询 -->
+			<if test=" prsnIdStr !=null and prsnIdStr != '' ">
+				and a.prsn_id IN (${prsnIdStr})
+			</if>
+			<if test=" orgId > 0">
+				and a.org_id = ${orgId}
+			</if>
+			<if test=" mainId > 0">
+				and a.main_id = ${mainId}
+			</if>
+			<if test=" mainType !=null and mainType != '' ">
+				and a.main_type  =  '${mainType}'
+			</if>
+			<!--TODO 部门名称LIKE筛选  -->
+			<if test=" staffName !=null and staffName != '' ">
+				and a.name  LIKE  '%${staffName}%'
+			</if>	
+			<if test="startTime > 0  ">  
+				and ci.start_time &gt;= ${startTime}
+		 	</if>
+			<if test="endTime > 0  ">  
+				and ci.end_time &lt;= ${endTime}
+		 	</if>
+		 	<if test=" status !=null and status != '' ">
+				and a.status  =  '${status}'
+			</if>
+			<!-- 日历类型 eg:接种 -->
+			<if test=" typeId > 0  ">  
+				and ci.type_id = ${typeId}
+		 	</if>
+		 	<!-- 具体预约类型 eg:预约接种乙肝疫苗 -->
+		 	<if test=" appTypeId > 0  ">  
+				and a.app_type_id = ${appTypeId}
+		 	</if>	
+		</where> 	
+	</select>
+	
+	
+	<!-- 添加预约 -->
+	<insert id="addAppoint" parameterType="com.kjplus.model.AppointEbo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_appoint
+					(id,code,cal_info_id,prsn_id,org_id,main_id,main_type,status
+						,start_time,end_time,app_type_id,app_memo,create_time)
+		VALUES(
+			0,#{code},#{calInfoId},#{prsnId},#{orgId},#{mainId},#{mainType},#{status},#{startTime}
+			,#{endTime},#{appTypeId},#{appMemo},#{createTime}
+		)
+	</insert>
+	
+	<!-- 修改预约状态 -->
+	<update id="updateAppointStatus">
+	 UPDATE 
+	    	t_appoint AS a
+	    <set>
+	    a.code = a.code
+	     	<if test=" status != null and status != '' ">
+	    		, a.status = '${status}'
+	    	</if>
+	    	<if test=" memo != null and memo != '' ">
+	    		, a.app_memo = '${memo}'
+	    	</if>
+	    </set>
+	    <where>
+	    1=1
+	    	<if test="id > 0">
+	    		and a.id = ${id}
+	    	</if>
+	    	<if test="code !=null and code != ''">
+	    		and a.code = '${code}'
+	    	</if>
+	    </where>
+	</update>
+	
+	<!-- 修改预约基本信息 -->	
+	<update id="updateAppointEbo" parameterType="com.kjplus.model.AppointEbo">
+	 UPDATE 
+	    	t_appoint AS  a
+	    <set>
+	    a.code = a.code
+	     	<if test=" calInfoId > 0">
+	    		, a.cal_info_id = ${calInfoId}
+	    	</if>
+	    	<if test=" prsnId > 0">
+	    		, a.prsn_id = ${prsnId}
+	    	</if>
+	    	<if test=" orgId > 0">
+	    		, a.org_id = ${orgId}
+	    	</if>
+	    	<if test=" mainId > 0">
+	    		, a.main_id = ${mainId}
+	    	</if>
+	    	<if test=" mainType != null and mainType != '' ">
+	    		, a.main_type = '${mainType}'
+	    	</if>	
+	     	<if test=" status != null and status != '' ">
+	    		, a.status = '${status}'
+	    	</if>
+	    	<if test=" startTime > 0">
+	    		, a.start_time = ${startTime}
+	    	</if>
+	    	<if test=" endTime > 0">
+	    		, a.end_time = ${endTime}
+	    	</if>
+	    	<if test=" appMemo != null and appMemo != '' ">
+	    		, a.app_memo = '${appMemo}'
+	    	</if>
+	    	<if test=" createTime > 0">
+	    		, a.create_time = ${createTime}
+	    	</if>
+	    </set>
+	    <where>
+	    1=1
+	    	<if test="id > 0">
+	    		and a.id = ${id}
+	    	</if>
+	    	<if test="code !=null and code != ''">
+	    		and a.code = '${code}'
+	    	</if>
+	    </where>
+	</update>
+	
+</mapper>

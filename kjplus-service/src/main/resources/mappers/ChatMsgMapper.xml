@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- sysBasic 菜单映射文件 -->
+<mapper namespace="com.kjplus.dao.IChatMsgDao">
+	<!-- 聊天消息主表对象 -->
+	<resultMap type="com.kjplus.model.ChatMainEbo" id="ChatMainEboMap">
+		<result property="id" column="id" jdbcType="VARCHAR" javaType="String" />
+	    <result property="frmId" column="frm_id" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="toId" column="to_id" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="chatTime" column="chat_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="chatType" column="chat_type" jdbcType="CHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="msgBody" column="msg_body" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- 聊天消息文件对象 -->
+	<resultMap type="com.kjplus.model.ChatFileEbo" id="ChatFileEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="msgId" column="msgid" jdbcType="VARCHAR" javaType="String" />
+		<result property="fileType" column="file_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="fileUrl" column="file_url" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- 聊天消息图片对象 -->
+	<resultMap type="com.kjplus.model.ChatPicEbo" id="ChatPicEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="msgId" column="msgid" jdbcType="VARCHAR" javaType="String" />
+		<result property="picType" column="pic_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="picUrl" column="pic_url" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- 聊天消息文字对象 -->
+	<resultMap type="com.kjplus.model.ChatTextMsgEbo" id="ChatTextMsgEboMap">
+		<result property="id" column="id" jdbcType="VARCHAR" javaType="String" />
+		<result property="msgId" column="msgid" jdbcType="VARCHAR" javaType="String" />
+		<result property="msgBody" column="msg_body" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- 聊天消息表情对象 -->	
+	<resultMap type="com.kjplus.model.ChatCountenaceEbo" id="ChatCountenaceEboMap">
+		<result property="id" column="id" jdbcType="VARCHAR" javaType="String" />
+		<result property="msgId" column="msgid" jdbcType="VARCHAR" javaType="String" />
+		<result property="ctneType" column="ctne_type" jdbcType="CHAR" javaType="String" />
+		<result property="ctneCode" column="ctne_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="dynamicPicUrl" column="dynamic_pic_url" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- 聊天消息视频对象 -->
+	<resultMap type="com.kjplus.model.ChatVedioEbo" id="ChatVedioEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="msgId" column="msgid" jdbcType="VARCHAR" javaType="String" />
+		<result property="vedioType" column="vedio_type" jdbcType="CHAR" javaType="String" />
+		<result property="vedioLenTime" column="vedio_len_time" jdbcType="DOUBLE" javaType="Double" />
+		<result property="vedioUrl" column="vedio_url" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- 最近10条聊天消息对象 -->
+	<resultMap type="com.kjplus.model.ChatMsgEbo" id="ChatMsgEboMap">
+		<result property="id" column="id" jdbcType="VARCHAR" javaType="String" />
+		<result property="frmId" column="frm_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="frmNickName" column="frm_nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="frmFace" column="frm_face" jdbcType="VARCHAR" javaType="String" />
+		<result property="toId" column="to_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="toNickName" column="to_nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="toFace" column="to_face" jdbcType="VARCHAR" javaType="String" />
+		<result property="chatTime" column="chat_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="chatType" column="chat_type" jdbcType="CHAR" javaType="String" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="dynUrl" column="dynamic_pic_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="fileUrl" column="file_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="picUrl" column="pic_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="text" column="msg_body" jdbcType="VARCHAR" javaType="String" />
+		<result property="vedioUrl" column="vedio_url" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- 联系人列表对象 -->
+	<resultMap type="com.kjplus.model.ChatContactsEbo" id="ChatContactsEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="thisSessionCode" column="this_session_code" jdbcType="VARCHAR" javaType="String" />
+	    <result property="contSessionCode" column="cont_session_code" jdbcType="VARCHAR" javaType="String" />
+	    <result property="contNickName" column="cont_nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="contFace" column="cont_face" jdbcType="VARCHAR" javaType="String" />
+		<result property="contSign" column="cont_sign" jdbcType="VARCHAR" javaType="String" />
+		<result property="contType" column="cont_type" jdbcType="VARCHAR" javaType="String" />
+	    <result property="latelyTime" column="lately_time" jdbcType="INTEGER" javaType="Integer" />
+	    <result property="status" column="status" jdbcType="CHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />		
+		<result property="chatTime" column="chat_time" jdbcType="INTEGER" javaType="Integer" />	
+		
+	</resultMap>
+	
+	<!-- 最近联系人列表对象 -->
+	<resultMap type="com.kjplus.model.ContactsEbo" id="ContactsEboMap">
+	    <result property="frNickName" column="fr_nick_name" jdbcType="VARCHAR" javaType="String" />
+	    <result property="frFace" column="fr_face" jdbcType="VARCHAR" javaType="String" />
+	    <result property="frCode" column="fr_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="toNickName" column="to_nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="toFace" column="to_face" jdbcType="VARCHAR" javaType="String" />
+		<result property="toCode" column="to_code" jdbcType="VARCHAR" javaType="String" />
+	    <result property="msgId" column="msg_id" jdbcType="VARCHAR" javaType="String" />
+	    <result property="msgStatus" column="msg_status" jdbcType="VARCHAR" javaType="String" />
+	    <result property="msgType" column="msg_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="msgTime" column="msg_time" jdbcType="INTEGER" javaType="Integer" />			
+	</resultMap>
+	
+	<!-- 查询聊天消息主表对象 -->
+	<sql id="selectChatMainEbo">
+	  SELECT
+	  		cm.id,cm.frm_id,cm.to_id,cm.chat_time,cm.chat_type,cm.status
+	  FROM
+			t_chat_main AS cm
+	</sql>
+	<select id="getChatMainByMsgId" resultMap="ChatMainEboMap" flushCache="true">
+		<include refid="selectChatMainEbo"/>
+		<where>
+			<if test=" msgId !=null and msgId != '' ">
+				cm.id='${msgId}'
+			</if>
+		</where>
+	</select>	
+	<select id="listChatMain" resultMap="ChatMainEboMap" flushCache="true">
+		<include refid="selectChatMainEbo"/>
+		<where>
+		1=1
+			<if test=" frmId > 0 ">
+				and cm.frm_id='${frmId}'
+			</if>
+			<if test=" toId > 0 ">
+				and cm.to_id='${toId}'
+			</if>
+			<if test=" chatType !=null and chatType != '' ">
+				and cm.chat_type='${chatType}'
+			</if>
+			<if test=" status !=null and status != '' ">
+				and cm.status='${status}'
+			</if>
+		</where>
+	</select>	
+	
+	<!-- 查询聊天消息文件对象 -->
+	<sql id="selectChatFileEbo">
+	  SELECT
+	  		cf.id,cf.msgid,cf.file_type,cf.file_url
+	  FROM
+			t_chat_file AS cf
+	</sql>
+	<select id="getChatFileByMsgId" resultMap="ChatFileEboMap" flushCache="true">
+		<include refid="selectChatFileEbo"/>
+		<where>
+			<if test=" msgId !=null and msgId != '' ">
+				cf.msgid='${msgId}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询聊天消息图片对象 -->
+	<sql id="selectChatPicEbo">
+	  SELECT
+	  		cp.id,cp.msgid,cp.pic_type,cp.pic_url
+	  FROM
+			t_chat_pic AS cp
+	</sql>	
+	<select id="getChatPicByMsgId" resultMap="ChatPicEboMap" flushCache="true" >
+		<include refid="selectChatPicEbo"/>
+		<where>
+			<if test=" msgId !=null and msgId != '' ">
+				cp.msgid='${msgId}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询聊天消息文本对象 -->
+	<sql id="selectChatTextMsgEbo">	
+	  SELECT
+	  		ct.id,ct.msgid,ct.msg_body
+	  FROM
+			t_chat_textmsg AS ct
+	</sql>
+	<select id="getChatTextByMsgId" resultMap="ChatTextMsgEboMap" flushCache="true" >
+		<include refid="selectChatTextMsgEbo"/>
+		<where>
+			<if test="msgId !=null and msgId != '' ">
+				ct.msgid='${msgId}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 聊天消息表情对象 -->	
+	<sql id="selectChatCountenaceEbo">	
+	  SELECT
+	  		cc.id,cc.msg_id,cc.ctne_type,cc.ctne_code,cc.dynamic_pic_url
+	  FROM
+			t_chat_countenance AS cc
+	</sql>
+	<select id="getChatCountenaceByMsgId" resultMap="ChatCountenaceEboMap" flushCache="true" >
+		<include refid="selectChatCountenaceEbo"/>
+		<where>
+			<if test="msgId !=null and msgId != '' ">
+				cc.msgid='${msgId}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 聊天消息视频对象 -->	
+	<sql id="selectChatVedioEbo">	
+	  SELECT
+	  		cv.id,cv.msg_id,cv.vedio_type,cv.vedio_len_time,cv.vedio_url
+	  FROM
+			t_chat_vedio AS cv
+	</sql>
+	<select id="getChatVedioByMsgId" resultMap="ChatVedioEboMap" flushCache="true" >
+		<include refid="selectChatVedioEbo"/>
+		<where>
+			<if test="msgId !=null and msgId != '' ">
+				cv.msg_id='${msgId}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 此处产生uuid -->
+	<insert id="addChatMain" parameterType="com.kjplus.model.ChatMainEbo" flushCache="true">
+		INSERT INTO t_chat_main
+		VALUES(
+			#{id},#{frmId},#{toId},#{chatTime},#{chatType},#{status}
+		)
+	</insert>
+	<insert id="addChatFile" parameterType="com.kjplus.model.ChatFileEbo" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		INSERT INTO t_chat_file
+		VALUES(
+			0,#{msgId},#{fileType},#{fileUrl}
+		)
+	</insert>
+	<insert id="addChatPic"  parameterType="com.kjplus.model.ChatPicEbo" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		INSERT INTO t_chat_pic
+		VALUES(
+			0,#{msgId},#{picType},#{picUrl}
+		)
+	</insert>
+	<insert id="addChatTextmsg" parameterType="com.kjplus.model.ChatTextMsgEbo"  useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		INSERT INTO t_chat_textmsg
+		VALUES(
+			#{id},#{msgId},#{msgBody}
+		)
+	</insert>	
+	<insert id="addChatCountenace" parameterType="com.kjplus.model.ChatCountenaceEbo"  useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		INSERT INTO t_chat_countenance
+		VALUES(
+			0,#{msgId},#{ctneType},#{ctneCode},#{dynamicPicUrl}
+		)
+	</insert>
+	<insert id="addChatVedio" parameterType="com.kjplus.model.ChatVedioEbo"  useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		INSERT INTO t_chat_vedio
+		VALUES(
+			0,#{msgId},#{vedioType},#{vedioLenTime},#{vedioUrl}
+		)
+	</insert>
+	<!-- 修改消息主表状态 -->
+	<update id="updateChatMainStatus">
+		UPDATE 
+	    	t_chat_main AS  cm
+	    <set>
+	     	<if test=" status != null and status != '' ">
+	    		cm.status='${status}',
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test=" msgId != null and msgId != '' ">
+	    		cm.id='${msgId}'
+	    	</if>
+	    </where>
+	</update>
+	<!-- 添加联系人 -->
+	<insert id="addChatContacts" parameterType="com.kjplus.model.ChatContactsEbo"  useGeneratedKeys="true" keyProperty="id" flushCache="true">
+			INSERT into t_chat_contacts
+		VALUES
+			(0,#{thisSessionCode},#{contSessionCode},#{contNickName},#{contFace},#{contSign},#{contType},0,#{status},#{flag})
+	</insert>	
+	
+	<!-- 查询联系人列表 -->	
+	<sql id="selectChatContacts">	
+	select 
+		con.id,con.this_session_code,con.cont_session_code,con.cont_face,con.cont_nick_name,
+		con.cont_sign,con.lately_time,con.cont_type
+	FROM t_chat_contacts AS con
+		LEFT JOIN t_session_socket AS se ON con.this_session_code = se.session_code
+		LEFT JOIN t_session_socket AS se1 ON con.cont_session_code = se1.session_code
+		LEFT JOIN t_user AS u ON u.uid = se.uid
+		LEFT JOIN t_user AS u1 ON u1.uid = se1.uid
+	</sql>
+	<select id="chatContactsList" resultMap="ChatContactsEboMap" flushCache="true" >
+		<include refid="selectChatContacts"/>
+		<where>
+		1=1
+			<if test="thisSessionCode !=null and thisSessionCode != '' ">
+				and con.this_session_code='${thisSessionCode}'
+			</if>
+			<if test="contSessionCode !=null and contSessionCode != '' ">
+				and con.cont_session_code='${contSessionCode}'
+			</if>
+		</where>
+		<if test="page >=0 and paging >0 ">
+				LIMIT ${page*paging} ,${paging}
+		</if>
+	</select>
+	<select id="getChatContact" resultMap="ChatContactsEboMap" flushCache="true" >
+		<include refid="selectChatContacts"/>
+		<where>
+		1=1
+			<if test="thisSessionCode !=null and thisSessionCode != '' ">
+				and con.this_session_code='${thisSessionCode}'
+			</if>
+			<if test="contSessionCode !=null and contSessionCode != '' ">
+				and con.cont_session_code='${contSessionCode}'
+			</if>
+		</where>
+	</select>
+	<!-- 删除好友 -->
+	<delete id="delChatContacts">
+		DELETE FROM t_chat_contacts
+		<where>
+			1=1
+			<if test="thisSessionCode !=null and thisSessionCode != '' ">
+				and this_session_code='${thisSessionCode}'
+			</if>
+			<if test="contSessionCode !=null and contSessionCode != '' ">
+				and cont_session_code='${contSessionCode}'
+			</if>
+		</where> 
+	</delete>
+	<!-- 修改好友状态  -->
+	<update id="updateContuctsStatus">
+	UPDATE 
+			t_chat_contacts AS con
+	    <set>
+	    	<if test="status !=null and status != '' ">
+				con.status = '${status}'
+			</if>
+			<if test="flag !=null and flag != '' ">
+				con.flag = '${flag}'
+			</if>
+	    </set>
+	    <where>
+	    1=1
+			<if test="thisSessionCode !=null and thisSessionCode != '' ">
+				and con.this_session_code='${thisSessionCode}'
+			</if>
+			<if test="contSessionCode !=null and contSessionCode != '' ">
+				and con.cont_session_code='${contSessionCode}'
+			</if>
+	    </where>
+	</update>
+	
+	<!-- 查询与指定好友最近10条消息信息 -->
+	<sql id="selectChats">
+	SELECT
+		<!--t_chat_main 表字段-->
+		cm.id,cm.frm_id,cm.to_id,cm.chat_type,cm.chat_time,
+		<!--t_chat_countenance 表 表情路径-->
+		cc.dynamic_pic_url,
+		<!--t_chat_file 表 文件路径-->
+		cf.file_url,
+		<!--t_chat_pic 表 图片路径-->
+		cp.pic_url,
+		<!--t_chat_textmsg 表 文本内容-->
+		ct.msg_body,
+		<!--t_chat_vedio 表 音频路径-->
+		cv.vedio_url,
+		<!--发送人 接收人 用户头像 用户昵称-->
+		u.face frm_face,u.nick_name frm_nick_name,u1.face to_face,u1.nick_name to_nickname
+	FROM t_chat_main AS cm
+		LEFT JOIN t_chat_countenance AS cc ON cm.id = cc.msg_id
+		LEFT JOIN t_chat_file AS cf ON cm.id = cf.msgid
+		LEFT JOIN t_chat_pic AS cp ON cm.id = cp.msgid
+		LEFT JOIN t_chat_textmsg AS ct ON cm.id = ct.msgid
+		LEFT JOIN t_chat_vedio AS cv ON cm.id = cv.msg_id
+		LEFT JOIN t_user AS u ON u.uid = cm.frm_id
+		LEFT JOIN t_user AS u1 ON u1.uid = cm.to_id
+	</sql>
+	<select id="listChats" resultMap="ChatMsgEboMap" flushCache="true">
+		<include refid="selectChats"/>
+		<where>
+		1=1
+			<if test=" frmId > 0 and toId > 0 ">
+				and (
+					<!-- frm_id 可能是我   to_id可能是別人 就是 我发送给别人-->
+					  (cm.frm_id=${frmId} AND cm.to_id=${toId})
+					OR
+					<!-- frm_id 可能是别人   to_id可能是我  就是 比人发送给我-->
+					  (cm.frm_id=${toId} AND cm.to_id=${frmId})
+					)
+			</if>
+		</where>
+			LIMIT 0,10
+	</select>	
+	
+	<!-- 当前用户最近一条消息 发送后立即调用 用户聊天人置顶-->
+	<select id="latelyMsg" resultType="com.kjplus.dto.ChatLatelyMsgDto" flushCache="true" >
+		SELECT  
+			<!--t_chat_main 表字段-->
+			tcm.chat_time chatTime,tcm.id chatId,tcm.chat_type chatType,tcm.status chatStatus
+			<!--t_session_socket 表字段 t_user 1表字段  -->
+			,tss.session_code sessionCode1,u1.nick_name user1Name,u1.face user1Face
+			<!--t_session_socket 1表字段 t_user 2表字段  -->
+			,tss1.session_code sessionCode2,u2.nick_name user2Name,u2.face user2Face
+		FROM
+			t_chat_main                 AS tcm
+			LEFT JOIN t_session_socket  AS tss  ON (tcm.frm_id=tss.uid)
+			LEFT JOIN t_user            AS u1   ON (tss.uid=u1.uid)
+			LEFT JOIN t_session_socket  AS tss1 ON (tcm.to_id=tss1.uid)
+			LEFT JOIN t_user            AS u2   ON (tss1.uid=u2.uid)
+		<where>
+			1=1
+			<if test="thisSessionCode !=null and thisSessionCode != '' ">
+				and (tss.session_code ='${thisSessionCode}' OR tss1.session_code ='${thisSessionCode}')
+			</if>
+		</where>
+		ORDER BY tcm.chat_time  DESC
+		LIMIT 0,1	
+	</select>
+	<!-- 用户所有未读消息数-->
+	<select id="notReadTotal" resultType="int" flushCache="true" >
+		SELECT  
+			COUNT(tcm.id) 
+		FROM
+			t_chat_main                 AS tcm
+			LEFT JOIN t_session_socket  AS tss  ON (tcm.frm_id=tss.uid)
+			LEFT JOIN t_user            AS u1   ON (tss.uid=u1.uid)
+			LEFT JOIN t_session_socket  AS tss1 ON (tcm.to_id=tss1.uid)
+			LEFT JOIN t_user            AS u2   ON (tss1.uid=u2.uid)
+		<where>
+			1=1
+				and  tcm.status ='S' <!--S的算未读消息 --> 
+			<if test="contSessionCode !=null and contSessionCode != '' "><!-- 谁发的 -->
+				and tss.session_code ='${contSessionCode}' 
+			</if>
+			<if test="thisSessionCode !=null and thisSessionCode != '' "><!-- 发给谁的-->
+				and tss1.session_code ='${thisSessionCode}' 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询最近联系人列表  分散查询  组合数据-->	
+	<!-- 查询最近联系人基础数据 -->
+	<sql id="selectRecentContuctsSessionCode">	
+	SELECT 
+		cc.id,cc.this_session_code,cc.cont_session_code,cc.cont_nick_name,
+		cc.cont_face,cc.cont_sign,cc.cont_type,cc.status,cc.lately_time,cc.flag
+	FROM t_chat_contacts AS cc
+	</sql>
+	<select id="recentContacts" resultMap="ChatContactsEboMap" flushCache="true" >
+		<include refid="selectRecentContuctsSessionCode"/>
+		<where>
+		1=1
+			<if test="thisSessionCode !=null and thisSessionCode != ''"> 
+				and cc.this_session_code='${thisSessionCode}'
+			</if>
+		</where>
+		ORDER BY cc.lately_time DESC
+		LIMIT 0,10
+	</select>
+	<!-- 查询我与好友最近一条聊天消息  -->
+	<sql id="selsectChatContuctsMessage">	
+	SELECT
+		cm.id,cm.frm_id,cm.to_id,cm.chat_type,cm.status,cm.chat_time,
+		cc.dynamic_pic_url,
+		cf.file_url,
+		cp.pic_url,
+		ct.msg_body,
+		cv.vedio_url
+	From t_chat_main AS cm
+		LEFT JOIN t_chat_countenance AS cc ON cc.msg_id = cm.id
+		LEFT JOIN t_chat_file AS cf ON cf.msgid = cm.id
+		LEFT JOIN t_chat_pic AS cp ON cp.msgid = cm.id
+		LEFT JOIN t_chat_textmsg AS ct ON ct.msgid = cm.id
+		LEFT JOIN t_chat_vedio AS cv ON cv.msg_id = cm.id
+	</sql>
+	<select id="chatContactsLatelyMessage" resultMap="ChatMsgEboMap" flushCache="true" >
+		<include refid="selsectChatContuctsMessage"/>
+		<where>
+		1=1
+			<if test=" frmId > 0 and toId > 0 ">
+				and (
+					<!-- frm_id 可能是我   to_id可能是別人 就是 我发送给别人-->
+					  (cm.frm_id=${frmId} AND cm.to_id=${toId})
+					OR
+					<!-- frm_id 可能是别人   to_id可能是我  就是 比人发送给我-->
+					  (cm.frm_id=${toId} AND cm.to_id=${frmId})
+					)
+			</if>
+		</where>
+		ORDER BY cm.chat_time DESC
+		LIMIT 0,1
+	</select>
+	
+	<!-- 查询我与好友最近一条聊天消息  -->
+	<!-- 修改消息主表状态 -->
+	<update id="updateLatelyChatTime">
+		UPDATE 
+			t_chat_contacts AS cc
+	    <set>
+	    		 cc.lately_time = (select unix_timestamp(now()))
+	    	
+	    </set>
+	    <where>
+	    1=1
+	    	<if test=" thisSessionCode != null and thisSessionCode != '' and contSessionCode != null and contSessionCode != ''">
+	    		and 
+	    		(cc.this_session_code = '${thisSessionCode}' OR cc.this_session_code = '${contSessionCode}')
+	    		and 
+	    		(cc.cont_session_code = '${thisSessionCode}' OR cc.cont_session_code = '${contSessionCode}')
+	    	</if>
+
+	    </where>
+	</update>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.ICodeRepo">
+	<!--t_code_repo表Ebo对象 -->
+	<resultMap type="com.kjplus.model.CodeRepoEbo" id="CodeRepoEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer"/>	
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="biztype" column="biz_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="submaintype" column="sub_main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="submainid" column="sub_main_id" jdbcType="INTEGER" javaType="Integer"/>
+	</resultMap>
+
+</mapper>

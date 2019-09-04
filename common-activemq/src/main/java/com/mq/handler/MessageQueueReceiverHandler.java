@@ -1,0 +1,120 @@
+package com.mq.handler;
+
+import java.io.StringReader;
+
+import javax.jms.*;
+import javax.xml.bind.*;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.mq.call.MessageReceiverEvent;
+import com.mq.constant.Constant;
+import com.mq.message.MsgCommand;
+import com.mq.util.FatchApplicationContext;
+
+/**
+ * 
+ * @author niuzhiwei
+ *         <p>
+ *         mq（Queue）消息处理类
+ *         <p>
+ *         各种消息的处理机制示例代码
+ *         <p>
+ *         产生消息事件
+ * 
+ */
+@Transactional
+@Component
+public class MessageQueueReceiverHandler {
+
+	private static Logger logger = Logger.getLogger(MessageQueueReceiverHandler.class);
+
+	public void queueTextMessageHandler(final TextMessage textMessage) {
+
+		JAXBContext context2;
+		try {
+			String cmdMessage = textMessage.getText();
+			context2 = JAXBContext.newInstance(MsgCommand.class);
+			Unmarshaller unmarshaller = context2.createUnmarshaller();
+			MsgCommand cmd = (MsgCommand) unmarshaller.unmarshal(new StringReader(cmdMessage));
+			logger.info("收到的cmd命令为" + cmd.getMsgBody());
+			// 事件源就就是本类
+			FatchApplicationContext.getApplicationContext().publishEvent(
+					new MessageReceiverEvent(this, cmd, Constant.MSG_TYPE_TEXT, Constant.LISTER_TYPE_QUEUE));
+
+		} catch (JAXBException e) {
+			logger.error(e.getMessage());
+		} catch (JMSException e) {
+			logger.error(e.getMessage());
+		}
+	}
+
+	public void queueMapMessageHandler(final MapMessage mapMessage) {
+		try {
+			// 通过key查询
+			mapMessage.getBoolean("");
+			mapMessage.getByte("");
+			mapMessage.getChar("");
+			mapMessage.getDouble("");
+			mapMessage.getFloat("");
+			mapMessage.getInt("");
+			mapMessage.getLong("");
+			mapMessage.getObject("");
+			mapMessage.getShort("");
+			mapMessage.getString("");
+			FatchApplicationContext.getApplicationContext().publishEvent(
+					new MessageReceiverEvent(this, mapMessage, Constant.MSG_TYPE_MAP, Constant.LISTER_TYPE_QUEUE));
+		} catch (JMSException e) {
+			logger.error(e.getMessage());
+		}
+	}
+
+	public void queueStreamMessageHandler(final StreamMessage streamMessage) {
+
+		try {
+			streamMessage.readBoolean();
+			streamMessage.readByte();
+			streamMessage.readChar();
+			streamMessage.readDouble();
+			streamMessage.readFloat();
+			streamMessage.readInt();
+			streamMessage.readLong();
+			streamMessage.readObject();
+			streamMessage.readShort();
+			streamMessage.readString();
+			FatchApplicationContext.getApplicationContext().publishEvent(
+					new MessageReceiverEvent(this, streamMessage, Constant.MSG_TYPE_STREAM,
+							Constant.LISTER_TYPE_QUEUE));
+		} catch (JMSException e) {
+			logger.error(e.getMessage());
+		}
+	}
+
+	public void queueBytesMessageHandler(final BytesMessage bytesMessage) {
+
+		byte[] bytes = new byte[1024];
+		int len = -1;
+		String str = null;
+		try {
+			while ((len = bytesMessage.readBytes(bytes)) != -1) {
+				str += new String(bytes, 0, len);
+			}
+			logger.info("字节消息为:" + str);
+		} catch (JMSException e) {
+			logger.error(e.getMessage());
+		}
+	}
+
+	public void queueObjectMessageHandler(final ObjectMessage objectMessage) {
+
+		try {
+			MsgCommand cmd = (MsgCommand) objectMessage.getObject();
+			FatchApplicationContext.getApplicationContext().publishEvent(
+					new MessageReceiverEvent(this, cmd, Constant.MSG_TYPE_OBJECT, Constant.LISTER_TYPE_QUEUE));
+		} catch (JMSException e) {
+			logger.error(e.getMessage());
+		}
+	}
+}

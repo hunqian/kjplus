@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- org 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.IUserDao">
+	<resultMap type="com.kjplus.model.UserEbo" id="UserEboMap">
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="nickName" column="nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="userName" column="user_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="passWord" column="pass_word" jdbcType="VARCHAR" javaType="String" />
+		<result property="email" column="email" jdbcType="VARCHAR" javaType="String" />
+		<result property="mobileNum" column="mobile_num" jdbcType="VARCHAR" javaType="String" />
+		<result property="mobileFlag" column="mobile_flag" jdbcType="CHAR" javaType="String" />
+		<result property="userType" column="user_type" jdbcType="CHAR" javaType="String" />
+		<result property="regTime" column="reg_time" jdbcType="DATE" javaType="Date" />
+		<result property="status" column="status" jdbcType="CHAR" javaType="String" />		
+		<result property="face" column="face" jdbcType="VARCHAR" javaType="String" />
+		<result property="effectFrom" column="effect_from" jdbcType="DATE" javaType="Date" />
+		<result property="effectTo" column="effect_to" jdbcType="DATE" javaType="Date" />
+		<result property="sourceFlag" column="source_flag" jdbcType="CHAR" javaType="String" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="Date" />
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+
+ 	<resultMap type="com.kjplus.model.inner.UserPersonInnerEbo" id="UserPersonInnerEboMap">
+		<!--  user_person表字段-->
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userName" column="user_name" jdbcType="VARCHAR" javaType="String" />
+		<!--  person表字段-->
+		<result property="personId" column="person_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="personName" column="person_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="personCode" column="person_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="personType" column="person_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="headIconUrl" column="head_icon_url" jdbcType="VARCHAR" javaType="String" />
+		<result property="idNumber" column="id_number" jdbcType="VARCHAR" javaType="String" />
+		<result property="sex" column="sex" jdbcType="VARCHAR" javaType="String" />
+		<result property="birthday" column="birthday" jdbcType="DATE" javaType="date" />
+		<!--  service_catelog表字段-->
+		<result property="srvOrgId" column="srv_orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="srvOrgName" column="srv_orgname" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvStatus" column="srv_status" jdbcType="CHAR" javaType="String" />
+		<result property="srvName" column="srv_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvAlias" column="srv_alias" jdbcType="VARCHAR" javaType="String" />
+		<!-- staff表字段-->
+		<result property="stafId" column="staf_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="stafName" column="staf_name" jdbcType="VARCHAR" javaType="String" />
+		<!-- 关系 -->
+		<result property="relationTypeId" column="relation_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="relationTypeCode" column="relation_type_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="relationTypeName" column="relation_type_name" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	
+	<!--  user_person表字段-->
+	<resultMap type="com.kjplus.model.UserPersonEbo" id="UserPersonEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userType" column="user_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="relationTypeId" column="relation_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+	</resultMap> 
+
+	<sql id="selectUserEbo">
+		SELECT 
+			u.uid,u.nick_name,u.user_name,u.pass_word,u.email,u.mobile_num,u.mobile_flag,u.user_type
+			,u.reg_time,u.status,u.face,u.effect_from,u.effect_to,u.source_flag,u.create_time
+			,u.org_id,org.name org_name
+		FROM
+			t_user AS u
+			left join t_organization org on u.org_id = org.id 
+		where 
+			1=1 
+	</sql>
+	<sql id="selectUserCount">
+		SELECT count(u.uid)
+		FROM
+			t_user AS u
+	</sql>
+	<select id="login" resultMap="UserEboMap" flushCache="true" >
+		<include refid="selectUserEbo"/>
+		<if test=" checkType == 1 ">
+			and u.user_name = '${user}'
+			and u.pass_word = '${password}'
+		</if>
+		<if test=" checkType == 2 ">
+			and u.email = '${email}'
+			and u.pass_word = '${password}'
+		</if>
+		<if test=" checkType == 3 ">
+			and u.mobile_num = '${mobileNum}'
+			and u.pass_word = '${password}'
+		</if>
+	</select>
+	<sql id="selectUserPersonInnerEbo">
+		SELECT
+			  <!-- t_user_person -->
+			  up.uid uid, u.user_name,up.prsn_id person_id,up.user_type person_type,up.relation_type_id relation_type_id
+			  <!-- t_document_info -->
+			  ,di.prsn_name person_name,di.code person_code,di.head_icon_url head_icon_url,di.id_number id_number
+			  ,di.prsn_sex sex,di.birthday birthday
+			  <!-- t_service_package -->
+			  ,sc.orgid srv_orgid,sc.name srv_name,sc.alias srv_alias 
+			  <!-- t_organization -->
+			  ,o.name srv_orgname
+			  <!--  t_service_assign -->
+			  ,sa.status srv_status,sa.stafid staf_id
+			  <!--  t_staff -->
+			  ,s.name staf_name
+			  <!-- t_sys_ref_value -->
+			  ,rv.code relation_type_code,rv.name relation_type_name
+		FROM
+			t_user_person AS up
+			LEFT JOIN  t_user            AS  u   ON u.uid = up.uid
+			LEFT JOIN  t_document_info   AS  di   ON  di.prsn_id = up.prsn_id
+			<!-- 关系 -->
+			LEFT JOIN  t_sys_ref_value   AS  rv   ON  up.relation_type_id = rv.id
+			LEFT JOIN  t_service_assign  AS  sa  ON  up.prsn_id = sa.prsn_id
+			LEFT JOIN  t_service_package AS  sc  ON  sa.srvid = sc.id
+			LEFT JOIN  t_organization    AS  o   ON  sc.orgid = o.id
+			LEFT JOIN  t_staff           AS  s   ON  sa.stafid = s.id
+	</sql>
+	<select id="getUser" resultMap="UserEboMap" flushCache="true" useCache="true">
+	  	<include refid="selectUserEbo"/>
+	  		<if test=" uid > 0 ">
+	  			and u.uid = ${uid}
+	  		</if>
+	  		<if test=" userName !=null and userName != '' ">
+				and u.user_name = '${userName}'
+			</if>
+			<if test=" mobile !=null and mobile != '' ">
+				and u.mobile_num = '${mobile}'
+			</if>
+	 </select>
+	<select id="listUserPersonInner" resultMap="UserPersonInnerEboMap" flushCache="true" useCache="true">
+		<include refid="selectUserPersonInnerEbo"/>
+		<where>
+			1=1
+			<if test=" uid > 0 ">
+				and up.uid = ${uid}
+			</if>
+			<if test=" psrvId > 0 ">
+				and up.pid = ${psrvId}
+			</if>
+			<if test=" flag !=null and flag != '' ">
+				and di.flag = '${flag}'
+			</if>
+			<if test=" srvStatus !=null and srvStatus != '' ">
+				and sa.status = '${srvStatus}'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加 t_table_cfg_head 记录-->
+   <insert id="addUser" parameterType="com.kjplus.model.UserEbo" useGeneratedKeys="true" keyProperty="uid">
+   		INSERT INTO t_user(
+	   		uid,nick_name,user_name,pass_word,email,mobile_num,mobile_flag,user_type
+	   		,reg_time,status,face,effect_from,effect_to,source_flag,create_time,org_id
+	   	) VALUES (
+			0,#{nickName},#{userName},#{passWord},#{email},#{mobileNum},#{mobileFlag},#{userType}
+			,#{regTime},#{status},#{face},#{effectFrom},#{effectTo},#{sourceFlag},#{createTime},#{orgId}
+		)
+   </insert>
+   
+    <!--  查询user列表 -->
+	<select id="listUser" resultMap="UserEboMap" flushCache="true" >
+		<include refid="selectUserEbo"/>
+		    <if test=" uid > 0 ">
+				and u.uid = ${uid}
+			</if>
+			<if test=" nickName != null and  nickName != '' ">
+				and u.nick_name like '%${nickName}%'
+			</if>
+			<if test=" status != null and  status != '' ">
+				and u.status like '%${status}%'
+			</if>
+			<if test=" mobileNum != null and  mobileNum != '' ">
+				and u.mobile_num like '%${mobileNum}%'
+			</if>
+			<if test=" userType != null and  userType != '' ">
+				and u.user_type = '${userType}'
+			</if>
+			<if test=" orgid > 0 ">
+				and u.org_id = ${orgid}
+			</if>
+			<if test=" page >= 0 and paging >0 ">
+				LIMIT ${page*paging},${paging}
+			</if>
+	</select>
+	
+	<!--  根据uid列表查询user-->
+	<select id="listUserByUids" resultMap="UserEboMap" flushCache="true" >
+		<include refid="selectUserEbo"/>
+			and u.uid in (${uids})
+	</select>
+	
+	 <!--  查询user列表数据总数 -->
+	<select id="getTotalUser" resultType="Integer"  flushCache="true" useCache="false">
+		<include refid="selectUserCount"/>
+		<where> 
+		    1=1
+		    <if test=" uid > 0 ">
+				and u.uid = ${uid}
+			</if>
+			<if test=" nickName != null and  nickName != '' ">
+				and u.nick_name like '%${nickName}%'
+			</if>
+			<if test=" status != null and  status != '' ">
+				and u.status like '%${status}%'
+			</if>
+			<if test=" mobileNum != null and  mobileNum != '' ">
+				and u.mobile_num like '%${mobileNum}%'
+			</if>
+			<if test=" userType != null and  userType != '' ">
+				and u.user_type = '${userType}'
+			</if>
+			<if test=" orgid > 0 ">
+				and u.org_id = ${orgid}
+			</if>
+		</where>
+	</select>
+	
+	<sql id="getUserPersonEbo">
+		SELECT 
+			up.id,up.uid,up.user_type,up.prsn_id,up.relation_type_id,up.create_time
+		FROM
+			t_user_person AS up
+	</sql>
+	
+	<select id="getSelfPrsnIdByUserId" resultMap="UserPersonEboMap"  flushCache="true" useCache="false">
+		<include refid="getUserPersonEbo"/>
+		<where>
+		1=1
+			<if test=" uid > 0 ">
+				and up.uid = ${uid}
+			</if>
+			<if test=" userType != null and  userType != '' ">
+				and up.user_type = '${userType}'
+			</if>
+			<if test=" typeId > 0 ">
+				and up.relation_type_id = ${typeId}
+			</if>
+		</where>
+		<!-- 只获取一条 -->		
+		LIMIT 0,1
+	</select>
+	
+	<select id="listUserPerson" resultMap="UserPersonEboMap"  flushCache="true" useCache="false">
+		<include refid="getUserPersonEbo"/>
+		<where> 
+		    <if test=" uid > 0 ">
+				up.uid = ${uid}
+			</if>
+			<if test=" userType != null and  userType != '' ">
+				and up.user_type = '${userType}'
+			</if>
+			<if test=" prsnId > 0 ">
+				and up.prsn_id = ${prsnId}
+			</if>
+		</where>
+	</select>
+	<!-- 添加userperson -->
+	<insert id="addUserPersonRel" parameterType="com.kjplus.model.UserPersonEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_user_person(id,uid,user_type,prsn_id,relation_type_id,create_time)
+		VALUES(
+			0,#{uid},#{userType},#{prsnId},#{relationTypeId},#{createTime}
+		)
+	</insert>
+	<delete id="delUserPersonById">
+		DELETE FROM t_user_person
+		<where>
+			<if test="id > 0 ">  
+				id = ${id}
+			</if>
+		</where> 
+	</delete>
+	<delete id="delUserPerson">
+		DELETE FROM t_user_person
+		<where> 
+		    <if test=" uid > 0 ">
+				up.uid = ${uid}
+			</if>
+			<if test=" userType != null and  userType != '' ">
+				and up.user_type = '${userType}'
+			</if>
+			<if test=" prsnId > 0 ">
+				and up.prsn_id = ${prsnId}
+			</if>
+		</where>
+	</delete>
+	<!-- 上传头像 -->
+	<update id="uploadFace">
+	 UPDATE 
+	    	t_user AS u
+	    <set>
+	     	<if test=" face != null and face != '' ">
+	    		u.face='${face}'
+	    	</if>
+	    </set>
+	    <where>
+	    	<if test="uid > 0">
+	    		u.uid=${uid}
+	    	</if>
+	    </where>
+	</update>
+</mapper>

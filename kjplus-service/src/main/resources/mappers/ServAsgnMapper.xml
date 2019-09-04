@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- servAsgn 服务映射文件 -->
+<mapper namespace="com.kjplus.dao.IServiceAsgnDao">
+	<!-- t_servcie_assign表ebo对象 -->
+	<resultMap type="com.kjplus.model.ServAsgnEbo" id="servAsgnEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptId" column="deptid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="stafId" column="stafid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="srvId" column="srvid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="reqTime" column="req_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="status" column="status" jdbcType="VARCHAR" javaType="String" />
+		<result property="operTime" column="oper_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="beginDay" column="begin_day" jdbcType="DATE" javaType="Date" />
+		<result property="endDay" column="end_day" jdbcType="DATE" javaType="Date" />
+		<result property="proofAmount" column="proof_amount" jdbcType="INTEGER" javaType="Integer" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- t_service_head表ebo对象 -->
+	 <resultMap type="com.kjplus.model.ServHeadEbo" id="servHeadEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgId" column="orgid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="seq" column="seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="String" />
+		<result property="contentBody" column="content_body" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+	</resultMap> 
+	<!-- 签约里列表 dto对象 -->
+	<resultMap type="com.kjplus.model.inner.ServiceAssignInnerEbo" id="ServiceAssignInnerEnoMap">
+		<!-- t_service_assign表字段-->
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="code" column="code" jdbcType="VARCHAR" javaType="String" />
+		<result property="reqTime" column="req_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="status" column="status" jdbcType="VARCHAR" javaType="String" />
+		<result property="proofAmount" column="proof_amount" jdbcType="INTEGER" javaType="Integer" />
+		<result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+		<result property="operTime" column="oper_time" jdbcType="INTEGER" javaType="Integer" />
+		<result property="beginDay" column="begin_day" jdbcType="DATE" javaType="Date" />
+		<result property="endDay" column="end_day" jdbcType="DATE" javaType="Date" />
+		<!-- 居民字段-->
+		<result property="personId" column="person_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="personName" column="person_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="personMobile" column="person_mobile" jdbcType="VARCHAR" javaType="String" />
+		<!-- 医生字段-->
+		<result property="stafId" column="staf_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="stafCode" column="staf_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="stafName" column="staf_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="stafType" column="staf_type" jdbcType="VARCHAR" javaType="String" />
+		<!-- 组织字段-->
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<!-- 科室字段-->
+		<result property="deptId" column="dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="deptType" column="dept_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="deptName" column="dept_name" jdbcType="VARCHAR" javaType="String" />
+		<!-- 服务字段-->
+		<result property="srvId" column="srv_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="srvCode" column="srv_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvName" column="srv_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvAlias" column="srv_alias" jdbcType="VARCHAR" javaType="String" />
+		<result property="srvPrice" column="srv_price" jdbcType="DOUBLE" javaType="Double" />
+	</resultMap>
+	<!-- 查询组织协议的innerEbo对象-->
+	<resultMap type="com.kjplus.model.inner.OrgServHeadInnerEbo" id="OrgServHeadInnerEboMap">
+		<!-- 组织字段-->
+		<result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="orgCode" column="org_code" jdbcType="VARCHAR" javaType="String" />
+		<!-- 协议字段-->
+		<result property="seq" column="seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="title" column="title" jdbcType="VARCHAR" javaType="String" />
+		<result property="contentBody" column="content_body" jdbcType="VARCHAR" javaType="String" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+	</resultMap>
+	<!-- t_servcie_assign单表查询 -->
+	<sql id="selectServAsgnEbo">
+	    SELECT 
+			sa.id,sa.code,sa.prsn_id,sa.deptid,sa.stafid,sa.srvid,sa.req_time,sa.status,sa.oper_time,sa.begin_day,sa.end_day,sa.proof_amount,sa.memo
+		FROM 
+			t_service_assign sa
+	</sql>
+	
+	<!-- 签约列表 dto对象 -->
+	<sql id="selectServAsgnDto">
+		SELECT 
+			<!-- t_service_assign表字段-->
+			sa.id,sa.code,sa.req_time,sa.status,sa.oper_time,sa.begin_day,sa.end_day,sa.proof_amount,sa.memo
+			<!-- 居民字段 -->
+			,sa.prsn_id person_id,di.prsn_name personName,di.mobile_num person_mobile
+			<!-- 医生字段 -->
+			,s.id staf_id,s.code staf_code,s.name staf_name,sr1.name staf_type
+			<!-- 组织字段 -->
+			,o.id org_id,o.name org_name
+			<!-- 科室字段 -->
+			,d.id dept_id,d.dept_type,d.name dept_name
+			<!-- 服务字段-->
+			,sc.id srv_id,sc.code srv_code,sc.name srv_name,sc.alias srv_alias,sc.srv_price
+		FROM
+			<!-- 服务签约表-->				
+			t_service_assign AS sa  
+			<!-- 居民表-->
+			LEFT JOIN t_document_info AS 	di 	ON sa.prsn_id = di.prsn_id		 
+			<!-- 组织科室表-->
+			LEFT JOIN t_department AS   d ON sa.deptid = d.id
+			<!-- 医生表-->
+			LEFT JOIN t_staff AS 			s   ON sa.stafid = s.id
+			<!-- 参照类型表-->
+			LEFT JOIN t_sys_ref_value AS   sr1 ON s.type_id = sr1.id
+			<!-- 组织服务目录表-->
+			LEFT JOIN t_service_package AS sc ON  sa.srvid = sc.id
+			<!-- 组织表-->
+			LEFT JOIN t_organization AS  	o  ON sc.orgid = o.id 
+			<!-- 参照类型表-->
+			LEFT JOIN t_sys_ref_value AS   sr ON sc.period_type_id = sr.id
+	</sql>
+	
+	<!-- 获取签约记录总数 -->
+	<sql id="getTotalServAssBase">
+		SELECT 
+			count(sa.id)
+	   	FROM
+			<!-- 服务签约表-->				
+			t_service_assign AS sa  
+			<!-- 居民表-->
+			LEFT JOIN t_document_info AS 	di 	ON sa.prsn_id = di.prsn_id		 
+			<!-- 组织科室表-->
+			LEFT JOIN t_department AS   d ON sa.deptid = d.id
+			<!-- 医生表-->
+			LEFT JOIN t_staff AS 			s   ON sa.stafid = s.id
+			<!-- 参照类型表-->
+			LEFT JOIN t_sys_ref_value AS   sr1 ON s.type_id = sr1.id
+			<!-- 组织服务目录表-->
+			LEFT JOIN t_service_package AS sc ON  sa.srvid = sc.id
+			<!-- 组织表-->
+			LEFT JOIN t_organization AS  	o  ON sc.orgid = o.id 
+			<!-- 参照类型表-->
+			LEFT JOIN t_sys_ref_value AS   sr ON sc.period_type_id = sr.id 
+	 </sql>
+	<select id="listAsgnInner" resultMap="ServiceAssignInnerEnoMap" flushCache="true" useCache="true">
+		<include refid="selectServAsgnDto"/>
+		<where>
+		1=1
+			<!-- personName,staffName 均不为空 -->
+			<if test=" personName != null and  personName != '' and  staffName != null and  staffName != '' ">
+				and  (di.prsn_name like '%${personName}%' or s.name like '%${staffName}%')
+			</if>
+			<!-- personName,staffName 有一个为空 -->
+			<if test="  personName == null or  personName == '' or  staffName == null or  staffName == '' ">
+				 <if test="  personName != null and  personName != '' ">
+				 	and	di.prsn_name like '%${personName}%'
+				</if>
+				<if test="  staffName != null and  staffName != '' ">
+				 	and s.name like '%${staffName}%'
+				</if>
+			</if>
+			<if test="personId >0 ">
+				and sa.prsn_id=${personId}
+			</if>
+			<if test="staffId > 0 ">
+				and sa.stafid=${staffId}
+			</if>
+			<if test="isDefault !=null and isDefault != '' ">		
+				and sc.is_default='${isDefault}'
+			</if>
+			<if test="orgId > 0 ">		
+				and o.id=${orgId}
+			</if>
+			<if test="status !=null and status != '' ">
+				and sa.status='${status}'
+			</if>
+			<!-- 获取当前时间小于签约结束时间 -->
+			<if test=" endDay != null and endDay != '' ">
+	            and sa.end_day &gt;= '${endDay}'
+	        </if>			
+		</where>
+			<!-- 按申请时间降序排列 -->
+			ORDER BY sa.req_time DESC
+			<if test="page >=0 and paging> 0 ">
+				limit ${page*paging},${paging}	
+			</if>	
+	</select>
+	
+	<select id="getTotalServAss" resultType="Integer" flushCache="true" useCache="true">
+		<include refid="getTotalServAssBase"/>
+		<where>
+		1=1
+			<!-- personName,staffName 均不为空 -->
+			<if test=" personName != null and  personName != '' and  staffName != null and  staffName != '' ">
+				and  (di.prsn_name like '%${personName}%' or s.name like '%${staffName}%')
+			</if>
+			<!-- personName,staffName 有一个为空 -->
+			<if test="  personName == null or  personName == '' or  staffName == null or  staffName == '' ">
+				 <if test="  personName != null and  personName != '' ">
+				 	and	di.prsn_name like '%${personName}%'
+				</if>
+				<if test="  staffName != null and  staffName != '' ">
+				 	and s.name like '%${staffName}%'
+				</if>
+			</if>
+			<if test="personId >0 ">
+				and sa.prsn_id=${personId}
+			</if>
+			<if test="staffId > 0 ">
+				and sa.stafid=${staffId}
+			</if>
+			<if test="isDefault !=null and isDefault != '' ">		
+				and sc.is_default='${isDefault}'
+			</if>
+			<if test="orgId > 0 ">		
+				and o.id=${orgId}
+			</if>
+			<if test="status !=null and status != '' ">
+				and sa.status='${status}'
+			</if>
+			<!-- 获取当前时间小于签约结束时间 -->
+			<if test=" endDay != null and endDay != '' ">
+	            and sa.end_day &gt;= '${endDay}'
+	        </if>
+		</where>				
+	</select>
+	
+	<!-- 添加ServAsgn   -->
+	<insert id="addServAsgn" parameterType="list" flushCache="true" useGeneratedKeys="true">
+		INSERT INTO t_service_assign
+			(id,code,prsn_id,stafid,deptid,srvid,req_time,status,memo,oper_time,begin_day,end_day,proof_amount)
+		VALUES
+		<foreach collection="list" item="ass" separator=",">  
+            (
+			null,#{ass.code},#{ass.prsnId},#{ass.stafId},#{ass.deptId},#{ass.srvId},#{ass.reqTime},#{ass.status},#{ass.memo}
+			,#{ass.operTime},#{ass.beginDay},#{ass.endDay},#{ass.proofAmount}
+		)
+        </foreach>
+	</insert>
+
+	<!-- 根据code编号或id修改t_servcie_assign状态  -->
+	<update id="updateServAsgn" parameterType="com.kjplus.model.ServAsgnEbo">
+		UPDATE
+			t_service_assign AS sa
+		SET
+		sa.code = sa.code
+			<!-- <if test = "prsnId > 0">
+				,sa.prsn_id = #{prsnId}
+			</if> -->
+			<!-- <if test = "stafId > 0">
+				,sa.stafid = #{stafId}
+			</if> -->
+			<!-- <if test = "deptId > 0">
+				,sa.deptid = #{deptId}
+			</if> -->
+			<if test = "srvId > 0">
+				,sa.srvid = #{srvId}
+			</if>
+			<!-- 申请时间不可改 -->
+			<!-- <if test = "reqTime > 0">
+				,sa.req_time = #{reqTime}
+			</if> -->
+			 <if test="status != null and status != '' ">
+				,sa.status= #{status}
+			</if> 
+			<if test = "operTime > 0">
+				,sa.oper_time = #{operTime}
+			</if>
+			<!-- 开始时间不可改 -->
+			<!-- <if test="beginDay != null and beginDay != '' ">
+				,sa.begin_day= #{beginDay}
+			</if> -->
+			<if test="endDay != null and endDay != '' ">
+				,sa.end_day= #{endDay}
+			</if>
+			<if test="memo != null and memo != '' ">
+				,sa.memo= #{memo}
+			</if>
+		<where>
+		1=1
+			<if test = "id > 0">
+				and sa.id = #{id}
+			</if>
+			<if test="code != null and code != '' ">
+				and sa.code= #{code}
+			</if>
+		</where>
+	</update>
+	
+	<!-- 根据code编号或id修改t_servcie_assign状态  -->
+	<update id="updateServAsgnStatus" parameterType="list">
+		UPDATE 
+			t_service_assign AS sa 
+		SET 
+		sa.code = sa.code
+			<if test="memo != null and memo != '' ">
+				,sa.status = '${status}'
+			</if>
+			<if test = "operTime > 0">
+				 ,sa.oper_time = ${operTime}
+			</if>
+			<if test="memo != null and memo != '' ">
+				,sa.memo= '${memo}'
+			</if>
+		<where>
+			<foreach collection="idCodes" item="i" separator="OR" >
+			(
+			1=1 
+				<if test = "i.id > 0">
+					and sa.id = #{i.id}
+				</if>
+				<if test="i.code != null and i.code != '' ">
+					and sa.code = #{i.code}
+				</if>
+			)	
+			</foreach>
+		</where>	
+	</update>
+	
+
+	<!-- 根据id查询服务签约信息-->
+	<select id="getServAssByIdOrCode" resultMap="servAsgnEboMap" flushCache="true" useCache="true">
+		<include refid="selectServAsgnEbo"/>
+		<where>
+		1=1
+			<if test="id > 0">
+				and sa.id=${id}
+			</if>
+			 <if test="code != null and code != '' ">
+	            and sa.code='${code}'
+	        </if>
+		</where>
+	</select>
+	
+	<!-- 获取当前时间的用户签约状态  -->
+	<select id="listServAssByPrsnId" resultMap="servAsgnEboMap" flushCache="true" useCache="true">
+		<include refid="selectServAsgnEbo"/>
+		<where>
+		1=1
+			<if test=" prsnId > 0">
+				and sa.prsn_id=${prsnId}
+			</if>
+			<!-- 获取当前时间小于签约结束时间 -->
+			<if test=" endDay != null and endDay != '' ">
+	            and sa.end_day &gt;= '${endDay}'
+	        </if>
+	        	and (sa.status = 'Y' OR sa.status = 'S')
+		</where>
+		<!-- 按签约到期结束时间倒叙 -->
+		ORDER BY sa.end_day DESC
+	</select>
+	
+	<!-- 添加ServHead -->
+	<insert id="addServHead" parameterType="com.kjplus.model.ServHeadEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_service_head
+		VALUES(
+			0,#{orgId},#{seq},#{title},#{contentBody},#{flag}
+		)
+	</insert>
+	<!-- 根据id或组织id修改协议状态  -->
+	<update id="updateServHeadByidOrOrgId">
+		UPDATE 
+			t_service_head sh
+		<set>
+			sh.flag = '${flag}'
+		</set>  	
+		<where>
+			<if test = "servHeadId > 0">
+				and sh.id = ${servHeadId}
+			</if>
+			<if test = "orgId > 0">
+				and sh.org_id = ${orgId}
+			</if>
+		</where>	
+	</update>
+	<!-- t_service_head单表查询 -->
+	 <sql id="selectServHeadEbo">
+	    SELECT 
+			sh.id,sh.org_id,sh.seq,sh.title,sh.content_body,sh.flag
+		FROM t_service_head sh 
+	</sql> 
+	<sql id="selectOrgServHeadInnerEbo">
+	    SELECT
+	    	<!-- t_service_head表字段 --> 
+			sh.org_id,sh.title,sh.content_body,sh.flag,sh.seq
+			<!-- t_og表字段 -->
+			,o.name org_name,o.code org_code 
+		FROM 
+			t_service_head AS sh,
+			t_organization AS o
+	</sql> 
+	<!-- 获取组织服务协议 -->
+	 <select id="listServHead" resultMap="OrgServHeadInnerEboMap" flushCache="true" useCache="true">
+	    <include refid="selectOrgServHeadInnerEbo"/>
+	    <where>
+	    	1=1
+	        <if test=" orgId > 0">
+	            and sh.org_id=${orgId}
+	        </if>
+	       	<if test=" orgCode !=null and  orgCode != '' ">
+	            and o.code='${orgCode}'
+	        </if>
+	       <if test=" flag !=null and  flag != '' ">
+	            and sh.flag='${flag}'
+	        </if>
+	    </where>
+	</select>
+	<select id="getServHeadById" resultMap="servHeadEboMap" flushCache="true" useCache="true">
+	    <include refid="selectServHeadEbo"/>
+	    <where>
+	        <if test="id > 0">
+	             sh.id=${id}
+	        </if>
+	    </where>
+	</select>
+</mapper>

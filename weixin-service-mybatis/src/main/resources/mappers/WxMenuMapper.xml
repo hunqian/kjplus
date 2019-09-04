@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- roleFunc 菜单映射文件 -->
+<mapper namespace="com.ykisswx.dao.IWxMenuDao">
+    <!--t_wx_menu 主映射(数据库字段全部映射)  -->	
+	<resultMap type="com.ykisswx.model.WxMenuEbo" id="WxMenuEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="accid" column="accid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orderSeq" column="order_seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="string" />
+		<result property="url" column="url" jdbcType="VARCHAR" javaType="string" />
+		<result property="type" column="menu_type" jdbcType="VARCHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="string" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+		<result property="key" column="menu_key" jdbcType="VARCHAR" javaType="string" />
+		<result property="note" column="menu_note" jdbcType="VARCHAR" javaType="string" />
+	</resultMap>
+	
+	<resultMap type="com.ykisswx.model.inner.WxMenuInnerEbo" id="WxMenuInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="pid" column="pid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="accid" column="accid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="orderSeq" column="order_seq" jdbcType="INTEGER" javaType="Integer" />
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="string" />
+		<result property="pname" column="pname" jdbcType="VARCHAR" javaType="string" />
+		<result property="url" column="url" jdbcType="VARCHAR" javaType="string" />
+		<result property="type" column="menu_type" jdbcType="VARCHAR" javaType="string" />
+		<result property="flag" column="flag" jdbcType="CHAR" javaType="string" />
+		<result property="createTime" column="create_time" jdbcType="DATE" javaType="Date" />
+		<result property="key" column="menu_key" jdbcType="VARCHAR" javaType="string" />
+		<result property="note" column="menu_note" jdbcType="VARCHAR" javaType="string" />
+	</resultMap>
+	
+	<!-- 复用SQL 查询数据库表映射pojo的全部对象 -->
+	<sql id="selectWxMenuEbo">
+	    SELECT
+			wm.id,wm.pid,wm.accid,wm.order_seq,wm.name,pwm.name pname,wm.url,wm.menu_type,wm.flag
+			,wm.create_time,wm.menu_key,wm.menu_note
+		FROM
+		 	t_wx_menu AS wm
+		left join t_wx_menu AS pwm on wm.pid = pwm.id
+		where 
+			1=1
+	</sql>
+	
+	<sql id="selectWxMenu">
+	    SELECT
+			wm.id,wm.pid,wm.accid,wm.order_seq,wm.name,wm.url,wm.menu_type,wm.flag
+			,wm.create_time,wm.menu_key,wm.menu_note
+		FROM
+		 	t_wx_menu AS wm
+	</sql>
+	<sql id="countWxMenu">
+	    SELECT
+	    	count(wm.id)
+		FROM
+		 	t_wx_menu AS wm
+	</sql>
+	
+	<select id="getWxMenuById" resultMap="WxMenuEboMap" flushCache="true" useCache="true">
+	 	<include refid="selectWxMenu"/>
+	 	<where>
+	   	1=1
+	   		<if test=" id > 0">
+				and wm.id = ${id}	   		
+	   		</if>
+	   	</where>
+	</select>
+	<select id="listMenuByAccid" resultMap="WxMenuInnerEboMap" flushCache="true" useCache="true">
+	    <include refid="selectWxMenuEbo"/>
+	    <if test = "accId > 0 ">
+	    	and wm.accid = ${accId}
+	    </if>	
+	    <if test=" name != null and name != '' ">
+	   		and	wm.name  like '%${name}%'
+	    </if>
+	    <if test=" flag != null and flag != '' ">
+	   		and	wm.flag = '${flag}'
+	    </if>
+	     ORDER by wm.pid,wm.id  asc
+	</select>
+	
+	<select id="getMenuNum" resultType="Integer" flushCache="true" useCache="true">
+	    <include refid="countWxMenu"/>
+	 	<where>
+	   	1=1
+	   		<if test=" accId > 0">
+				and wm.accid = ${accId}	   		
+	   		</if>
+	   		<if test=" pid >= 0">
+				and wm.pid = ${pid}	   		
+	   		</if>
+	   	</where>
+	</select>
+	
+	
+
+	<insert id="addMenu" parameterType="com.ykisswx.model.WxMenuEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_wx_menu
+		VALUES(
+			0,#{pid},#{accid},#{orderSeq},#{name},#{url},#{type},#{flag},#{createTime},#{key},#{note}
+		)
+	</insert> 
+	<update id="updateMenu">
+	 UPDATE 
+	    	t_wx_menu AS m
+	    <set>
+	    	<if test=" orderSeq >0 ">
+	    		m.order_seq = '${orderSeq}',
+	    	</if>	
+	     	<if test=" name != null and name != '' ">
+	    		m.name='${name}',
+	    	</if>
+	    	<if test=" url != null and url != '' ">
+	    		m.url ='${url}',
+	    	</if>
+	    	<if test=" flag != null and flag != '' ">
+	    		m.flag ='${flag}',
+	    	</if>
+	    	<if test=" key != null and key != '' ">
+	    		m.menu_key ='${key}',
+	    	</if>
+	    	<if test=" note != null and note != '' ">
+	    		m.menu_note ='${note}',
+	    	</if>
+	    </set>
+	    <where>
+	    1=1
+	    	<if test=" id >0 ">
+	    		and m.id='${id}'
+	    	</if>
+	    </where>
+	</update> 
+	
+	 
+
+</mapper>

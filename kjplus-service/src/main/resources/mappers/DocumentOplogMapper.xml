@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 咨询映射文件 -->
+<mapper namespace="com.kjplus.dao.IDocumentOplogDao">
+    <!--t_document_oplog Ebo对象 -->
+    <resultMap  type="com.kjplus.model.DocumentOplogEbo" id="DocumentOplogEboMap">
+            <result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+            <result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+            <result property="opType" column="op_type" jdbcType="INTEGER" javaType="Integer" />
+            <result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+            <result property="opTime" column="op_time" jdbcType="INTEGER" javaType="Integer" />
+            <result property="opSeq" column="op_seq" jdbcType="INTEGER" javaType="Integer" />
+            <result property="upPrsn" column="up_prsn" jdbcType="INTEGER" javaType="Integer" />
+            <result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+            <result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+    </resultMap>
+    <!--t_document_oplog Ebo对象 -->
+    <resultMap  type="com.kjplus.dto.DocumentOplogDto" id="DocumentOplogDtoMap">
+        <!--t_document_oplog 表-->
+        <result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="opTime" column="op_time" jdbcType="INTEGER" javaType="Integer" />
+        <result property="opSeq" column="op_seq" jdbcType="INTEGER" javaType="Integer" />
+        <result property="memo" column="memo" jdbcType="VARCHAR" javaType="String" />
+        <result property="flag" column="flag" jdbcType="CHAR" javaType="String" />
+        <!--t_person 表-->
+        <result property="prsnId" column="prsn_id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="prsnName" column="prsn_name" jdbcType="VARCHAR" javaType="String" />
+        <result property="prsnCode" column="prsn_code" jdbcType="VARCHAR" javaType="String" />
+        <!--t_sys_ref_value 表-->
+        <result property="opTypeId" column="op_type_id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="opTypeCode" column="op_type_code" jdbcType="VARCHAR" javaType="String" />
+        <result property="opTypeName" column="op_type_name" jdbcType="VARCHAR" javaType="String" />
+        <!--t_organization 表-->
+        <result property="orgId" column="org_id" jdbcType="INTEGER" javaType="Integer" />
+        <result property="orgCode" column="org_code" jdbcType="VARCHAR" javaType="String" />
+        <result property="orgName" column="org_name" jdbcType="VARCHAR" javaType="String" />
+        <!--t_admin_user 表-->
+        <result property="upPrsn" column="up_prsn" jdbcType="INTEGER" javaType="Integer" />
+        <result property="upPrsnName" column="up_prsn_name" jdbcType="VARCHAR" javaType="String" />
+        <result property="upPrsnMobile" column="up_prsn_mobile" jdbcType="VARCHAR" javaType="String" />
+    </resultMap>
+
+    <sql id="selectDocumentOplogEbo">
+        SELECT
+            tdo.id,tdo.prsn_id,tdo.op_type,tdo.org_id,tdo,tdo.op_time,
+            ,tdo.op_seq,tdo.up_prsn,tdo.memo,tdo.flag
+        FROM
+            t_document_oplog AS tdo
+    </sql>
+
+    <sql id="selelctDocumentOplogDto">
+        SELECT
+        <!--t_document_oplog 表字段-->
+        tdo.id,tdo.op_time,tdo.op_seq,tdo.memo,tdo.flag
+        <!--t_person 表字段-->
+        <!-- ,tp.id prsn_id,tp.name prsn_name,tp.code prsn_code -->
+        ,di.prsn_id prsn_id,di.prsn_name prsn_name,di.code prsn_code
+        <!--t_sys_ref_value 表字段-->
+        ,tsrv.id op_type_id,tsrv.code op_type_code,tsrv.name op_type_name
+        <!--t_organization 表字段-->
+        ,org.id org_id,org.code org_code,org.name org_name
+        <!--t_admin_user 表-->
+        ,tau.uid up_prsn,tau.user_name up_prsn_name,tau.mobile_num up_prsn_mobile
+
+        FROM
+            t_document_oplog   AS    tdo
+            <!-- ,t_person          AS    tp -->
+            ,t_document_info as di
+            ,t_sys_ref_value   AS    tsrv
+            ,t_organization    AS    org
+            ,t_admin_user      AS    tau
+    </sql>
+    <select id="listDmtOplog" resultMap="DocumentOplogDtoMap" flushCache="true">
+        <include refid="selelctDocumentOplogDto" />
+        <where>
+            tdo.prsn_id=tp.id and tdo.op_type=tsrv.id and tdo.org_id=org.id and tdo.up_prsn=tau.uid
+            <if test="prsnId > 0">
+                and di.prsn_id = ${prsnId}
+            </if>
+            <if test="opType > 0 ">
+                and tsrv.id=${opType}
+            </if>
+            <if test="orgId > 0">
+                and org.id=${orgId}
+            </if>
+            <if test="upPrsn > 0">
+               and tau.uid=${upPrsn}
+            </if>
+            <if test="upSeq > 0">
+                and tdo.op_seq=${upSeq}
+            </if>
+            <if test="flag !=null and flag != ''">
+                and tdo.flag='${flag}'
+            </if>
+        </where>
+    </select>
+
+    <select id="getDmtOplogNum" resultType="Integer" flushCache="true">
+        SELECT
+              COUNT(tdo.id)
+        FROM
+          t_document_oplog AS tdo
+        <where>
+            <if test="prsnId > 0">
+                and tdo.prsn_id=${prsnId}
+            </if>
+            <if test="opType > 0 ">
+                and tdo.op_type=${opType}
+            </if>
+            <if test="orgId > 0">
+                and tdo.org_id=${orgId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getDmtOplog" resultMap="DocumentOplogEboMap" flushCache="true">
+        <include refid="selectDocumentOplogEbo"/>
+        <where>
+            <if test="prsnId > 0">
+                and tdo.prsn_id=${prsnId}
+            </if>
+            <if test="opType > 0 ">
+                and tdo.op_type=${opType}
+            </if>
+            <if test="orgId > 0">
+                and tdo.org_id=${orgId}
+            </if>
+            <if test="flag !=null and flag != '' ">
+                and tdo.flag='${flag}'
+            </if>
+            ORDER BY tdo.op_type DESC
+        </where>
+    </select>
+    <!--添加档案操作记录 -->
+    <insert id="addDmtOplog" parameterType="com.kjplus.model.DocumentOplogEbo" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            t_document_oplog
+        VALUES
+        (
+          0,#{prsnId},#{opType},#{orgId},#{opTime},#{opSeq},#{upPrsn},#{memo},#{flag}
+        )
+    </insert>
+
+    <!--更新修改记录状态 -->
+    <update id="updateDmtOplog">
+        UPDATE
+            t_document_oplog AS tdo
+        <set>
+            <if test="flag !=null and flag != '' ">
+                tdo.flag='${flag}'
+            </if>
+        </set>
+        <where>
+            <if test=" id > 0 ">
+                tdo.id=${id}
+            </if>
+        </where>
+    </update>
+
+</mapper>

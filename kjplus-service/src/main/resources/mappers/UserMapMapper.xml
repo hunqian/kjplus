@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- userMap 组织映射文件 -->
+<mapper namespace="com.kjplus.dao.IUserMapDao">
+	<resultMap type="com.kjplus.model.UserMapEbo" id="UserMapEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userType" column="user_type" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<resultMap type="com.kjplus.model.inner.UserMapInnerEbo" id="UserMapInnerEboMap">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainId" column="main_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="mainType" column="main_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="uid" column="uid" jdbcType="INTEGER" javaType="Integer" />
+		<result property="userType" column="user_type" jdbcType="VARCHAR" javaType="String" />
+		
+		<result property="sStaffId" column="s_staff_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="sCode" column="s_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="sStaffCode" column="s_staff_code" jdbcType="VARCHAR" javaType="String" />
+		<result property="sStaffName" column="s_staff_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="sStaffTypeId" column="s_staff_type_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="sStaffDeptId" column="s_staff_dept_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="sStaffOrgId" column="s_staff_org_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="sStaffIdCard" column="s_staff_id_card" jdbcType="VARCHAR" javaType="String" />
+		<result property="sFlag" column="s_flag" jdbcType="VARCHAR" javaType="String" />
+		<result property="sStatus" column="s_status" jdbcType="VARCHAR" javaType="String" />
+	
+		<result property="adminUserId" column="admin_user_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="adminUserName" column="admin_user_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="adminUserNickName" column="admin_user_nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="adminUserType" column="admin_user_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="adminUserOrgId" column="admin_user_org_id" jdbcType="INTEGER" javaType="Integer" />
+		
+		<result property="uUserId" column="u_user_id" jdbcType="INTEGER" javaType="Integer" />
+		<result property="uUserName" column="u_user_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="uUserNickName" column="u_user_nick_name" jdbcType="VARCHAR" javaType="String" />
+		<result property="uUserType" column="u_user_type" jdbcType="VARCHAR" javaType="String" />
+		<result property="uUserStatus" column="u_user_status" jdbcType="VARCHAR" javaType="String" />
+		<result property="uUserOrgId" column="u_user_org_id" jdbcType="INTEGER" javaType="Integer" />
+	</resultMap>
+	
+	
+	<sql id="selectUserMapEbo">
+		SELECT 
+			um.id,um.main_id,um.main_type,um.uid,um.user_type
+		FROM
+			t_user_map AS um
+	</sql>
+	
+	
+<!-- 	<sql id="selectMapEbo">
+		SELECT
+		t_staff_map 
+			um.id id,um.staff_id staffId,um.uid uid,um.user_type userType
+		t_staff 
+			,s.id s_staff_id,s.code s_code,s.staff_code s_staff_code,s.name s_staff_name,s.type_id s_staff_type_id,s.dept_id s_staff_dept_id 
+			,s.org_id s_staff_org_id,s.id_card s_staff_id_card
+			,s.flag s_flag,s.status s_status
+		t_admin_user 
+		<if test="userType.toString()=='A'.toString() || mainType.toString()=='A'.toString()">
+	   		,au.uid admin_user_id,au.user_name admin_user_name,au.user_type admin_user_type,au.nick_name admin_user_nick_name
+	   		,au.org_id admin_user_org_id
+		</if>
+		t_user 
+		<if test="userType.toString()=='U'.toString()">
+			,u.uid u_user_id,u.user_name u_user_name,u.nick_name u_user_nick_name,u.user_type u_user_type,u.status u_user_status,u.org_id u_user_org_id
+		</if>  
+		FROM
+			  t_user_map    AS   um
+		需要先进行mainType判断
+		<if test="mainType.toString()=='S'.toString()">		  
+			JOIN  t_staff             AS    s     ON   s.id = um.main_id
+		</if>
+		<if test="mainType.toString()=='A'.toString()">当对应adminuser时 userType只会是“U”		  
+			JOIN  t_admin_user       AS    au     ON  au.uid = um.main_id
+		</if>
+		需要先进行userType判断
+		<if test="userType.toString()=='A'.toString()">
+		   	JOIN  t_admin_user        AS   au     ON   au.uid = um.uid
+	   	</if>
+	    <if test="userType.toString()=='U'.toString()">
+		   	JOIN  t_user              AS    u     ON   u.uid = 	um.uid
+	   	</if>  
+	</sql> -->
+	
+    <select id="getUserMap" resultMap="UserMapEboMap" flushCache="true" useCache="false" >
+        <include refid="selectUserMapEbo"/>
+        <where>
+	        <if test=" mainId >0  ">
+                and um.main_id = ${mainId}
+    	    </if>
+    	    <if test="mainType != null and mainType !='' ">
+		    	and um.main_type = '${mainType}'
+		    </if>
+        	<if test=" uid >0  ">
+                and um.uid = ${uid}
+          	</if>
+			<if test="userType != null and userType !='' ">
+		    	and um.user_type = '${userType}'
+		    </if>
+        </where>
+    </select>
+
+<!--     <select id="listUserMap" resultMap="UserMapInnerEboMap" flushCache="true" useCache="false" >
+        <include refid="selectMapEbo"/>
+        <where>
+	        <if test=" mainId >0  ">
+                and um.mian_id = ${mainId}
+    	    </if>
+    	     <if test="mainType != null and mainType !='' ">
+		    	and um.main_type = '${mainType}'
+		    </if>
+		    <if test=" uid >0  ">
+                and um.uid = ${uid}
+          	</if>
+			<if test="userType != null and userType !='' ">
+		    	and um.user_type = '${userType}'
+		    </if>
+        </where>
+    </select> -->
+
+	
+	<insert id="addUserMap" parameterType="com.kjplus.model.UserMapEbo" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO t_user_map(id,main_id,main_type,uid,user_type)
+		VALUES(
+			0,#{mainId},#{mainType},#{uid},#{userType}
+		)
+	</insert>
+	
+</mapper>

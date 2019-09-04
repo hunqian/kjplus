@@ -1,0 +1,91 @@
+<#assign base=request.contextPath />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>我的中心</title>
+    <base id="base" href="${base}">
+    <link rel="stylesheet" href="${base}/css/base.css">
+    <link rel="stylesheet" type="text/css" href="${base}/css/mycenter.css">
+</head>
+<body>
+<div class="box">
+
+    <!--header=========================================start-->
+    <div class="header">
+        <h1>我的中心</h1>
+    </div>
+    <!--header===========================================end-->
+
+    <!--portrait=======================================start-->
+    <div class="portrait clearfix">
+        <img src="${base}/imgs/mycenter/header.png" alt="portrait" class="fl">
+        <span class="fl">你哼着不同的调调儿</span>
+        <i class="iconfont fr">&#xe507;</i>
+        <em class="fr"></em>
+    </div>
+    <!--portrait======================================== end-->
+
+    <!--QR code=======================================start-->
+    <div class="QR_code">
+        <div>
+            <h4>你哼着不同的调调儿</h4>
+            <img src="${base}/imgs/mycenter/qrc_1.jpg" alt="">
+        </div>
+    </div>
+    <!--QR code=======================================end-->
+
+    <!--tab============================================start-->
+    <div class="tab">
+        <div class="family_score clearfix">
+            <span class="fl family"><i></i>我的家庭</span>
+            <span class="fl score"><i></i>我的积分</span>
+        </div>
+        <div class="margin"></div>
+        <div class="collecting collect">
+            <p class="clearfix">
+                <i></i>
+                <span>我的收藏</span>
+                <em class="fr"></em>
+            </p>
+        </div>
+        <div class="collecting site">
+            <p class="clearfix">
+                <i></i>
+                <span>我的收货地址</span>
+                <em class="fr"></em>
+            </p>
+        </div>
+        <div class="collecting help">
+            <p class="clearfix">
+                <i></i>
+                <span>帮助</span>
+                <em class="fr"></em>
+            </p>
+        </div>
+    </div>
+    <!--tab==============================================end-->
+
+    <!--footer=========================================start-->
+    <div class="footer clearfix">
+        <div style="color: rgb(149, 149, 149);" name="index">
+            <span><i class="iconfont">&#xe620;</i></span>
+            <span>首页</span>
+        </div>
+        <div style="color: rgb(149, 149, 149);" name="myhealth">
+            <span><i class="iconfont">&#xe679;</i></span>
+            <span>我的健康</span>
+        </div>
+        <div style="color: rgb(11, 209, 107);" name="mycenter">
+            <span><i class="iconfont">&#xe652;</i></span>
+            <span>个人中心</span>
+        </div>
+    </div>
+    <!--footer===========================================end-->
+
+</div>
+</body>
+<script src="${base}/js/jquery-1.12.2.min.js"></script>
+<script src="${base}/js/mycenter_ftl.js"></script>
+</html>
