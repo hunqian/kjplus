@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>kjplus.com</groupId>
+    <artifactId>kjplus-2019-9-3-3</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>basic-common</module>
+        <module>kjplus-service</module>
+        <module>common-activemq</module>
+        <module>common-push</module>
+        <module>weixin-service-mybatis</module>
+        <module>kjplus-api</module>
+        <module>kjplus-console</module>
+        <module>kjplus-manager</module>
+        <module>kjplus-mobile</module>
+    </modules>
+
+
+</project>
